@@ -105,7 +105,7 @@ const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
       spaceBetween: 24,
       grabCursor: true,
       autoplay: {
-        delay: 5500,
+        delay: 7500,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
       },

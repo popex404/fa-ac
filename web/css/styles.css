@@ -1054,6 +1054,12 @@ button { cursor: pointer; font-family: var(--font-base); border: none; backgroun
   transform: scale(1.15) rotate(-5deg);
 }
 
+div.svc-emoji-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-card);
+  cursor: default;
+}
+
 .svc-emoji-icon {
   width: 48px;
   height: 48px;

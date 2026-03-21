@@ -18,7 +18,7 @@ html {
 
 body {
   overflow-x: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
   color: #404A3D;
   background: #fff;
   line-height: 1.6;
@@ -161,8 +161,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .btn-green:hover {
-  background: #D14949;
-  border-color: #D14949;
+  background: #2d8c57;
+  border-color: #2d8c57;
 }
 
 .btn-outline-white {
@@ -2205,4 +2205,44 @@ h1, h2, h3, h4, h5 {
   .footer__grid {
     gap: 64px;
   }
+}
+
+/* Botones de styles.css usados en subpáginas */
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+  border: 2px solid var(--primary);
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: var(--white);
+  border: 2px solid var(--secondary);
+}
+.btn-secondary:hover {
+  background: var(--secondary-dark);
+  border-color: var(--secondary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-sistema {
+  background: transparent;
+  border: 1.5px solid var(--secondary);
+  color: var(--secondary);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background var(--transition), color var(--transition);
+  white-space: nowrap;
+}
+.btn-sistema:hover {
+  background: var(--secondary);
+  color: var(--white);
 }
