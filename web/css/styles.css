@@ -1025,6 +1025,8 @@ button { cursor: pointer; font-family: var(--font-base); border: none; backgroun
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   transition: transform var(--transition), box-shadow var(--transition);
   display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .svc-emoji-card:hover {
@@ -2865,19 +2867,29 @@ details[open] .faq-question {
 .nav-dropdown-wrap:hover .nav-chevron { transform: rotate(180deg); }
 
 .nav-dropdown-menu {
-  display: none;
+  display: block;
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   background: var(--white);
   border-radius: 10px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.12);
   min-width: 180px;
-  padding: 8px 0;
+  padding: 12px 0 8px;
   z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 150ms ease, visibility 150ms ease;
+  transition-delay: 180ms;
 }
-.nav-dropdown-wrap:hover .nav-dropdown-menu { display: block; }
+.nav-dropdown-wrap:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transition-delay: 0ms;
+}
 .nav-dropdown-menu a {
   display: block;
   padding: 10px 20px;
@@ -2912,4 +2924,66 @@ details[open] .faq-question {
   border-bottom: none;
 }
 .mobile-servicios-list a:hover { color: var(--primary); }
+
+/* ============================================================
+   TESTIMONIOS
+   ============================================================ */
+.testimonials-wrap {
+  width: 100%;
+}
+.testimonials-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+.testimonial-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  border-left: 4px solid var(--primary);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.testimonial-stars {
+  color: #f59e0b;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+.testimonial-quote {
+  font-size: var(--text-sm);
+  color: var(--text-dark);
+  line-height: 1.7;
+  flex: 1;
+  font-style: italic;
+}
+.testimonial-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.testimonial-name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.testimonial-company {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
 
