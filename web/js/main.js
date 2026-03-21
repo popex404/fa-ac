@@ -177,7 +177,24 @@ const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
     }
   );
 
-  qsa('.reveal').forEach(el => observer.observe(el));
+  qsa('.reveal, .fade-in').forEach(el => {
+    if (!el.classList.contains('visible')) observer.observe(el);
+  });
+
+  // For subpage .fade-in elements: add both .revealed and .visible
+  const fadeObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -20px 0px' }
+  );
+
+  qsa('.fade-in').forEach(el => fadeObserver.observe(el));
 })();
 
 /* ============================================================
