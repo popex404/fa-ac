@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A&C Soluciones Agricolas y Urbanas. Control de plagas profesional en Chile. Empresa certificada SEREMI. Garantia 14 dias. Diagnostico gratuito. Llama al +56 9 8154 4036." />
+  <meta name="theme-color" content="#D96A0E" />
+  <link rel="icon" type="image/png" href="img/Logo_ayc@4x-3.png" />
+  <link rel="apple-touch-icon" href="img/Logo_ayc@4x-3.png" />
+  <meta property="og:title" content="A&C Soluciones Agricolas y Urbanas | Control de Plagas Profesional Chile" />
+  <meta property="og:description" content="Tecnicos especializados, insecticidas profesionales y garantia real. SEREMI certificados. Agenda tu visita gratuita hoy." />
+  <meta property="og:type" content="website" />
+
+  <title>A&C Soluciones Agricolas y Urbanas | Control de Plagas Profesional Chile</title>
+
+  <!-- Canonical font preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Swiper CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Site Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     FLOATING WHATSAPP BUTTON
+     ============================================================ -->
+<a
+  id="whatsapp-fab"
+  href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Abrir chat de WhatsApp con A&C Soluciones"
+>
+  <span class="fab-tooltip">Escr&iacute;benos ahora</span>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ============================================================
+     MENU OVERLAY (mobile)
+     ============================================================ -->
+<div id="menu-overlay" aria-hidden="true"></div>
+
+<!-- ============================================================
+     MOBILE DRAWER MENU
+     ============================================================ -->
+<nav id="mobile-menu" aria-label="Men&uacute; m&oacute;vil">
+  <a href="#">Inicio</a>
+  <details class="mobile-servicios-details">
+    <summary class="mobile-servicios-trigger">Servicios</summary>
+    <div class="mobile-servicios-list">
+      <a href="aranas/index.html">Arañas</a>
+      <a href="avispas/index.html">Avispas</a>
+      <a href="chinche/index.html">Chinche de cama</a>
+      <a href="cucarachas/index.html">Cucarachas</a>
+      <a href="mosquito/index.html">Mosquitos</a>
+      <a href="hormigas/index.html">Hormigas</a>
+      <a href="palomas/index.html">Palomas</a>
+      <a href="ratones/index.html">Roedores</a>
+      <a href="termitas/index.html">Termitas</a>
+    </div>
+  </details>
+  <a href="#para-quien">Para qui&eacute;n es</a>
+  <a href="#garantia">Garant&iacute;a</a>
+  <a href="#faq">Preguntas frecuentes</a>
+  <a href="#contact">Contacto</a>
+  <a href="https://sistema.centralmip.com/login" target="_blank" rel="noopener noreferrer" class="mobile-sistema-link">Sistema para clientes</a>
+  <div class="mobile-cta">
+    <a href="tel:+56981544036" class="mobile-phone" aria-label="Llamar al +56 9 8154 4036">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 005.81 5.81l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      +56 9 8154 4036
+    </a>
+    <a href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas." target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+      Agenda gratis
+    </a>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<header id="navbar" role="banner">
+  <div class="container">
+    <div class="navbar-inner">
+
+      <!-- Logo -->
+      <a href="#" class="navbar-logo" aria-label="A&C Soluciones Agr&iacute;colas y Urbanas, inicio">
+        <img
+          src="img/LOGO-01.jpg"
+          alt="Logo A&C Soluciones Agr&iacute;colas y Urbanas"
+          width="160"
+          height="60"
+          loading="eager"
+        />
+      </a>
+
+      <!-- Desktop nav links -->
+      <nav class="navbar-nav" aria-label="Navegaci&oacute;n principal">
+        <div class="nav-dropdown-wrap">
+          <a href="#servicios" class="nav-dropdown-trigger">
+            Servicios
+            <svg class="nav-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </a>
+          <div class="nav-dropdown-menu" role="menu">
+            <a href="aranas/index.html" role="menuitem">Ara&ntilde;as</a>
+            <a href="avispas/index.html" role="menuitem">Avispas</a>
+            <a href="chinche/index.html" role="menuitem">Chinches</a>
+            <a href="cucarachas/index.html" role="menuitem">Cucarachas</a>
+            <a href="mosquito/index.html" role="menuitem">Mosquitos</a>
+            <a href="hormigas/index.html" role="menuitem">Hormigas</a>
+            <a href="palomas/index.html" role="menuitem">Palomas</a>
+            <a href="ratones/index.html" role="menuitem">Roedores</a>
+            <a href="termitas/index.html" role="menuitem">Termitas</a>
+          </div>
+        </div>
+        <a href="#para-quien">Para qui&eacute;n es</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contacto</a>
+      </nav>
+
+      <!-- Desktop actions -->
+      <div class="navbar-actions">
+        <a href="mailto:ventas@aycmip.cl" class="navbar-contact-link" aria-label="Email ventas@aycmip.cl">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+        <a href="https://instagram.com/ayc.mip" target="_blank" rel="noopener noreferrer" class="navbar-contact-link" aria-label="Instagram @ayc.mip">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="tel:+56981544036" class="navbar-phone" aria-label="Llamar a A&C Soluciones">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 005.81 5.81l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+          +56 9 8154 4036
+        </a>
+        <a
+          href="https://sistema.centralmip.com/login"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-sistema"
+        >
+          Sistema para clientes
+        </a>
+        <a
+          href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary"
+        >
+          Agenda gratis
+        </a>
+      </div>
+
+      <!-- Hamburger (mobile) -->
+      <button
+        id="hamburger"
+        class="hamburger"
+        aria-label="Abrir men&uacute; de navegaci&oacute;n"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     1. HERO
+     ============================================================ -->
+<section id="hero" aria-labelledby="hero-heading">
+  <div class="hero-decoration" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-inner">
+
+      <!-- Left column: copy -->
+      <div class="hero-content reveal">
+
+        <p class="hero-pretitle">A&amp;C Soluciones Agr&iacute;colas y Urbanas</p>
+
+        <!-- Hero image: solo visible en mobile -->
+        <div class="hero-mobile-img-wrap">
+          <img
+            src="img/hero_main_ayc.png"
+            alt="T&eacute;cnico certificado A&C"
+            loading="eager"
+            fetchpriority="high"
+            class="hero-mobile-img"
+          />
+        </div>
+
+        <h1 id="hero-heading">
+          Solucionamos tu problema de plagas desde la primera visita,
+          <em>garantizado</em>
+        </h1>
+
+        <p class="hero-subhead">
+          T&eacute;cnicos especializados, insecticidas profesionales y garant&iacute;a real. Sin repeticiones, sin sorpresas. Resolvemos el problema de una vez y con respaldo oficial.
+        </p>
+
+        <div class="hero-ctas">
+          <a
+            href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Habla con un especialista t&eacute;cnico ahora
+          </a>
+          <a href="tel:+56981544036" class="btn btn-outline">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 005.81 5.81l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            Emergencia 24/7 &middot; Llama ahora
+          </a>
+        </div>
+      </div>
+
+      <!-- Right column: image -->
+      <div class="hero-image-wrap reveal reveal-delay-2">
+        <img
+          src="img/hero_main_ayc.png"
+          alt="T&eacute;cnico certificado A&C de frente con brazos cruzados frente a cartel AyC MiP"
+          width="640"
+          height="800"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. TRUST BAR
+     ============================================================ -->
+<div id="trust-bar" role="region" aria-label="Indicadores de confianza">
+  <div class="container">
+    <div class="trust-bar-inner">
+
+      <div class="trust-item reveal">
+        <span class="trust-icon" aria-hidden="true">&#128203;</span>
+        <div class="trust-text">
+          <strong>Empresa Certificada SEREMI</strong>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-delay-1">
+        <span class="trust-icon" aria-hidden="true">&#9989;</span>
+        <div class="trust-text">
+          <strong>500+ Clientes Atendidos</strong>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-delay-2">
+        <span class="trust-icon" aria-hidden="true">&#11088;</span>
+        <div class="trust-text">
+          <strong>Garant&iacute;a 14 d&iacute;as</strong>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-delay-3">
+        <span class="trust-icon" aria-hidden="true">&#9201;&#65039;</span>
+        <div class="trust-text">
+          <strong>Atenci&oacute;n 24/7</strong>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     3. BANNER CLIENTES (logos empresas)
+     ============================================================ -->
+<section id="clientes" aria-label="Empresas que conf&iacute;an en A&C Soluciones">
+  <div class="container">
+    <div class="clientes-header">
+      <p>Empresas que conf&iacute;an en nosotros</p>
+    </div>
+  </div>
+  <div class="clientes-marquee-outer">
+    <div class="clientes-marquee-track">
+      <!-- Primera copia -->
+      <div class="cliente-logo">
+        <img src="img/clientes/logo_starken.png" alt="Logo Starken" style="mix-blend-mode:multiply;" />
+      </div>
+      <div class="cliente-logo">
+        <img src="img/clientes/logo_copec.png" alt="Logo Copec" style="mix-blend-mode:multiply;" />
+      </div>
+      <div class="cliente-logo">
+        <img src="img/clientes/logo_integra.jpg" alt="Logo Fundaci&oacute;n Integra" style="mix-blend-mode:multiply;" />
+      </div>
+      <div class="cliente-logo">
+        <img src="img/clientes/logo_vina_montes.png" alt="Logo Vi&ntilde;a Montes" />
+      </div>
+      <div class="cliente-logo">
+        <img src="img/clientes/logo_banamor.svg" alt="Logo Fundaci&oacute;n BanAmor" />
+      </div>
+      <!-- Copias duplicadas para loop infinito seamless (3 sets extra) -->
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" alt="" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" alt="" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" alt="" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" alt="" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" alt="" style="mix-blend-mode:multiply;" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" alt="" /></div>
+      <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" alt="" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PAIN POINTS
+     ============================================================ -->
+<section id="pain-points" aria-labelledby="pain-heading">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="section-label">El problema real</span>
+      <h2 id="pain-heading">&iquest;Reconoces alguno de estos problemas?</h2>
+      <p>El <strong>73% de nuestros clientes hab&iacute;a contratado a otra empresa antes.</strong> La plaga volvi&oacute; igual. No es mala suerte: es m&eacute;todo equivocado.</p>
+    </div>
+
+    <div class="pain-grid">
+
+      <article class="pain-card reveal">
+        <div class="pain-card-icon" aria-hidden="true">&#128260;</div>
+        <h3>&iquest;Fumigaste y volvieron?</h3>
+        <p>
+          Muchas empresas usan productos que dispersan la plaga en vez de eliminarla. Pagas 3 veces y el problema sigue.
+        </p>
+      </article>
+
+      <article class="pain-card reveal reveal-delay-1">
+        <div class="pain-card-icon" aria-hidden="true">&#128247;</div>
+        <h3>&iquest;Nadie te responde el formulario?</h3>
+        <p>
+          Cuando hay una plaga, necesitas respuesta inmediata. Los formularios no dan certeza de cu&aacute;ndo te llaman.
+        </p>
+      </article>
+
+      <article class="pain-card reveal reveal-delay-2">
+        <div class="pain-card-icon" aria-hidden="true">&#127922;</div>
+        <h3>&iquest;Te ofrecen precio sin ver el problema?</h3>
+        <p>
+          Cada plaga es distinta. Sin visita t&eacute;cnica, el diagn&oacute;stico puede estar equivocado y la cotizaci&oacute;n no vale nada.
+        </p>
+      </article>
+
+      <article class="pain-card reveal reveal-delay-3">
+        <div class="pain-card-icon" aria-hidden="true">&#128196;</div>
+        <h3>&iquest;Te llenaron de Papeles?</h3>
+        <p>
+          Otras empresas te entregan pilas de documentos en papel. Nosotros somos 100% digitales: &oacute;rdenes, informes y certificados llegan directo a tu correo, sin papeler&iacute;o.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. MECANISMO UNICO
+     ============================================================ -->
+<section id="mecanismo" aria-labelledby="mecanismo-heading">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="section-label">Nuestro m&eacute;todo</span>
+      <h2 id="mecanismo-heading">Por qu&eacute; nuestro m&eacute;todo funciona cuando los dem&aacute;s fallan</h2>
+      <p>
+        La mayor&iacute;a de las empresas de fumigaci&oacute;n usa productos repelentes: la plaga los huele, se aleja, y vuelve cuando el efecto pasa. Pagas por moverla, no por eliminarla. Nuestro sistema MIP funciona diferente, y lo certifica SEREMI.
+      </p>
+    </div>
+
+    <div class="mecanismo-grid">
+
+      <div class="mecanismo-card reveal">
+        <div class="mecanismo-icon" aria-hidden="true">&#128683;</div>
+        <h3>Insecticidas no repelentes</h3>
+        <p>Eliminan desde adentro en vez de dispersar la plaga. La colonia muere, no se mueve.</p>
+      </div>
+
+      <div class="mecanismo-card reveal reveal-delay-1">
+        <div class="mecanismo-icon" aria-hidden="true">&#128241;</div>
+        <h3>Gesti&oacute;n digitalizada con CentralMIP</h3>
+        <p>AyC opera con CentralMIP, el software de control de plagas m&aacute;s usado en Latinoam&eacute;rica. Cada visita queda registrada. Los clientes acceden a su portal en tiempo real y reciben certificados digitales v&aacute;lidos para auditor&iacute;as SEREMI.</p>
+      </div>
+
+      <div class="mecanismo-card reveal reveal-delay-2">
+        <div class="mecanismo-icon" aria-hidden="true">&#128203;</div>
+        <h3>Certificaci&oacute;n SEREMI</h3>
+        <p>No somos un servicio informal. Emitimos certificado oficial v&aacute;lido para auditor&iacute;as sanitarias bajo normativa DS 157/2005. Incluye firma digital.</p>
+      </div>
+
+      <div class="mecanismo-card reveal reveal-delay-3">
+        <div class="mecanismo-icon" aria-hidden="true">&#128269;</div>
+        <h3>Diagn&oacute;stico antes de cotizar</h3>
+        <p>Visitamos el lugar, identificamos la especie y el nivel de infestaci&oacute;n. La soluci&oacute;n es espec&iacute;fica, no gen&eacute;rica.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     6. PRUEBA / CREDIBILIDAD
+     ============================================================ -->
+<section id="proof" aria-labelledby="proof-heading">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="section-label">Respaldo real</span>
+      <h2 id="proof-heading">Credenciales que nos respaldan</h2>
+    </div>
+
+    <!-- Counters -->
+    <div class="proof-counters">
+      <div class="proof-counter">
+        <span class="proof-counter-number" data-count-target="500" data-count-suffix="+">500+</span>
+        <span class="proof-counter-label">Clientes atendidos</span>
+      </div>
+      <div class="proof-counter">
+        <span class="proof-counter-number" data-count-target="10" data-count-suffix="+">10+</span>
+        <span class="proof-counter-label">A&ntilde;os de experiencia</span>
+      </div>
+      <div class="proof-counter">
+        <span class="proof-counter-number" data-count-target="14">14</span>
+        <span class="proof-counter-label">D&iacute;as de garant&iacute;a</span>
+      </div>
+      <div class="proof-counter">
+        <span class="proof-counter-number" data-count-type="split"><span class="split-left">24</span><span class="split-sep">/</span><span class="split-right">7</span></span>
+        <span class="proof-counter-label">Atenci&oacute;n disponible</span>
+      </div>
+    </div>
+
+    <!-- Badges row: SEREMI + Sello + Transbank -->
+    <div class="proof-badges reveal">
+      <div class="proof-badge-item">
+        <img src="img/seremi-salud.png" alt="Empresa Certificada SEREMI" />
+        <span>Empresa Certificada SEREMI</span>
+      </div>
+      <div class="proof-badge-item">
+        <img src="img/Calidad-AyC.png" alt="Garant&iacute;a de Calidad A&C" />
+        <span>Garant&iacute;a de Calidad A&amp;C</span>
+      </div>
+      <div class="proof-badge-item">
+        <img src="img/transbank_medios_pago.png" alt="Medios de pago Transbank Webpay" />
+        <span>Transbank</span>
+      </div>
+    </div>
+
+
+    <!-- PENDIENTE: testimonios reales de Francisco -->
+    <!-- PENDIENTE: testimonios reales. Solicitar a Francisco nombres, tipo de servicio y comentarios de clientes satisfechos. -->
+
+  </div>
+</section>
+
+<!-- ============================================================
+     7. SERVICIOS (Lo que hacemos - emoji cards)
+     ============================================================ -->
+<section id="servicios" aria-labelledby="services-heading">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="section-label">Lo que hacemos</span>
+      <h2 id="services-heading">Nuestros Servicios</h2>
+      <p>Soluciones certificadas para hogares, empresas, industrias y proyectos de construcci&oacute;n.</p>
+    </div>
+
+    <div class="svc-emoji-grid">
+
+      <div class="svc-emoji-card reveal">
+        <div class="svc-emoji-icon">
+          <img src="img/arana.png" alt="Araña" />
+        </div>
+        <h3 class="svc-emoji-title">Ara&ntilde;as</h3>
+        <p class="svc-emoji-desc">Control de ara&ntilde;as y telara&ntilde;as en hogares y locales.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal reveal-delay-1">
+        <div class="svc-emoji-icon">
+          <img src="img/avispa.png" alt="Avispa" />
+        </div>
+        <h3 class="svc-emoji-title">Avispas</h3>
+        <p class="svc-emoji-desc">Eliminaci&oacute;n segura de nidos en estructuras y jardines.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal reveal-delay-2">
+        <div class="svc-emoji-icon">
+          <img src="img/cucaracha.png" alt="Cucaracha" />
+        </div>
+        <h3 class="svc-emoji-title">Cucarachas</h3>
+        <p class="svc-emoji-desc">Eliminaci&oacute;n de colonias con insecticida no repelente, resultado en 1 visita.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal">
+        <div class="svc-emoji-icon">
+          <img src="img/rata.png" alt="Roedor" />
+        </div>
+        <h3 class="svc-emoji-title">Roedores</h3>
+        <p class="svc-emoji-desc">Control integral de ratones y ratas con estaciones de cebado.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal reveal-delay-1">
+        <div class="svc-emoji-icon">
+          <img src="img/hormiga.png" alt="Hormiga" />
+        </div>
+        <h3 class="svc-emoji-title">Hormigas</h3>
+        <p class="svc-emoji-desc">Eliminaci&oacute;n de colonias con productos de efecto domin&oacute;.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal reveal-delay-2">
+        <div class="svc-emoji-icon">
+          <img src="img/mosquito.png" alt="Mosquito" />
+        </div>
+        <h3 class="svc-emoji-title">Mosquitos</h3>
+        <p class="svc-emoji-desc">Control de mosquitos y vectores en ambientes interiores y exteriores.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal">
+        <div class="svc-emoji-icon">
+          <img src="img/paloma.png" alt="Paloma" />
+        </div>
+        <h3 class="svc-emoji-title">Palomas</h3>
+        <p class="svc-emoji-desc">Disuasi&oacute;n y control de aves urbanas en edificios y estructuras.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal reveal-delay-1">
+        <div class="svc-emoji-icon">
+          <img src="img/termitas-soldado.png" alt="Termita" />
+        </div>
+        <h3 class="svc-emoji-title">Termitas</h3>
+        <p class="svc-emoji-desc">Tratamiento especializado de termita de madera seca y subterr&aacute;nea.</p>
+      </div>
+
+      <div class="svc-emoji-card reveal reveal-delay-2">
+        <div class="svc-emoji-icon" aria-hidden="true">&#10133;</div>
+        <h3 class="svc-emoji-title">Sanitizaci&oacute;n</h3>
+        <p class="svc-emoji-desc">Sanitizaci&oacute;n de ambientes para cumplimiento normativo DS 157/2005.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. PARA QUIEN ES
+     ============================================================ -->
+<section id="para-quien" aria-labelledby="paraquien-heading">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="section-label">Nuestros clientes</span>
+      <h2 id="paraquien-heading">&iquest;Para qui&eacute;n es nuestro servicio?</h2>
+      <p>Atendemos desde familias hasta grandes empresas. Si tienes un problema de plagas, podemos ayudarte.</p>
+    </div>
+
+    <div class="paraquien-grid">
+
+      <div class="paraquien-card reveal">
+        <div class="paraquien-icon" aria-hidden="true">&#127968;</div>
+        <h3>Due&ntilde;os de casa</h3>
+        <p>Familias con plaga activa que quieren soluci&oacute;n r&aacute;pida y segura para sus hijos y mascotas.</p>
+      </div>
+
+      <div class="paraquien-card reveal reveal-delay-1">
+        <div class="paraquien-icon" aria-hidden="true">&#127860;</div>
+        <h3>Restaurantes y PYMES</h3>
+        <p>Necesitan certificado SEREMI para operar. Urgencia alta: sin certificado, riesgo de multa o cierre.</p>
+      </div>
+
+      <div class="paraquien-card reveal reveal-delay-2">
+        <div class="paraquien-icon" aria-hidden="true">&#127979;</div>
+        <h3>Colegios e instituciones</h3>
+        <p>Contratos recurrentes, alta demanda de documentaci&oacute;n y protocolo sanitario DS 157/2005.</p>
+      </div>
+
+      <div class="paraquien-card reveal reveal-delay-3">
+        <div class="paraquien-icon" aria-hidden="true">&#127981;</div>
+        <h3>Empresas industriales</h3>
+        <p>Control continuo con trazabilidad digital y documentos de acreditaci&oacute;n al instante.</p>
+      </div>
+
+      <div class="paraquien-card reveal reveal-delay-4">
+        <div class="paraquien-icon" aria-hidden="true">&#128680;</div>
+        <h3>Emergencias 24/7</h3>
+        <p>La plaga apareci&oacute; fuera del horario h&aacute;bil. Respuesta inmediata, no formulario.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     9. VALUE STACK
+     ============================================================ -->
+<section id="value-stack" aria-labelledby="valuestack-heading">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="section-label">Todo incluido</span>
+      <h2 id="valuestack-heading">Todo lo que incluye nuestro servicio</h2>
+      <p>Otras empresas te cobran 3 sesiones a $120.000 cada una. Nosotros resolvemos en una, con garant&iacute;a.</p>
+    </div>
+
+    <div class="valuestack-list reveal">
+
+      <div class="valuestack-item">
+        <span class="valuestack-check" aria-hidden="true">&#10003;</span>
+        <div class="valuestack-content">
+          <strong>Visita t&eacute;cnica de diagn&oacute;stico</strong>
+          <span class="valuestack-tag">Gratis</span>
+        </div>
+      </div>
+
+      <div class="valuestack-item">
+        <span class="valuestack-check" aria-hidden="true">&#10003;</span>
+        <div class="valuestack-content">
+          <strong>Tratamiento especializado en 1 sesi&oacute;n</strong>
+          <span class="valuestack-tag">Resultado garantizado</span>
+        </div>
+      </div>
+
+      <div class="valuestack-item">
+        <span class="valuestack-check" aria-hidden="true">&#10003;</span>
+        <div class="valuestack-content">
+          <strong>Certificado sanitario oficial SEREMI</strong>
+          <span class="valuestack-tag">Viene incluido en todos los servicios</span>
+        </div>
+      </div>
+
+      <div class="valuestack-item">
+        <span class="valuestack-check" aria-hidden="true">&#10003;</span>
+        <div class="valuestack-content">
+          <strong>Garant&iacute;a de 2 semanas</strong>
+          <span class="valuestack-tag">Sin costo extra</span>
+        </div>
+      </div>
+
+      <div class="valuestack-item">
+        <span class="valuestack-check" aria-hidden="true">&#10003;</span>
+        <div class="valuestack-content">
+          <strong>Asesor&iacute;a en prevenci&oacute;n</strong>
+          <span class="valuestack-tag">Incluida en la visita</span>
+        </div>
+      </div>
+
+      <div class="valuestack-item">
+        <span class="valuestack-check" aria-hidden="true">&#10003;</span>
+        <div class="valuestack-content">
+          <strong>Portal de Trazabilidad Digital</strong>
+          <span class="valuestack-tag">Registro completo de cada visita y tratamiento</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center reveal" style="margin-top:2.5rem;">
+      <a
+        href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-secondary"
+        style="max-width:400px;"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agenda tu visita t&eacute;cnica gratuita
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     10. URGENCIA
+     ============================================================ -->
+<section id="urgency" aria-labelledby="urgency-heading">
+  <div class="container">
+    <div class="urgency-inner reveal">
+
+      <h2 id="urgency-heading">Las plagas no esperan. Cada d&iacute;a que pasa, la colonia crece.</h2>
+
+      <p class="urgency-text">
+        Una colonia de cucarachas se duplica en 30 d&iacute;as. Lo que hoy es un problema manejable, ma&ntilde;ana es una infestaci&oacute;n. No esperes: cada d&iacute;a que no act&uacute;as, el problema se multiplica.
+      </p>
+
+      <p class="urgency-cta-text">
+        <strong>Visita t&eacute;cnica gratuita con disponibilidad limitada.</strong> Agenda hoy.
+      </p>
+
+      <a
+        href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-secondary"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agenda ahora por WhatsApp
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11. GARANTIA
+     ============================================================ -->
+<section id="garantia" aria-labelledby="guarantee-heading">
+  <div class="guarantee-inner container">
+
+    <div class="reveal">
+      <div class="guarantee-seal-wrap">
+        <img src="img/Calidad-AyC.png" alt="Sello Garant&iacute;a de Calidad A&C" class="guarantee-seal-img" style="min-width:150px;" />
+      </div>
+
+      <h2 id="guarantee-heading">Trabajamos con garant&iacute;a real</h2>
+
+      <p class="guarantee-text">
+        Si ves alguna plaga en los 14 d&iacute;as siguientes al tratamiento, volvemos sin costo adicional.
+        No letras chicas, no excusas. Solo el trabajo bien hecho o lo repetimos gratis.
+      </p>
+
+      <div class="guarantee-icons" aria-hidden="true">
+        <div class="guarantee-icon-item">
+          <span>&#9989;</span>
+          <span>Garant&iacute;a por escrito</span>
+        </div>
+        <div class="guarantee-icon-item">
+          <span>&#128260;</span>
+          <span>Visita de seguimiento sin costo</span>
+        </div>
+        <div class="guarantee-icon-item">
+          <span>&#128203;</span>
+          <span>Certificado por SEREMI</span>
+        </div>
+      </div>
+
+      <a
+        href="https://wa.me/56981544036?text=Hola%2C%20quiero%20consultar%20sobre%20la%20garant%C3%ADa%20del%20servicio."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-secondary"
+        style="font-size:1.0625rem; padding:16px 36px;"
+      >
+        Agenda tu visita gratuita
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     12. FAQ
+     ============================================================ -->
+<section id="faq" aria-labelledby="faq-heading">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="section-label">Preguntas frecuentes</span>
+      <h2 id="faq-heading">Resolvemos tus dudas</h2>
+    </div>
+
+    <div class="faq-list">
+
+      <details class="faq-item reveal">
+        <summary class="faq-question">&iquest;Cu&aacute;nto demora el tratamiento?</summary>
+        <div class="faq-answer">
+          <p>Depende del tipo de plaga y el tama&ntilde;o del espacio. Una visita de diagn&oacute;stico suele durar 30-60 minutos. El tratamiento lo coordinamos en la misma visita.</p>
+        </div>
+      </details>
+
+      <details class="faq-item reveal reveal-delay-1">
+        <summary class="faq-question">&iquest;Tengo que salir de mi casa durante el tratamiento?</summary>
+        <div class="faq-answer">
+          <p>Para algunos tratamientos s&iacute;, por seguridad. Te avisamos con anticipaci&oacute;n qu&eacute; necesitas hacer.</p>
+        </div>
+      </details>
+
+      <details class="faq-item reveal reveal-delay-2">
+        <summary class="faq-question">&iquest;El tratamiento es seguro para ni&ntilde;os y mascotas?</summary>
+        <div class="faq-answer">
+          <p>S&iacute;. Usamos productos autorizados y te indicamos el tiempo de espera seguro antes de volver al espacio.</p>
+        </div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary class="faq-question">&iquest;Dan certificado SEREMI?</summary>
+        <div class="faq-answer">
+          <p>S&iacute;. Emitimos certificado oficial v&aacute;lido para auditor&iacute;as sanitarias, requerido por la normativa DS 157/2005.</p>
+        </div>
+      </details>
+
+      <details class="faq-item reveal reveal-delay-1">
+        <summary class="faq-question">&iquest;Qu&eacute; pasa si la plaga vuelve?</summary>
+        <div class="faq-answer">
+          <p>Tienes garant&iacute;a de 2 semanas. Si aparece alguna plaga, volvemos sin costo adicional.</p>
+        </div>
+      </details>
+
+      <details class="faq-item reveal reveal-delay-2">
+        <summary class="faq-question">&iquest;Atienden los fines de semana y feriados?</summary>
+        <div class="faq-answer">
+          <p>S&iacute;, tenemos atenci&oacute;n de emergencia 24/7 los 365 d&iacute;as del a&ntilde;o.</p>
+        </div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary class="faq-question">&iquest;C&oacute;mo pago?</summary>
+        <div class="faq-answer">
+          <p>Aceptamos efectivo, transferencia bancaria y tarjetas a trav&eacute;s de Transbank (Visa, Mastercard, Amex).</p>
+        </div>
+      </details>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     13. CTA FINAL
+     ============================================================ -->
+<section id="contact" aria-labelledby="contact-heading">
+  <div class="container">
+    <div class="contact-inner reveal">
+
+      <span class="section-label">Hablemos hoy</span>
+      <h2 id="contact-heading">&iquest;Listo para terminar con la plaga hoy?</h2>
+      <p class="contact-sub">
+        Agenda en 2 minutos. Diagn&oacute;stico gratuito, sin compromiso. El t&eacute;cnico llega donde t&uacute; est&aacute;s.
+      </p>
+
+      <div class="contact-ctas">
+        <a
+          href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-secondary"
+          style="font-size:1.0625rem;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp ahora
+        </a>
+        <a href="tel:+56981544036" class="btn btn-outline" style="font-size:1.0625rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 005.81 5.81l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          +56 9 8154 4036
+        </a>
+      </div>
+
+      <div class="contact-info-row">
+
+        <a href="mailto:ventas@aycmip.cl" class="contact-info-item" aria-label="Enviar email a ventas@aycmip.cl">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          ventas@aycmip.cl
+        </a>
+
+        <a href="tel:+56981544036" class="contact-info-item" aria-label="Llamar al +56 9 8154 4036">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 005.81 5.81l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          +56 9 8154 4036
+        </a>
+
+        <a href="https://instagram.com/ayc.mip" target="_blank" rel="noopener noreferrer" class="contact-info-item" aria-label="Ver Instagram @ayc.mip">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          @ayc.mip
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     14. FOOTER
+     ============================================================ -->
+<footer id="footer" aria-label="Pie de p&aacute;gina">
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <!-- Column 1: SEREMI -->
+      <div class="footer-col footer-col--seremi">
+        <img src="img/seremi-salud.png" alt="Empresa Certificada SEREMI Ministerio de Salud" style="height:100px; width:auto;" />
+        <p class="footer-tagline">
+          Empresa certificada SEREMI especializada en control de plagas residencial e industrial en Chile.
+          M&aacute;s de 500 clientes satisfechos con garant&iacute;a real.
+        </p>
+      </div>
+
+      <!-- Column 2: Quick links -->
+      <div class="footer-col">
+        <h4>Navegaci&oacute;n</h4>
+        <ul>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#para-quien">Para qui&eacute;n es</a></li>
+          <li><a href="#garantia">Nuestra garant&iacute;a</a></li>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact -->
+      <div class="footer-col">
+        <h4>Contacto directo</h4>
+
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 005.81 5.81l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <a href="tel:+56981544036" aria-label="Llamar al +56 9 8154 4036">+56 9 8154 4036</a>
+        </div>
+
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:ventas@aycmip.cl">ventas@aycmip.cl</a>
+        </div>
+
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <a href="https://instagram.com/ayc.mip" target="_blank" rel="noopener noreferrer">@ayc.mip</a>
+        </div>
+
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Atenci&oacute;n 24/7, emergencias incluidas</span>
+        </div>
+
+      </div>
+
+    </div><!-- /.footer-grid -->
+
+    <!-- Footer CTA row (mobile: centered below nav+contact cols) -->
+    <div class="footer-cta-row">
+      <a
+        href="https://wa.me/56981544036?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-secondary"
+        style="font-size:0.9rem; padding:12px 20px;"
+      >
+        Agenda visita gratis
+      </a>
+    </div>
+
+    <!-- Footer bottom bar -->
+    <div class="footer-bottom footer-bottom--centered">
+      <p class="footer-copy">
+        &copy; <span id="footer-year">2026</span> A&amp;C Soluciones Agr&iacute;colas y Urbanas SpA. Todos los derechos reservados.
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<!-- Swiper JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Site JS -->
+<script src="js/main.js"></script>
+<!-- Dynamic year -->
+<script>
+  (function() {
+    var el = document.getElementById('footer-year');
+    if (el) el.textContent = new Date().getFullYear();
+  })();
+</script>
+
+</body>
+</html>
