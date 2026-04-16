@@ -1,0 +1,452 @@
+/* ============================================================
+   COTIZADOR — Sección multistep FA v2
+   ============================================================ */
+
+#cotizador {
+  padding: var(--space-2xl) 0;
+  background: var(--bg-light-blue);
+}
+
+/* Widget card */
+.cotizador-widget {
+  max-width: 740px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  position: relative;
+}
+
+/* ── Progress row ── */
+.cot-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.cot-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.cot-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 99px;
+  transition: width 350ms var(--ease);
+}
+
+.cot-progress-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Back button ── */
+.cot-back {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  transition: color 200ms;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cot-back:hover,
+.cot-back:focus-visible { color: var(--primary); outline: none; }
+
+/* ── Question ── */
+.cot-question {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.cot-q-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+}
+.cot-q-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── Options grid ── */
+.cot-options {
+  display: grid;
+  gap: 0.75rem;
+}
+/* 3 options (tamaño, urgencia) */
+.cot-options--sm {
+  grid-template-columns: repeat(3, 1fr);
+}
+/* 5+ options (plaga, propiedad) */
+.cot-options--lg {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* ── Option button ── */
+.cot-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius);
+  background: var(--white);
+  cursor: pointer;
+  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease), background 180ms var(--ease);
+  text-align: center;
+  min-height: 84px;
+}
+.cot-option:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 14px rgba(217, 106, 14, 0.18);
+  transform: translateY(-2px);
+}
+.cot-option:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.cot-option--selected {
+  border-color: var(--primary);
+  background: var(--bg-light-blue);
+}
+.cot-option-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  display: block;
+}
+.cot-option-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.3;
+}
+.cot-option-sub {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+/* ── Resume banner ── */
+.cot-resume-banner {
+  background: var(--bg-light-blue);
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  text-align: center;
+}
+.cot-resume-banner p {
+  font-size: var(--text-sm);
+  color: var(--text-dark);
+  margin-bottom: 0.875rem;
+}
+.cot-resume-btns {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cot-resume-no {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius-btn);
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  transition: color 180ms, border-color 180ms;
+}
+.cot-resume-no:hover { color: var(--text-dark); border-color: var(--text-muted); }
+
+/* ── Result ── */
+.cot-result { text-align: center; }
+
+.cot-result-header { margin-bottom: 1.5rem; }
+.cot-result-icon {
+  font-size: 2.75rem;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+.cot-result-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.35rem;
+}
+.cot-result-sub {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.cot-result-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.cot-result-card {
+  background: var(--bg-light-blue);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: left;
+}
+.cot-result-card--price {
+  border: 2px solid var(--primary);
+}
+.cot-card-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.cot-card-value {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+.cot-result-card--price .cot-card-value { color: var(--primary); }
+.cot-card-note {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.cot-result-disclaimer {
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  font-size: var(--text-xs);
+  color: #713f12;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.cot-result-ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.cot-wa-btn {
+  width: 100%;
+  max-width: 420px;
+  justify-content: center;
+}
+.cot-restart {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 180ms;
+}
+.cot-restart:hover { color: var(--text-dark); }
+
+/* ── Contact form ── */
+.cot-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cot-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.cot-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.cot-input {
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  color: var(--text-dark);
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  width: 100%;
+  transition: border-color 180ms;
+  background: var(--white);
+}
+.cot-input:focus { outline: none; border-color: var(--primary); }
+.cot-input::placeholder { color: #9ca3af; }
+.cot-privacy {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+.cot-error {
+  font-size: var(--text-sm);
+  color: #dc2626;
+  text-align: center;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+}
+.cot-submit-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: var(--text-base);
+}
+
+/* ── Modal overlay ── */
+#cot-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+#cot-modal[hidden] { display: none; }
+
+#cot-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.cot-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 640px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  animation: cotModalIn 250ms var(--ease);
+}
+
+@keyframes cotModalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)  scale(1); }
+}
+
+.cot-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.cot-modal-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.cot-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: background 180ms, color 180ms;
+  flex-shrink: 0;
+}
+.cot-modal-close:hover { background: #e5e7eb; color: var(--text-dark); }
+
+/* Prevent scroll behind modal */
+body.cot-modal-open { overflow: hidden; }
+
+/* Pause all page animations while modal is open (prevents lag) */
+body.cot-modal-open * {
+  animation-play-state: paused !important;
+}
+/* Keep modal itself running */
+body.cot-modal-open #cot-modal,
+body.cot-modal-open #cot-modal * {
+  animation-play-state: running !important;
+}
+
+/* ── Botón hero cotizador ── */
+.btn-cotizar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--white);
+  background: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-btn);
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  text-decoration: none;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(217, 106, 14, 0.30);
+}
+.btn-cotizar:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  box-shadow: 0 6px 20px rgba(217, 106, 14, 0.50);
+  transform: translateY(-2px);
+}
+
+/* ── Desktop hero: 3 botones en filas separadas ── */
+@media (min-width: 1024px) {
+  .hero-ctas {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .hero-ctas > * {
+    width: 100%;
+    flex: none;
+  }
+  .hero-ctas .btn-cotizar {
+    height: 56px;
+    font-size: var(--text-base);
+    padding: 0 1.5rem;
+  }
+  /* Mover contenido hero arriba para dar espacio a 3 CTAs */
+  #hero .hero-content {
+    justify-content: flex-start;
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .cot-options--sm { grid-template-columns: repeat(3, 1fr); }
+  .cot-options--lg { grid-template-columns: repeat(2, 1fr); }
+  .cot-result-cards { grid-template-columns: 1fr; }
+}
+@media (max-width: 420px) {
+  .cot-options--sm  { grid-template-columns: repeat(2, 1fr); }
+  .cot-option { min-height: 72px; padding: 0.75rem 0.5rem; }
+  .cot-option-icon { font-size: 1.3rem; }
+}

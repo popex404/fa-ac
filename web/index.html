@@ -31,6 +31,25 @@
 
   <!-- Site Styles -->
   <link rel="stylesheet" href="css/styles.css" />
+  <!-- Cotizador Styles -->
+  <link rel="stylesheet" href="css/cotizador.css" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2QSY06HGV6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2QSY06HGV6');
+  </script>
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wcpsy8zy3e");
+  </script>
 </head>
 
 <body>
@@ -91,6 +110,9 @@
         target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
         Agenda gratis
       </a>
+      <button class="btn-cotizar" data-open-cotizador aria-haspopup="dialog">
+        Cotizar
+      </button>
     </div>
   </nav>
 
@@ -229,6 +251,12 @@
               </svg>
               Emergencia 24/7 &middot; Llama ahora
             </a>
+            <button class="btn-cotizar" data-open-cotizador aria-haspopup="dialog">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              Cotiza en 30 segundos
+            </button>
           </div>
         </div>
 
@@ -774,7 +802,26 @@
   </section>
 
   <!-- ============================================================
-     10. URGENCIA
+     10. COTIZADOR INTERACTIVO
+     ============================================================ -->
+  <section id="cotizador" aria-labelledby="cotizador-heading">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="section-label">Cotizador</span>
+        <h2 id="cotizador-heading">¿Cuánto cuesta solucionar tu problema?</h2>
+        <p>Responde 4 preguntas y recibe una estimación al instante.</p>
+      </div>
+
+      <div class="cotizador-widget reveal" id="cotizador-widget">
+        <!-- Renderizado por cotizador.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+     11. URGENCIA
      ============================================================ -->
   <section id="urgency" aria-labelledby="urgency-heading">
     <div class="container">
@@ -1095,7 +1142,22 @@
   <!-- Swiper JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <!-- Site JS -->
+  <!-- ============================================================
+     MODAL COTIZADOR
+     ============================================================ -->
+  <div id="cot-modal" role="dialog" aria-modal="true" aria-labelledby="cot-modal-title" hidden>
+    <div id="cot-modal-overlay"></div>
+    <div class="cot-modal-panel">
+      <div class="cot-modal-header">
+        <span class="cot-modal-title" id="cot-modal-title">Cotiza tu servicio</span>
+        <button id="cot-modal-close" class="cot-modal-close" aria-label="Cerrar">&#x2715;</button>
+      </div>
+      <div id="cotizador-modal-widget" data-source="modal"></div>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
+  <script src="js/cotizador.js"></script>
   <!-- Dynamic year -->
   <script>
     (function () {
