@@ -106,14 +106,20 @@
   border-radius: var(--radius);
   background: var(--white);
   cursor: pointer;
-  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease), background 180ms var(--ease);
+  transition: border-color 130ms var(--ease), box-shadow 130ms var(--ease), transform 130ms var(--ease), background 100ms var(--ease);
   text-align: center;
   min-height: 84px;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
 }
 .cot-option:hover {
   border-color: var(--primary);
   box-shadow: 0 4px 14px rgba(217, 106, 14, 0.18);
   transform: translateY(-2px);
+}
+.cot-option:active {
+  transform: scale(0.95) !important;
+  transition-duration: 60ms;
 }
 .cot-option:focus-visible {
   outline: 2px solid var(--primary);
@@ -139,6 +145,16 @@
   color: var(--text-muted);
   line-height: 1.2;
 }
+
+/* ── Step enter animation ── */
+@keyframes cotStepIn {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.cot-question    { animation: cotStepIn 200ms var(--ease) both; }
+.cot-options     { animation: cotStepIn 220ms var(--ease) 30ms both; }
+.cot-contact-form{ animation: cotStepIn 200ms var(--ease) both; }
+.cot-result      { animation: cotStepIn 220ms var(--ease) both; }
 
 /* ── Resume banner ── */
 .cot-resume-banner {
@@ -259,10 +275,37 @@
   align-items: center;
   gap: 0.75rem;
 }
+
+/* ── WA button VIP: shine sweep + glow pulse ── */
+@keyframes waShine {
+  0%   { left: -70%; }
+  100% { left: 130%; }
+}
+@keyframes waGlow {
+  0%, 100% { box-shadow: 0 4px 18px rgba(58, 107, 40, 0.35); }
+  50%       { box-shadow: 0 6px 34px rgba(58, 107, 40, 0.65); }
+}
+
 .cot-wa-btn {
   width: 100%;
   max-width: 420px;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  animation: waGlow 2.4s ease-in-out infinite;
+}
+.cot-wa-btn::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -70%;
+  width: 45%;
+  height: 120%;
+  background: linear-gradient(105deg, transparent 10%, rgba(255,255,255,0.38) 50%, transparent 90%);
+  transform: skewX(-12deg);
+  animation: waShine 3s ease-in-out 1.2s infinite;
+  pointer-events: none;
+  border-radius: inherit;
 }
 .cot-restart {
   font-size: var(--text-sm);
