@@ -235,8 +235,22 @@
   padding: 0.75rem 1rem;
   font-size: var(--text-xs);
   color: #713f12;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: left;
+}
+
+.cot-result-human {
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0 0 1.25rem;
+}
+
+.cot-card-value--sm {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .cot-result-ctas {

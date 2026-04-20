@@ -9,44 +9,31 @@
 
   /* ── Pricing ── */
   var PRECIOS_BASE = {
-    cucarachas: 45000, ratones: 65000, termitas: 95000,
-    aranas: 35000, avispas: 40000, hormigas: 30000,
-    mosquitos: 38000, palomas: 85000, chinche: 60000, otro: 42000
+    cucarachas: 60000, ratones: 80000, termitas: 0,
+    aranas: 40000, avispas: 40000, hormigas: 40000,
+    mosquitos: 40000, palomas: 85000,
+    sanitizacion: 40000, seremi: 120000, otro: 42000
   };
-  var MULT_PROP = { casa: 1, departamento: 0.85, comercial: 1.6, oficina: 1.3, bodega: 1.4 };
+  var MULT_PROP = { casa: 1, departamento: 0.85, comercial: 1.6, oficina: 1.3, bodega: 1.4, institucion: 1.3 };
   var MULT_TAM  = { pequeno: 0.8, mediano: 1, grande: 1.5 };
   var MULT_URG  = { normal: 1, urgente: 1.3, emergencia: 1.6 };
   var TIEMPOS   = {
-    cucarachas: '1–2 horas', ratones: '2–3 horas', termitas: '4–8 horas',
+    cucarachas: '1–2 horas', ratones: '2–3 horas', termitas: 'visita técnica requerida',
     aranas: '1 hora', avispas: '1 hora', hormigas: '1–2 horas',
-    mosquitos: '1–2 horas', palomas: '2–4 horas', chinche: '3–4 horas', otro: '1–3 horas'
+    mosquitos: '1–2 horas', palomas: '2–4 horas',
+    sanitizacion: '1–2 horas', seremi: 'a coordinar', otro: '1–3 horas'
   };
 
   /* ── Labels para WhatsApp / Zapier ── */
   var LBL = {
-    plaga:     { cucarachas:'cucarachas', ratones:'roedores', termitas:'termitas', aranas:'arañas', avispas:'avispas', hormigas:'hormigas', mosquitos:'mosquitos', palomas:'palomas', chinche:'chinches de cama', otro:'plagas' },
-    propiedad: { casa:'casa', departamento:'departamento', comercial:'local comercial', oficina:'oficina', bodega:'bodega/galpón' },
+    plaga:     { cucarachas:'cucarachas', ratones:'roedores', termitas:'termitas', aranas:'arañas', avispas:'avispas', hormigas:'hormigas', mosquitos:'moscas/mosquitos', palomas:'palomas', sanitizacion:'sanitización de ambientes', seremi:'certificación Seremi', otro:'plagas' },
+    propiedad: { casa:'casa', departamento:'departamento', comercial:'local comercial', oficina:'oficina', bodega:'bodega/galpón', institucion:'institución' },
     tamano:    { pequeno:'pequeño (< 80 m²)', mediano:'mediano (80–200 m²)', grande:'grande (> 200 m²)' },
     urgencia:  { normal:'normal (48h)', urgente:'urgente (24h)', emergencia:'emergencia (hoy)' }
   };
 
-  /* ── Steps ── */
+  /* ── Steps — Orden: inmueble → plaga → tamaño → urgencia ── */
   var STEPS = [
-    {
-      id: 'plaga', question: '¿Qué problema tienes?', subtitle: 'Elige el tipo de plaga que necesitas eliminar',
-      options: [
-        { value:'cucarachas', label:'Cucarachas',       icon:'🪳' },
-        { value:'ratones',    label:'Ratones / Ratas',  icon:'🐀' },
-        { value:'termitas',   label:'Termitas',         icon:'🪲' },
-        { value:'aranas',     label:'Arañas',           icon:'🕷️' },
-        { value:'avispas',    label:'Avispas',          icon:'🐝' },
-        { value:'hormigas',   label:'Hormigas',         icon:'🐜' },
-        { value:'mosquitos',  label:'Mosquitos',        icon:'🦟' },
-        { value:'palomas',    label:'Palomas',          icon:'🕊️' },
-        { value:'chinche',    label:'Chinches de cama', icon:'🛏️' },
-        { value:'otro',       label:'No sé / Otro',     icon:'❓' }
-      ]
-    },
     {
       id: 'propiedad', question: '¿Qué tipo de inmueble?', subtitle: 'El espacio que necesita tratamiento',
       options: [
@@ -54,7 +41,24 @@
         { value:'departamento', label:'Departamento',    icon:'🏢' },
         { value:'comercial',    label:'Local comercial', icon:'🏪' },
         { value:'oficina',      label:'Oficina',         icon:'💼' },
-        { value:'bodega',       label:'Bodega / Galpón', icon:'🏭' }
+        { value:'bodega',       label:'Bodega / Galpón', icon:'🏭' },
+        { value:'institucion',  label:'Institución',     icon:'🏫' }
+      ]
+    },
+    {
+      id: 'plaga', question: '¿Qué problema tienes?', subtitle: 'Elige el tipo de plaga o servicio que necesitas',
+      options: [
+        { value:'cucarachas',   label:'Cucarachas',                icon:'🪳' },
+        { value:'ratones',      label:'Ratones / Ratas',           icon:'🐀' },
+        { value:'termitas',     label:'Termitas',                  icon:'🐛' },
+        { value:'aranas',       label:'Arañas',                    icon:'🕷️' },
+        { value:'avispas',      label:'Avispas',                   icon:'🐝' },
+        { value:'hormigas',     label:'Hormigas',                  icon:'🐜' },
+        { value:'mosquitos',    label:'Moscas / Mosquitos',        icon:'🦟' },
+        { value:'palomas',      label:'Palomas',                   icon:'🕊️' },
+        { value:'sanitizacion', label:'Sanitización de ambientes', icon:'🧪' },
+        { value:'seremi',       label:'Certificación Seremi',      icon:'📋' },
+        { value:'otro',         label:'No sé / Otro',              icon:'❓' }
       ]
     },
     {
@@ -66,7 +70,7 @@
       ]
     },
     {
-      id: 'urgencia', question: '¿Qué tan urgente es?', subtitle: 'Esto afecta la disponibilidad y el precio',
+      id: 'urgencia', question: '¿Qué tan urgente es?', subtitle: 'La urgencia del servicio determina el valor del precio',
       options: [
         { value:'normal',     label:'Normal',     sublabel:'Atención en 48h', icon:'📅' },
         { value:'urgente',    label:'Urgente',     sublabel:'Atención en 24h', icon:'⚡' },
@@ -82,6 +86,7 @@
   function fmt(n) { return '$' + (Math.round(n / 1000) * 1000).toLocaleString('es-CL'); }
 
   function calcPrice(ans) {
+    if (ans.plaga === 'termitas') return null;
     var base  = PRECIOS_BASE[ans.plaga] || 42000;
     var mult  = (MULT_PROP[ans.propiedad] || 1) * (MULT_TAM[ans.tamano] || 1) * (MULT_URG[ans.urgencia] || 1);
     var p     = base * mult;
@@ -89,12 +94,32 @@
   }
 
   function buildWA(ans, contact) {
-    var plaga = LBL.plaga[ans.plaga] || ans.plaga;
-    var prop  = LBL.propiedad[ans.propiedad] || ans.propiedad;
-    var tam   = LBL.tamano[ans.tamano] || ans.tamano;
-    var urg   = LBL.urgencia[ans.urgencia] || ans.urgencia;
+    var plaga  = LBL.plaga[ans.plaga] || ans.plaga;
+    var prop   = LBL.propiedad[ans.propiedad] || ans.propiedad;
+    var tam    = LBL.tamano[ans.tamano] || ans.tamano;
+    var urg    = LBL.urgencia[ans.urgencia] || ans.urgencia;
     var nombre = (contact && contact.nombre) ? ', soy ' + contact.nombre : '';
-    var msg = 'Hola' + nombre + '! Vi el cotizador en su página. Necesito cotización para control de ' + plaga + ' en ' + prop + ' (' + tam + '), urgencia ' + urg + '. ¿Cuándo me pueden visitar?';
+    var ciudad = (contact && contact.ciudad) ? ' en ' + contact.ciudad : '';
+    var msg = 'Hola' + nombre + '! Vi el cotizador en su página. Necesito cotización para ' + plaga + ' en ' + prop + ciudad + ' (' + tam + '), urgencia ' + urg + '. ¿Cuándo me pueden visitar?';
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+  }
+
+  function buildWATermitas(contact) {
+    var nombre = (contact && contact.nombre) ? contact.nombre : '';
+    var ciudad = (contact && contact.ciudad) ? contact.ciudad : '';
+    var intro  = nombre ? 'Hola, soy ' + nombre + '. ' : 'Hola. ';
+    var loc    = ciudad ? 'en ' + ciudad + '. ' : '';
+    var msg    = intro + 'Necesito una visita técnica gratuita para termitas ' + loc + '¿Cuándo me pueden visitar?';
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+  }
+
+  function buildWASeremi(ans, contact) {
+    var prop   = LBL.propiedad[ans.propiedad] || ans.propiedad;
+    var nombre = (contact && contact.nombre) ? contact.nombre : '';
+    var ciudad = (contact && contact.ciudad) ? contact.ciudad : '';
+    var intro  = nombre ? 'Hola, soy ' + nombre + '. ' : 'Hola. ';
+    var loc    = ciudad ? ' en ' + ciudad : '';
+    var msg    = intro + 'Necesito cotización para el servicio MIP de certificación Seremi para ' + prop + loc + '. ¿Me pueden ayudar?';
     return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
   }
 
@@ -104,13 +129,14 @@
     var precio = calcPrice(ans);
     var payload = {
       nombre:          contact.nombre || '',
-      telefono:        contact.telefono || '',
+      correo:          contact.correo || '',
+      ciudad:          contact.ciudad || '',
       plaga:           ans.plaga,
       propiedad:       ans.propiedad,
       tamano:          ans.tamano,
       urgencia:        ans.urgencia,
-      precio_min:      precio.min,
-      precio_max:      precio.max,
+      precio_min:      precio ? precio.min : null,
+      precio_max:      precio ? precio.max : null,
       tiempo_servicio: TIEMPOS[ans.plaga] || '',
       source:          source || 'cotizador',
       timestamp:       new Date().toISOString()
@@ -127,7 +153,7 @@
   function createCotizador(widgetEl) {
     var source     = widgetEl.getAttribute('data-source') || 'cotizador';
     var storageKey = 'fa_cot_' + source;
-    var state      = { step: 0, answers: {}, contact: { nombre: '', telefono: '' } };
+    var state      = { step: 0, answers: {}, contact: { nombre: '', correo: '', ciudad: '' } };
 
     /* ── localStorage ── */
     function save() {
@@ -228,8 +254,12 @@
           '<input class="cot-input" id="cot-nombre-' + source + '" type="text" placeholder="Ej: María González" autocomplete="name" value="' + (state.contact.nombre || '') + '" />' +
         '</div>' +
         '<div class="cot-field">' +
-          '<label class="cot-label" for="cot-tel-' + source + '">Teléfono</label>' +
-          '<input class="cot-input" id="cot-tel-' + source + '" type="tel" placeholder="+56 9 XXXX XXXX" autocomplete="tel" value="' + (state.contact.telefono || '') + '" />' +
+          '<label class="cot-label" for="cot-correo-' + source + '">Correo electrónico</label>' +
+          '<input class="cot-input" id="cot-correo-' + source + '" type="email" placeholder="Ej: maria@correo.com" autocomplete="email" value="' + (state.contact.correo || '') + '" />' +
+        '</div>' +
+        '<div class="cot-field">' +
+          '<label class="cot-label" for="cot-ciudad-' + source + '">Ciudad y región</label>' +
+          '<input class="cot-input" id="cot-ciudad-' + source + '" type="text" placeholder="Ej: Quillota, Valparaíso" autocomplete="address-level2" value="' + (state.contact.ciudad || '') + '" />' +
         '</div>' +
         '<p class="cot-privacy">🔒 Tus datos son confidenciales. Solo A&C Soluciones los verá.</p>' +
         '<p class="cot-error" id="cot-err-' + source + '" hidden></p>' +
@@ -240,17 +270,20 @@
       widgetEl.appendChild(form);
 
       var nombreEl = document.getElementById('cot-nombre-' + source);
-      var telEl    = document.getElementById('cot-tel-' + source);
+      var correoEl = document.getElementById('cot-correo-' + source);
+      var ciudadEl = document.getElementById('cot-ciudad-' + source);
       var errEl    = document.getElementById('cot-err-' + source);
       var submitEl = document.getElementById('cot-submit-' + source);
 
       submitEl.addEventListener('click', function () {
         var nombre = nombreEl.value.trim();
-        var tel    = telEl.value.trim();
+        var correo = correoEl.value.trim();
+        var ciudad = ciudadEl.value.trim();
         if (!nombre) { errEl.textContent = 'Por favor ingresa tu nombre.'; errEl.removeAttribute('hidden'); nombreEl.focus(); return; }
-        if (!tel)    { errEl.textContent = 'Por favor ingresa tu teléfono.'; errEl.removeAttribute('hidden'); telEl.focus(); return; }
+        if (!correo) { errEl.textContent = 'Por favor ingresa tu correo.'; errEl.removeAttribute('hidden'); correoEl.focus(); return; }
+        if (!ciudad) { errEl.textContent = 'Por favor ingresa tu ciudad.'; errEl.removeAttribute('hidden'); ciudadEl.focus(); return; }
         errEl.setAttribute('hidden', '');
-        state.contact = { nombre: nombre, telefono: tel };
+        state.contact = { nombre: nombre, correo: correo, ciudad: ciudad };
         postWebhook(state.answers, state.contact, source);
         state.step++;
         save();
@@ -258,7 +291,7 @@
       });
 
       /* Allow Enter to submit */
-      [nombreEl, telEl].forEach(function (el) {
+      [nombreEl, correoEl, ciudadEl].forEach(function (el) {
         el.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitEl.click(); });
       });
     }
@@ -266,47 +299,115 @@
     /* ── Step: resultado ── */
     function renderResult() {
       var ans    = state.answers;
-      var precio = calcPrice(ans);
       var tiempo = TIEMPOS[ans.plaga] || '1–3 horas';
-      var waUrl  = buildWA(ans, state.contact);
-      var plaga  = LBL.plaga[ans.plaga]      || ans.plaga;
       var prop   = LBL.propiedad[ans.propiedad] || ans.propiedad;
-      var urgLabel = { normal:'48 horas', urgente:'24 horas', emergencia:'hoy mismo' };
-      var urg    = urgLabel[ans.urgencia] || '';
-
-      var div = document.createElement('div');
+      var plaga  = LBL.plaga[ans.plaga] || ans.plaga;
+      var nombre = state.contact.nombre ? state.contact.nombre.split(' ')[0] : '';
+      var div    = document.createElement('div');
       div.className = 'cot-result';
-      div.innerHTML =
-        '<div class="cot-result-header">' +
-          '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
-          '<h3 class="cot-result-title">Listo' + (state.contact.nombre ? ', ' + state.contact.nombre.split(' ')[0] : '') + '</h3>' +
-          '<p class="cot-result-sub">Estimación para control de <strong>' + plaga + '</strong> en tu <strong>' + prop + '</strong></p>' +
-        '</div>' +
-        '<div class="cot-result-cards">' +
-          '<div class="cot-result-card cot-result-card--price">' +
-            '<span class="cot-card-label">Precio estimado</span>' +
-            '<span class="cot-card-value">' + fmt(precio.min) + ' – ' + fmt(precio.max) + '</span>' +
-            '<span class="cot-card-note">+ IVA · sujeto a diagnóstico gratuito</span>' +
+
+      if (ans.plaga === 'termitas') {
+        /* ── Resultado especial: termitas ── */
+        var waTermitas = buildWATermitas(state.contact);
+        div.innerHTML =
+          '<div class="cot-result-header">' +
+            '<span class="cot-result-icon" aria-hidden="true">🐛</span>' +
+            '<h3 class="cot-result-title">' + (nombre ? nombre + ', r' : 'R') + 'ecomendamos una visita técnica</h3>' +
+            '<p class="cot-result-sub">El tratamiento de <strong>termitas</strong> requiere una medición en terreno para darte un presupuesto exacto.</p>' +
           '</div>' +
-          '<div class="cot-result-card">' +
-            '<span class="cot-card-label">Disponibilidad</span>' +
-            '<span class="cot-card-value">En ' + urg + '</span>' +
-            '<span class="cot-card-note">' + tiempo + ' de servicio</span>' +
+          '<div class="cot-result-cards">' +
+            '<div class="cot-result-card cot-result-card--price">' +
+              '<span class="cot-card-label">Visita técnica</span>' +
+              '<span class="cot-card-value">Sin costo</span>' +
+              '<span class="cot-card-note">Diagnóstico presencial gratuito</span>' +
+            '</div>' +
+            '<div class="cot-result-card">' +
+              '<span class="cot-card-label">Incluye</span>' +
+              '<span class="cot-card-value cot-card-value--sm">Identificación de especie, extensión del daño y método de tratamiento</span>' +
+            '</div>' +
           '</div>' +
-        '</div>' +
-        '<div class="cot-result-disclaimer">' +
-          '<strong>⚠️ Precio referencial.</strong> El costo exacto se confirma con el diagnóstico gratuito en tu propiedad. Francisco te contactará a la brevedad.' +
-        '</div>' +
-        '<div class="cot-result-ctas">' +
-          '<a href="' + waUrl + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary cot-wa-btn">' +
-            WA_SVG + ' Confirmar por WhatsApp' +
-          '</a>' +
-          '<button class="cot-restart">Empezar de nuevo</button>' +
-        '</div>';
+          '<div class="cot-result-disclaimer">' +
+            '<strong>¿Por qué no hay precio online?</strong> Las termitas se cotizan por metro lineal de inyección. Sin ver tu propiedad no podemos darte un valor justo.' +
+          '</div>' +
+          '<p class="cot-result-human">Serás atendido por el representante técnico de A&C Soluciones.</p>' +
+          '<div class="cot-result-ctas">' +
+            '<a href="' + waTermitas + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary cot-wa-btn">' +
+              WA_SVG + ' Agendar visita técnica gratuita' +
+            '</a>' +
+            '<button class="cot-restart">Empezar de nuevo</button>' +
+          '</div>';
+
+      } else if (ans.plaga === 'seremi') {
+        /* ── Resultado especial: certificación Seremi ── */
+        var waSeremi = buildWASeremi(ans, state.contact);
+        div.innerHTML =
+          '<div class="cot-result-header">' +
+            '<span class="cot-result-icon" aria-hidden="true">📋</span>' +
+            '<h3 class="cot-result-title">' + (nombre ? nombre + ', a' : 'A') + 'quí tienes la información</h3>' +
+            '<p class="cot-result-sub">Servicio MIP Integral para cumplimiento normativo sanitario en tu <strong>' + prop + '</strong></p>' +
+          '</div>' +
+          '<div class="cot-result-cards">' +
+            '<div class="cot-result-card cot-result-card--price">' +
+              '<span class="cot-card-label">Desde</span>' +
+              '<span class="cot-card-value">$120.000 / mes</span>' +
+              '<span class="cot-card-note">Servicio mensual recurrente · + IVA</span>' +
+            '</div>' +
+            '<div class="cot-result-card">' +
+              '<span class="cot-card-label">Incluye</span>' +
+              '<span class="cot-card-value cot-card-value--sm">Desratización + Desinsectación + Sanitización</span>' +
+              '<span class="cot-card-note">Cumplimiento DS 594 y DS 157/05</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cot-result-disclaimer">' +
+            '⚖️ Este servicio te permite operar en regla ante la autoridad sanitaria (Seremi de Salud). Precio final según tamaño y frecuencia acordada.' +
+          '</div>' +
+          '<p class="cot-result-human">Serás atendido por el representante técnico de A&C Soluciones.</p>' +
+          '<div class="cot-result-ctas">' +
+            '<a href="' + waSeremi + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary cot-wa-btn">' +
+              WA_SVG + ' Solicitar cotización MIP' +
+            '</a>' +
+            '<button class="cot-restart">Empezar de nuevo</button>' +
+          '</div>';
+
+      } else {
+        /* ── Resultado estándar ── */
+        var precio = calcPrice(ans);
+        var waUrl  = buildWA(ans, state.contact);
+        var urgLabel = { normal:'48 horas', urgente:'24 horas', emergencia:'hoy mismo' };
+        var urg    = urgLabel[ans.urgencia] || '';
+        div.innerHTML =
+          '<div class="cot-result-header">' +
+            '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
+            '<h3 class="cot-result-title">Listo' + (nombre ? ', ' + nombre : '') + '</h3>' +
+            '<p class="cot-result-sub">Estimación para control de <strong>' + plaga + '</strong> en tu <strong>' + prop + '</strong></p>' +
+          '</div>' +
+          '<div class="cot-result-cards">' +
+            '<div class="cot-result-card cot-result-card--price">' +
+              '<span class="cot-card-label">Precio estimado</span>' +
+              '<span class="cot-card-value">' + fmt(precio.min) + ' – ' + fmt(precio.max) + '</span>' +
+              '<span class="cot-card-note">+ IVA · sujeto a diagnóstico gratuito</span>' +
+            '</div>' +
+            '<div class="cot-result-card">' +
+              '<span class="cot-card-label">Disponibilidad</span>' +
+              '<span class="cot-card-value">En ' + urg + '</span>' +
+              '<span class="cot-card-note">' + tiempo + ' de servicio</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cot-result-disclaimer">' +
+            '<strong>⚠️ Precio referencial.</strong> El costo exacto se confirma con el diagnóstico gratuito en tu propiedad. Francisco te contactará a la brevedad.' +
+          '</div>' +
+          '<p class="cot-result-human">Serás atendido por el representante técnico de A&C Soluciones.</p>' +
+          '<div class="cot-result-ctas">' +
+            '<a href="' + waUrl + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary cot-wa-btn">' +
+              WA_SVG + ' Confirmar por WhatsApp' +
+            '</a>' +
+            '<button class="cot-restart">Empezar de nuevo</button>' +
+          '</div>';
+      }
 
       div.querySelector('.cot-restart').addEventListener('click', function () {
         clear();
-        state = { step: 0, answers: {}, contact: { nombre: '', telefono: '' } };
+        state = { step: 0, answers: {}, contact: { nombre: '', correo: '', ciudad: '' } };
         render();
       });
       widgetEl.appendChild(div);
@@ -324,7 +425,7 @@
           '<button class="cot-resume-no">Empezar de nuevo</button>' +
         '</div>';
       banner.querySelector('.cot-resume-yes').addEventListener('click', function () {
-        state = { step: saved.step, answers: saved.answers, contact: saved.contact || { nombre: '', telefono: '' } };
+        state = { step: saved.step, answers: saved.answers, contact: saved.contact || { nombre: '', correo: '', ciudad: '' } };
         banner.remove();
         render();
       });
