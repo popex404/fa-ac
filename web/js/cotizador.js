@@ -275,13 +275,15 @@
       var errEl    = document.getElementById('cot-err-' + source);
       var submitEl = document.getElementById('cot-submit-' + source);
 
+      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
       submitEl.addEventListener('click', function () {
         var nombre = nombreEl.value.trim();
         var correo = correoEl.value.trim();
         var ciudad = ciudadEl.value.trim();
-        if (!nombre) { errEl.textContent = 'Por favor ingresa tu nombre.'; errEl.removeAttribute('hidden'); nombreEl.focus(); return; }
-        if (!correo) { errEl.textContent = 'Por favor ingresa tu correo.'; errEl.removeAttribute('hidden'); correoEl.focus(); return; }
-        if (!ciudad) { errEl.textContent = 'Por favor ingresa tu ciudad.'; errEl.removeAttribute('hidden'); ciudadEl.focus(); return; }
+        if (nombre.length < 2)          { errEl.textContent = 'Por favor ingresa tu nombre completo.'; errEl.removeAttribute('hidden'); nombreEl.focus(); return; }
+        if (!EMAIL_RE.test(correo))     { errEl.textContent = 'Por favor ingresa un correo válido (ej: maria@correo.com).'; errEl.removeAttribute('hidden'); correoEl.focus(); return; }
+        if (ciudad.length < 2)          { errEl.textContent = 'Por favor ingresa tu ciudad.'; errEl.removeAttribute('hidden'); ciudadEl.focus(); return; }
         errEl.setAttribute('hidden', '');
         state.contact = { nombre: nombre, correo: correo, ciudad: ciudad };
         postWebhook(state.answers, state.contact, source);
