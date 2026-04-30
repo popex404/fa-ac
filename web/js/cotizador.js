@@ -5,7 +5,7 @@
      CONFIGURACIÓN — reemplazar webhook URL cuando esté listo
      ============================================================ */
   var WA_NUMBER   = '56981544036';
-  var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxlnxN1jrSIozJvcFt-7Jt6bkfcdISmbAnXohDrXh50rn0c7r31qaZWEQkgSdovvThVsg/exec';
+  var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw7ZYbO9UsZtCMJhCC3rFPTBm9f_YJYhvRv5woSUgxG3Pa8WwI5RFfErC3zDXuwgilV5w/exec';
 
   /* ── Pricing ── */
   var PRECIOS_BASE = {
