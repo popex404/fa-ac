@@ -170,7 +170,7 @@
       timestamp:       new Date().toISOString()
     };
     try {
-      fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) })
         .catch(function () {});
     } catch (e) {}
   }
