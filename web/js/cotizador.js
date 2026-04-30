@@ -322,7 +322,7 @@
         var waTermitas = buildWATermitas(state.contact);
         div.innerHTML =
           '<div class="cot-result-header">' +
-            '<img src="img/termitas-soldado.png" class="cot-result-icon-img" alt="" aria-hidden="true">' +
+            '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
             '<h3 class="cot-result-title">' + (nombre ? nombre + ', r' : 'R') + 'ecomendamos una visita técnica</h3>' +
             '<p class="cot-result-sub">El tratamiento de <strong>termitas</strong> requiere una medición en terreno para darte un presupuesto exacto.</p>' +
           '</div>' +
@@ -353,7 +353,7 @@
         var waPalomas = buildWAPalomas(state.contact);
         div.innerHTML =
           '<div class="cot-result-header">' +
-            '<span class="cot-result-icon" aria-hidden="true">🕊️</span>' +
+            '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
             '<h3 class="cot-result-title">' + (nombre ? nombre + ', r' : 'R') + 'ecomendamos una visita técnica</h3>' +
             '<p class="cot-result-sub">El tratamiento de <strong>palomas</strong> requiere una evaluación en terreno para darte un presupuesto exacto.</p>' +
           '</div>' +
@@ -384,7 +384,7 @@
         var waSeremi = buildWASeremi(ans, state.contact);
         div.innerHTML =
           '<div class="cot-result-header">' +
-            '<span class="cot-result-icon" aria-hidden="true">📋</span>' +
+            '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
             '<h3 class="cot-result-title">' + (nombre ? nombre + ', a' : 'A') + 'quí tienes la información</h3>' +
             '<p class="cot-result-sub">Servicio MIP Integral para cumplimiento normativo sanitario en tu <strong>' + prop + '</strong></p>' +
           '</div>' +
