@@ -11,7 +11,7 @@
   var PRECIOS_BASE = {
     cucarachas: 60000, ratones: 80000, termitas: 0,
     aranas: 40000, avispas: 40000, hormigas: 40000,
-    mosquitos: 40000, palomas: 85000,
+    mosquitos: 40000, palomas: 0,
     sanitizacion: 40000, seremi: 120000, otro: 42000
   };
   var MULT_PROP = { casa: 1, departamento: 0.85, comercial: 1.6, oficina: 1.3, bodega: 1.4, institucion: 1.3 };
@@ -20,7 +20,7 @@
   var TIEMPOS   = {
     cucarachas: '1–2 horas', ratones: '2–3 horas', termitas: 'visita técnica requerida',
     aranas: '1 hora', avispas: '1 hora', hormigas: '1–2 horas',
-    mosquitos: '1–2 horas', palomas: '2–4 horas',
+    mosquitos: '1–2 horas', palomas: 'visita técnica requerida',
     sanitizacion: '1–2 horas', seremi: 'a coordinar', otro: '1–3 horas'
   };
 
@@ -50,7 +50,7 @@
       options: [
         { value:'cucarachas',   label:'Cucarachas',                icon:'🪳' },
         { value:'ratones',      label:'Ratones / Ratas',           icon:'🐀' },
-        { value:'termitas',     label:'Termitas',                  icon:'🐛' },
+        { value:'termitas',     label:'Termitas',                  icon:'<img src="img/termitas-soldado.png" class="cot-pest-icon-img" alt="">' },
         { value:'aranas',       label:'Arañas',                    icon:'🕷️' },
         { value:'avispas',      label:'Avispas',                   icon:'🐝' },
         { value:'hormigas',     label:'Hormigas',                  icon:'🐜' },
@@ -86,7 +86,7 @@
   function fmt(n) { return '$' + (Math.round(n / 1000) * 1000).toLocaleString('es-CL'); }
 
   function calcPrice(ans) {
-    if (ans.plaga === 'termitas') return null;
+    if (ans.plaga === 'termitas' || ans.plaga === 'palomas') return null;
     var base  = PRECIOS_BASE[ans.plaga] || 42000;
     var mult  = (MULT_PROP[ans.propiedad] || 1) * (MULT_TAM[ans.tamano] || 1) * (MULT_URG[ans.urgencia] || 1);
     var p     = base * mult;
@@ -110,6 +110,15 @@
     var intro  = nombre ? 'Hola, soy ' + nombre + '. ' : 'Hola. ';
     var loc    = ciudad ? 'en ' + ciudad + '. ' : '';
     var msg    = intro + 'Necesito una visita técnica gratuita para termitas ' + loc + '¿Cuándo me pueden visitar?';
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+  }
+
+  function buildWAPalomas(contact) {
+    var nombre = (contact && contact.nombre) ? contact.nombre : '';
+    var ciudad = (contact && contact.ciudad) ? contact.ciudad : '';
+    var intro  = nombre ? 'Hola, soy ' + nombre + '. ' : 'Hola. ';
+    var loc    = ciudad ? 'en ' + ciudad + ' ' : '';
+    var msg    = intro + 'Necesito una visita técnica gratuita para control de palomas ' + loc + '¿Cuándo me pueden visitar?';
     return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
   }
 
@@ -313,7 +322,7 @@
         var waTermitas = buildWATermitas(state.contact);
         div.innerHTML =
           '<div class="cot-result-header">' +
-            '<span class="cot-result-icon" aria-hidden="true">🐛</span>' +
+            '<img src="img/termitas-soldado.png" class="cot-result-icon-img" alt="" aria-hidden="true">' +
             '<h3 class="cot-result-title">' + (nombre ? nombre + ', r' : 'R') + 'ecomendamos una visita técnica</h3>' +
             '<p class="cot-result-sub">El tratamiento de <strong>termitas</strong> requiere una medición en terreno para darte un presupuesto exacto.</p>' +
           '</div>' +
@@ -334,6 +343,37 @@
           '<p class="cot-result-human">Serás atendido por el representante técnico de A&C Soluciones.</p>' +
           '<div class="cot-result-ctas">' +
             '<a href="' + waTermitas + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary cot-wa-btn">' +
+              WA_SVG + ' Agendar visita técnica gratuita' +
+            '</a>' +
+            '<button class="cot-restart">Empezar de nuevo</button>' +
+          '</div>';
+
+      } else if (ans.plaga === 'palomas') {
+        /* ── Resultado especial: palomas ── */
+        var waPalomas = buildWAPalomas(state.contact);
+        div.innerHTML =
+          '<div class="cot-result-header">' +
+            '<span class="cot-result-icon" aria-hidden="true">🕊️</span>' +
+            '<h3 class="cot-result-title">' + (nombre ? nombre + ', r' : 'R') + 'ecomendamos una visita técnica</h3>' +
+            '<p class="cot-result-sub">El tratamiento de <strong>palomas</strong> requiere una evaluación en terreno para darte un presupuesto exacto.</p>' +
+          '</div>' +
+          '<div class="cot-result-cards">' +
+            '<div class="cot-result-card cot-result-card--price">' +
+              '<span class="cot-card-label">Visita técnica</span>' +
+              '<span class="cot-card-value">Sin costo</span>' +
+              '<span class="cot-card-note">Diagnóstico presencial gratuito</span>' +
+            '</div>' +
+            '<div class="cot-result-card">' +
+              '<span class="cot-card-label">Incluye</span>' +
+              '<span class="cot-card-value cot-card-value--sm">Evaluación de nivel de daño y método de tratamiento</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cot-result-disclaimer">' +
+            '<strong>¿Por qué no hay precio online?</strong> Las palomas se cotizan por metros lineales de instalación de dispositivos de repelencia.' +
+          '</div>' +
+          '<p class="cot-result-human">Serás atendido por el representante técnico de A&C Soluciones.</p>' +
+          '<div class="cot-result-ctas">' +
+            '<a href="' + waPalomas + '" target="_blank" rel="noopener noreferrer" class="btn btn-secondary cot-wa-btn">' +
               WA_SVG + ' Agendar visita técnica gratuita' +
             '</a>' +
             '<button class="cot-restart">Empezar de nuevo</button>' +
