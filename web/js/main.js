@@ -6,6 +6,29 @@
 'use strict';
 
 /* ============================================================
+   CONFIG — cambiar número aquí actualiza todos los links del sitio
+   IMPORTANTE: también actualizar WA_NUMBER en cotizador.js (línea 7)
+   ============================================================ */
+var FA_WA_NUMBER  = '56981544036'; // solo dígitos, sin +
+var FA_TEL_NUMBER = '+56981544036';
+
+(function rewriteContactLinks() {
+  function update() {
+    document.querySelectorAll('a[href*="wa.me/"]').forEach(function (el) {
+      el.href = el.href.replace(/wa\.me\/\d+/, 'wa.me/' + FA_WA_NUMBER);
+    });
+    document.querySelectorAll('a[href^="tel:"]').forEach(function (el) {
+      el.href = 'tel:' + FA_TEL_NUMBER;
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', update);
+  } else {
+    update();
+  }
+})();
+
+/* ============================================================
    UTILITY: Safe querySelector with null guard
    ============================================================ */
 const qs  = (sel, ctx = document) => ctx.querySelector(sel);
