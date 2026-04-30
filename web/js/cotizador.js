@@ -317,13 +317,25 @@
         if (!EMAIL_RE.test(correo))     { errEl.textContent = 'Por favor ingresa un correo válido (ej: maria@correo.com).'; errEl.removeAttribute('hidden'); correoEl.focus(); return; }
         if (ciudad.length < 2)          { errEl.textContent = 'Por favor ingresa tu ciudad.'; errEl.removeAttribute('hidden'); ciudadEl.focus(); return; }
         errEl.setAttribute('hidden', '');
+        submitEl.disabled = true;
+        submitEl.textContent = 'Generando cotización...';
         state.contact = { nombre: nombre, correo: correo, ciudad: ciudad };
-        var refNum = Math.floor(Math.random() * 9000) + 1000;
-        state.refCode = 'AYC-' + new Date().toISOString().slice(2,7).replace('-','') + '-' + refNum;
-        postWebhook(state.answers, state.contact, source, state.refCode);
-        state.step++;
-        save();
-        render();
+
+        function continuar(ref) {
+          state.refCode = ref;
+          postWebhook(state.answers, state.contact, source, state.refCode);
+          state.step++;
+          save();
+          render();
+        }
+        function refFallback() {
+          return 'AYC-' + new Date().toISOString().slice(2,7).replace('-','') + '-' + (Math.floor(Math.random() * 9000) + 1000);
+        }
+
+        fetch(WEBHOOK_URL)
+          .then(function(r) { return r.json(); })
+          .then(function(d) { continuar(d.ref || refFallback()); })
+          .catch(function()  { continuar(refFallback()); });
       });
 
       /* Allow Enter to submit */
