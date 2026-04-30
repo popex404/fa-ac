@@ -153,21 +153,25 @@
   function postWebhook(ans, contact, source, ref) {
     var url = WEBHOOK_URL || (document.querySelector('[data-webhook]') && document.querySelector('[data-webhook]').getAttribute('data-webhook'));
     if (!url) return;
-    var precio = calcPrice(ans);
+    var precio  = calcPrice(ans);
+    var utcM4   = new Date(Date.now() - 4 * 60 * 60 * 1000);
+    var isoStr  = utcM4.toISOString();
+    var fecha   = isoStr.slice(8,10) + '/' + isoStr.slice(5,7) + '/' + isoStr.slice(0,4);
+    var hora    = isoStr.slice(11,16);
     var payload = {
-      ref:             ref || '',
-      nombre:          contact.nombre || '',
-      correo:          contact.correo || '',
-      ciudad:          contact.ciudad || '',
-      plaga:           ans.plaga,
-      propiedad:       ans.propiedad,
-      tamano:          ans.tamano,
-      urgencia:        ans.urgencia,
-      precio_min:      precio ? precio.min : null,
-      precio_max:      precio ? precio.max : null,
-      tiempo_servicio: TIEMPOS[ans.plaga] || '',
-      source:          source || 'cotizador',
-      timestamp:       new Date().toISOString()
+      ref:        ref || '',
+      fecha:      fecha,
+      hora:       hora,
+      nombre:     contact.nombre || '',
+      correo:     contact.correo || '',
+      ciudad:     contact.ciudad || '',
+      plaga:      ans.plaga,
+      propiedad:  ans.propiedad,
+      tamano:     ans.tamano,
+      urgencia:   ans.urgencia,
+      precio_min: precio ? precio.min : '',
+      precio_max: precio ? precio.max : '',
+      source:     source || 'cotizador'
     };
     try {
       fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) })
