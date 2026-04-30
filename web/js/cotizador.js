@@ -5,7 +5,7 @@
      CONFIGURACIÓN — reemplazar webhook URL cuando esté listo
      ============================================================ */
   var WA_NUMBER   = '56981544036';
-  var WEBHOOK_URL = ''; // Pegar aquí la URL del Zapier/Make webhook
+  var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxlnxN1jrSIozJvcFt-7Jt6bkfcdISmbAnXohDrXh50rn0c7r31qaZWEQkgSdovvThVsg/exec';
 
   /* ── Pricing ── */
   var PRECIOS_BASE = {
@@ -93,50 +93,69 @@
     return { min: Math.round(p * 0.85 / 1000) * 1000, max: Math.round(p * 1.15 / 1000) * 1000 };
   }
 
-  function buildWA(ans, contact) {
+  function datosBloque(ans, contact, ref) {
+    var plaga  = LBL.plaga[ans.plaga] || ans.plaga;
+    var prop   = LBL.propiedad[ans.propiedad] || ans.propiedad;
+    var tam    = LBL.tamano[ans.tamano] || ans.tamano;
+    var urg    = LBL.urgencia[ans.urgencia] || ans.urgencia;
+    var precio = calcPrice(ans);
+    return '\n\n--- DATOS DE COTIZACIÓN ---' +
+           '\nRef: ' + ref +
+           '\nNombre: ' + ((contact && contact.nombre) || '-') +
+           '\nCorreo: ' + ((contact && contact.correo) || '-') +
+           '\nCiudad: ' + ((contact && contact.ciudad) || '-') +
+           '\nPlaga: ' + plaga +
+           '\nInmueble: ' + prop +
+           '\nTamaño: ' + tam +
+           '\nUrgencia: ' + urg +
+           (precio ? '\nPrecio estimado: ' + fmt(precio.min) + ' – ' + fmt(precio.max) : '');
+  }
+
+  function buildWA(ans, contact, ref) {
     var plaga  = LBL.plaga[ans.plaga] || ans.plaga;
     var prop   = LBL.propiedad[ans.propiedad] || ans.propiedad;
     var tam    = LBL.tamano[ans.tamano] || ans.tamano;
     var urg    = LBL.urgencia[ans.urgencia] || ans.urgencia;
     var nombre = (contact && contact.nombre) ? ', soy ' + contact.nombre : '';
     var ciudad = (contact && contact.ciudad) ? ' en ' + contact.ciudad : '';
-    var msg = 'Hola' + nombre + '! Vi el cotizador en su página. Necesito cotización para ' + plaga + ' en ' + prop + ciudad + ' (' + tam + '), urgencia ' + urg + '. ¿Cuándo me pueden visitar?';
-    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+    var intro  = 'Hola' + nombre + '! Vi el cotizador en su página. Necesito cotización para ' + plaga + ' en ' + prop + ciudad + ' (' + tam + '), urgencia ' + urg + '. ¿Cuándo me pueden visitar?';
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(intro + datosBloque(ans, contact, ref));
   }
 
-  function buildWATermitas(contact) {
+  function buildWATermitas(ans, contact, ref) {
     var nombre = (contact && contact.nombre) ? contact.nombre : '';
     var ciudad = (contact && contact.ciudad) ? contact.ciudad : '';
     var intro  = nombre ? 'Hola, soy ' + nombre + '. ' : 'Hola. ';
-    var loc    = ciudad ? 'en ' + ciudad + '. ' : '';
+    var loc    = ciudad ? 'en ' + ciudad + ' ' : '';
     var msg    = intro + 'Necesito una visita técnica gratuita para termitas ' + loc + '¿Cuándo me pueden visitar?';
-    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg + datosBloque(ans, contact, ref));
   }
 
-  function buildWAPalomas(contact) {
+  function buildWAPalomas(ans, contact, ref) {
     var nombre = (contact && contact.nombre) ? contact.nombre : '';
     var ciudad = (contact && contact.ciudad) ? contact.ciudad : '';
     var intro  = nombre ? 'Hola, soy ' + nombre + '. ' : 'Hola. ';
     var loc    = ciudad ? 'en ' + ciudad + ' ' : '';
     var msg    = intro + 'Necesito una visita técnica gratuita para control de palomas ' + loc + '¿Cuándo me pueden visitar?';
-    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg + datosBloque(ans, contact, ref));
   }
 
-  function buildWASeremi(ans, contact) {
+  function buildWASeremi(ans, contact, ref) {
     var prop   = LBL.propiedad[ans.propiedad] || ans.propiedad;
     var nombre = (contact && contact.nombre) ? contact.nombre : '';
     var ciudad = (contact && contact.ciudad) ? contact.ciudad : '';
     var intro  = nombre ? 'Hola, soy ' + nombre + '. ' : 'Hola. ';
     var loc    = ciudad ? ' en ' + ciudad : '';
     var msg    = intro + 'Necesito cotización para el servicio MIP de certificación Seremi para ' + prop + loc + '. ¿Me pueden ayudar?';
-    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg + datosBloque(ans, contact, ref));
   }
 
-  function postWebhook(ans, contact, source) {
+  function postWebhook(ans, contact, source, ref) {
     var url = WEBHOOK_URL || (document.querySelector('[data-webhook]') && document.querySelector('[data-webhook]').getAttribute('data-webhook'));
     if (!url) return;
     var precio = calcPrice(ans);
     var payload = {
+      ref:             ref || '',
       nombre:          contact.nombre || '',
       correo:          contact.correo || '',
       ciudad:          contact.ciudad || '',
@@ -295,7 +314,9 @@
         if (ciudad.length < 2)          { errEl.textContent = 'Por favor ingresa tu ciudad.'; errEl.removeAttribute('hidden'); ciudadEl.focus(); return; }
         errEl.setAttribute('hidden', '');
         state.contact = { nombre: nombre, correo: correo, ciudad: ciudad };
-        postWebhook(state.answers, state.contact, source);
+        var refNum = Math.floor(Math.random() * 9000) + 1000;
+        state.refCode = 'AYC-' + new Date().toISOString().slice(2,7).replace('-','') + '-' + refNum;
+        postWebhook(state.answers, state.contact, source, state.refCode);
         state.step++;
         save();
         render();
@@ -319,7 +340,7 @@
 
       if (ans.plaga === 'termitas') {
         /* ── Resultado especial: termitas ── */
-        var waTermitas = buildWATermitas(state.contact);
+        var waTermitas = buildWATermitas(state.answers, state.contact, state.refCode);
         div.innerHTML =
           '<div class="cot-result-header">' +
             '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
@@ -350,7 +371,7 @@
 
       } else if (ans.plaga === 'palomas') {
         /* ── Resultado especial: palomas ── */
-        var waPalomas = buildWAPalomas(state.contact);
+        var waPalomas = buildWAPalomas(state.answers, state.contact, state.refCode);
         div.innerHTML =
           '<div class="cot-result-header">' +
             '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
@@ -381,7 +402,7 @@
 
       } else if (ans.plaga === 'seremi') {
         /* ── Resultado especial: certificación Seremi ── */
-        var waSeremi = buildWASeremi(ans, state.contact);
+        var waSeremi = buildWASeremi(ans, state.contact, state.refCode);
         div.innerHTML =
           '<div class="cot-result-header">' +
             '<span class="cot-result-icon" aria-hidden="true">✅</span>' +
@@ -414,7 +435,7 @@
       } else {
         /* ── Resultado estándar ── */
         var precio = calcPrice(ans);
-        var waUrl  = buildWA(ans, state.contact);
+        var waUrl  = buildWA(ans, state.contact, state.refCode);
         var urgLabel = { normal:'48 horas', urgente:'24 horas', emergencia:'hoy mismo' };
         var urg    = urgLabel[ans.urgencia] || '';
         div.innerHTML =
