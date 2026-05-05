@@ -9,10 +9,10 @@
 
   /* ── Pricing ── */
   var PRECIOS_BASE = {
-    cucarachas: 60000, ratones: 80000, termitas: 0,
-    aranas: 40000, avispas: 40000, hormigas: 40000,
-    mosquitos: 40000, palomas: 0,
-    sanitizacion: 40000, seremi: 120000, otro: 42000
+    cucarachas: 120000, ratones: 80000, termitas: 0,
+    aranas: 100000, avispas: 100000, hormigas: 100000,
+    mosquitos: 100000, palomas: 0,
+    sanitizacion: 100000, seremi: 120000, otro: 100000
   };
   var MULT_PROP = { casa: 1, departamento: 0.85, comercial: 1.6, oficina: 1.3, bodega: 1.4, institucion: 1.3 };
   var MULT_TAM  = { pequeno: 0.8, mediano: 1, grande: 1.5 };
@@ -438,7 +438,7 @@
             '</div>' +
           '</div>' +
           '<div class="cot-result-disclaimer">' +
-            '⚖️ Este servicio te permite operar en regla ante la autoridad sanitaria (Seremi de Salud). Precio final según tamaño y frecuencia acordada.' +
+            '⚖️ Este servicio te permite operar en regla ante la autoridad sanitaria (Seremi de Salud). Precio final según tamaño, ubicación y frecuencia acordada.' +
           '</div>' +
           '<p class="cot-result-human">Serás atendido por el representante técnico de A&C Soluciones.</p>' +
           '<div class="cot-result-ctas">' +
@@ -473,7 +473,7 @@
             '</div>' +
           '</div>' +
           '<div class="cot-result-disclaimer">' +
-            '<strong>⚠️ Precio referencial.</strong> El costo exacto se confirma con el diagnóstico gratuito en tu propiedad. Francisco te contactará a la brevedad.' +
+            '<strong>⚠️ Precio referencial.</strong> El costo final incluye la ubicación de tu inmueble y se confirma en el diagnóstico gratuito. Francisco te contactará a la brevedad.' +
           '</div>' +
           '<p class="cot-result-human">Serás atendido por el representante técnico de A&C Soluciones.</p>' +
           '<div class="cot-result-ctas">' +

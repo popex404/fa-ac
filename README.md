@@ -3,8 +3,18 @@
 Repositorio de producción del sitio web y herramientas digitales de A&C Soluciones (aycmip.cl).
 
 **Cliente:** Francisco Aracena — A&C Soluciones Agrícolas y Urbanas
-**Contacto:** ventas@aycmip.cl · +56 9 8154 4036
+**Email:** ventas@aycmip.cl
 **URL live:** https://www.aycmip.cl
+
+---
+
+## Número activo (WhatsApp CTAs)
+
+Número en uso: **+56 9 8154 4036** (personal Francisco)
+
+Para cambiar el número en el sitio:
+- **Cotizador:** actualizar `WA_NUMBER` en `web/js/cotizador.js` línea 7
+- **HTML:** grep+replace `wa.me/56981544036` en todos los archivos HTML
 
 ---
 
@@ -13,7 +23,6 @@ Repositorio de producción del sitio web y herramientas digitales de A&C Solucio
 ```
 fa-ac/
   web/          → Sitio web de producción (www.aycmip.cl)
-  docs/         → Vínculos a vault y registros de implementación
 ```
 
 ---
@@ -37,29 +46,22 @@ Incluye:
 
 ---
 
-## v2 — En construcción (PAUSADO — esperando señal de Francisco)
+## v2 — En repo, pendiente deploy
 
-Pendiente de implementar:
-- Cotizador interactivo: tipo de plaga + inmueble + comuna + urgencia → cotización estimada + email automático al lead y a A&C
+**Estado:** Completa en repositorio. Pendiente que Miguel haga pull al servidor.
+
+Implementado en repo:
+- Cotizador interactivo (`/cotizar`): inmueble → plaga → tamaño → urgencia → contacto → presupuesto estimado + CTA WhatsApp
 - Google Analytics 4 + Microsoft Clarity (heatmaps)
-- SEO técnico mejorado
-- Hero con 2 imágenes (rotación)
-- Páginas nuevas: Moscas, Garrapatas, Sanitización
-- Badge de garantía visual
-- Próxima reunión Francisco: OG image 1200×630, Google Business, acceso SII, credenciales IG, número Angelo, WhatsApp Business
+- SEO técnico mejorado (keywords, meta-tags, alt-text)
 
-**Brief completo v2:** `zk-vault/clientes/FA/FA-cronologico.md`
-**Arquitectura CRM+AI (post-v2):** `zk-vault/clientes/FA/FA-crm-ai.md`
-**Reunión estratégica:** `zk-vault/clientes/FA/FA-reunion-voz001.md`
-
-### Post-v2 — Proyectos en paralelo (contexto reunión Voz 001)
-- **Corpus de voz Francisco:** scrape Instagram/YouTube → agente AI que habla como Francisco (2 bots: comercial + técnico)
-- **Go High Level:** Javier tiene cuenta GHL ~2-3 semanas. Construir landing FA + automatizaciones → Francisco compra cuenta propia
-- **Contenido video:** plantilla de guión para TikTok/Reels (gancho → problema → solución). Posible collab FA × CG (Chely)
-- **Marca personal:** Francisco como especialista/asesor en plagas — cursos, capacitaciones, advisory
+Pendiente futuro (no bloqueante para deploy):
+- Subpáginas: Moscas, Garrapatas, Sanitización
+- Backlinks internos: termitas → home → cucarachas
 
 ---
 
-## Registro de cambios
+## Vault FA
 
-Ver [CHANGELOG.md](CHANGELOG.md)
+Fuente de verdad del cliente: `zk-vault/clientes/FA/FA.json`
+Historial y loops: `zk-vault/clientes/FA/FA.md`
