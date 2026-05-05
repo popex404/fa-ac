@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    A&C Soluciones Agrícolas y Urbanas — main.js
    Vanilla JS — no frameworks (except Swiper loaded via CDN)
    ============================================================ */
@@ -9,8 +9,8 @@
    CONFIG — cambiar número aquí actualiza todos los links del sitio
    IMPORTANTE: también actualizar WA_NUMBER en cotizador.js (línea 7)
    ============================================================ */
-var FA_WA_NUMBER  = '56981544036'; // solo dígitos, sin +
-var FA_TEL_NUMBER = '+56981544036';
+var FA_WA_NUMBER  = '56936678897'; // solo dígitos, sin +
+var FA_TEL_NUMBER = '+56936678897';
 
 (function rewriteContactLinks() {
   function update() {

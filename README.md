@@ -10,11 +10,13 @@ Repositorio de producción del sitio web y herramientas digitales de A&C Solucio
 
 ## Número activo (WhatsApp CTAs)
 
-Número en uso: **+56 9 8154 4036** (personal Francisco)
+Número en uso: **+56 9 3667 8897** (WhatsApp Business A&C)
+Número personal Francisco (solo info interna): +56 9 8154 4036
 
 Para cambiar el número en el sitio:
 - **Cotizador:** actualizar `WA_NUMBER` en `web/js/cotizador.js` línea 7
-- **HTML:** grep+replace `wa.me/56981544036` en todos los archivos HTML
+- **JS general:** actualizar `FA_WA_NUMBER` y `FA_TEL_NUMBER` en `web/js/main.js` líneas 12-13
+- **HTML:** grep+replace `wa.me/56936678897` en todos los archivos HTML
 
 ---
 

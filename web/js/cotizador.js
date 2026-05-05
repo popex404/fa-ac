@@ -1,10 +1,10 @@
-(function () {
+﻿(function () {
   'use strict';
 
   /* ============================================================
      CONFIGURACIÓN — reemplazar webhook URL cuando esté listo
      ============================================================ */
-  var WA_NUMBER   = '56981544036';
+  var WA_NUMBER   = '56936678897';
   var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw3qmVzkyySrtRSYo_XnypgluWcHy8cKMTC40RRchyJLBfGwISbf1CtkCW_j5I0OStWzg/exec';
 
   /* ── Pricing ── */
