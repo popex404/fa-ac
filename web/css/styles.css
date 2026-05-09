@@ -568,7 +568,6 @@ button { cursor: pointer; font-family: var(--font-base); border: none; backgroun
 @media (min-width: 1024px) {
   #hero {
     min-height: 75vh;
-    max-height: 800px;
     padding-top: var(--navbar-h-desk);
     background: var(--white);
     align-items: stretch;
@@ -586,7 +585,6 @@ button { cursor: pointer; font-family: var(--font-base); border: none; backgroun
     align-items: stretch;
     padding-block: 0;
     min-height: calc(75vh - var(--navbar-h-desk));
-    max-height: calc(800px - var(--navbar-h-desk));
   }
 
   /* Right column: white bg, left-aligned content */
