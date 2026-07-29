@@ -28,13 +28,13 @@ pero enfocado 100% en un solo servicio.
 
 | # | Sección en `web/index.html` hoy | Acción para la landing de Termitas |
 |---|---|---|
-| 1 | Hero (título genérico + imagen genérica) | **Adaptar.** Título específico de termitas. Imagen real del equipo trabajando con termitas (Javier, pendiente conseguir/elegir la foto). Ver §4 SEO para las palabras clave del H1. |
+| 1 | Hero (título genérico + imagen genérica) | **Adaptar el título, mantener la imagen actual del landing por ahora.** Título específico de termitas (ver §3 SEO para las keywords del H1). La foto real del equipo trabajando con termitas se agrega al final, no bloquea el esqueleto (decisión de Javier: primero armar la estructura completa para compartir con Francisco, la foto es un detalle que se suma después). |
 | 2 | Trust bar (SEREMI / V Región / garantía 14 días / 24-7) | **Reusar tal cual** (universal, candidato a partial) |
 | 3 | Clientes marquee (logos) | **Reusar tal cual** (universal, candidato a partial) — evaluar si aporta en una landing corta enfocada a un solo servicio, o si se saca por espacio |
 | 4 | Pain points ("¿Reconoces alguno de estos problemas?", genéricos) | **Adaptar.** Dolores específicos de termitas: sonido hueco en la madera, alitas cerca de ventanas, gránulos color café, galerías de barro. Base real ya escrita en `blog/termitas/index.html` → sección "ALERT SIGNS" (línea 252) |
 | 5 | Mecanismo único (insecticidas no repelentes, CentralMIP, certificación, diagnóstico) | **Reusar tal cual** (universal, candidato a partial). Esto es lo que Javier se refería como "¿por qué elegir AyC?" |
 | 6 | Proof — counters + badges (500+ clientes, 10+ años, SEREMI, Transbank) | **Reusar tal cual** (universal, candidato a partial). Esto también es parte del "mostrar credenciales y experiencia" que pidió Javier |
-| 7 | Proof — testimonios (3 genéricos: ratones, SEREMI, termitas) | **Curar, no reusar el bloque genérico.** El testimonio de termitas (Agrícola Los Naranjos, Limache) sí aplica, se puede dejar. Los otros 2 (ratones, SEREMI general) no son de termitas, mejor no incluirlos acá — mismo criterio de "no reciclar testimonios que no corresponden" que ya usamos para evaluar a Megaplaga |
+| 7 | Proof — testimonios (3 genéricos: ratones, SEREMI, termitas) | **Incluir la sección, pero marcarla explícitamente como "por arreglar".** Para el esqueleto: dejar el testimonio de termitas (Agrícola Los Naranjos, Limache) como placeholder, y dejar un comentario visible en el HTML (`<!-- TODO: revisar testimonios de termitas con Francisco -->`) para que no se nos olvide antes de publicar de verdad. No curar a fondo todavía, eso es para cuando se trabaje el contenido con Francisco. |
 | 8 | Servicios grid (las 9 plagas) | **No incluir.** Es networking de la home, no cabe en una landing de un solo servicio. Como mucho, un link chico al fondo tipo "¿Buscas otro servicio? Ver todos" |
 | 9 | Para quién es (dueños de casa, PYMES, colegios, industrial, emergencias) | **Reusar tal cual** (universal, candidato a partial) |
 | 10 | Value stack (visita gratis, 1 sesión, certificado, garantía, trazabilidad) | **Reusar tal cual** (universal, candidato a partial) — verificar que el texto no prometa "1 sesión" si termitas es distinto (el cotizador ya trata termitas como caso especial sin precio online, revisar consistencia) |
@@ -69,16 +69,26 @@ antes del plan de la Sesión 2): título tipo `Control de Termitas en [zona] |
 - `sync_contact_fields()` — sincroniza teléfono/email en cualquier `.html` nuevo bajo `web/` automáticamente, sin necesidad de registrarlo en ningún lado.
 - Tracking de origen del cotizador ya funciona (`data-source` → campo `source` en el webhook), solo falta poner el atributo correcto en la página nueva.
 
-**Falta decidir antes o al empezar a construir:**
-1. **¿Dónde vive el archivo?** `web/termitas/` ya no está libre (ahí vivía la página vieja, ahora movida a `web/blog/termitas/`). Hay que elegir la ruta real de la landing nueva (¿`web/servicios/termitas/`? ¿`web/termitas/` directo, ahora que quedó libre? Se decide antes de crear el archivo, afecta el `{{ROOT}}` y las rutas relativas).
-2. **Registrar la página nueva en `build.py`** para que reciba header/footer automático (hoy la lista de archivos está a mano, ver `generador/README.md` → "Cómo agregar una página nueva al sistema"). Alternativa: generalizar `build.py` para que descubra solo cualquier `.html` con los marcadores — vale la pena evaluarlo ahora que hay un caso real, en vez de seguir pateando la decisión.
-3. **Sexto partial para el cotizador** (`cotizador-embed.html`): el `<div>` del widget/modal + el `<script>`, para no repetirlo a mano si más páginas lo necesitan después. Depende de cómo se decida mostrar el cotizador acá (modal como en la home, o widget inline).
-4. **Imagen del hero**: conseguir/elegir la foto real del equipo trabajando con termitas (Javier).
-5. **Testimonio de termitas**: confirmar si el de Agrícola Los Naranjos (Limache) se puede reusar tal cual o si Javier prefiere uno más reciente/distinto.
+**Decidido:**
+1. **Ruta del archivo (confirmado por Javier):** `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html`. Nombre largo a propósito, cubre keywords de SEO. Nota técnica: queda a la misma profundidad que `web/blog/[plaga]/` (2 niveles bajo `web/`), así que `{{ROOT}}` es igual (`../../`), pero **no** es el mismo contexto que `BLOG_CTX`: para linkear desde acá hacia `web/blog/termitas/` (o hacia otras páginas de `web/servicios/` que se creen después) la ruta relativa es distinta a como se linkean entre sí las páginas de `blog/`. Al construir, definir un `SERVICIO_CTX` propio en `build.py`, no reusar `BLOG_CTX` a ciegas.
+
+**Falta decidir/hacer al construir:**
+2. **Extender `_partials/` con las secciones universales de la tabla §2** (trust-bar, mecanismo, proof-counters+badges, para-quién-es, value-stack, garantía, contacto-final), no solo copiarlas a mano en la landing nueva. Javier: correr el script para agregar esas secciones y otros campos, no reescribirlas HTML a mano. Son universales (mismo contenido en cualquier landing de servicio futura), tiene sentido sacarlas del `web/index.html` actual igual que se hizo con header/footer.
+3. **Registrar la página nueva en `build.py`** (hoy la lista de archivos está a mano, ver `generador/README.md` → "Cómo agregar una página nueva al sistema"), o generalizar el script para que descubra solo cualquier `.html` con marcadores. Vale la pena resolverlo ahora que hay un caso real.
+4. **Sexto partial para el cotizador** (`_partials/cotizador-embed.html`): el `<div>` del widget/modal + el `<script src="js/cotizador.js">`, para no repetirlo a mano en esta página ni en las futuras. Depende de cómo se decida mostrarlo acá (modal como en la home, o widget inline).
+5. **Imagen del hero:** se mantiene la actual por ahora (ver tabla §2, fila 1). Reemplazar por una foto real más adelante, no bloquea el esqueleto.
+6. **Testimonios:** incluir la sección con lo que hay, marcada como pendiente de revisar con Francisco (ver tabla §2, fila 7).
 
 ---
 
-## 5. Fuera de alcance para esta landing (a propósito)
+## 5. Testeo — verificar antes de dar la landing por lista
+
+- **Con Miguel:** confirmar si su servidor sirve `carpeta/` sin mostrar `index.html` en la URL (probado localmente con el servidor de Python, funciona ahí, pero no está confirmado en el hosting real). Afecta si la URL final queda limpia o con `/index.html` visible.
+- **Google Apps Script del cotizador:** verificar si la columna `source` del Sheet efectivamente se está escribiendo con el payload actual (no se pudo confirmar desde el repo, ese script vive fuera del código versionado). Importante antes de lanzar la landing nueva, porque ahí es donde vamos a querer medir de dónde vienen los leads.
+
+---
+
+## 6. Fuera de alcance para esta landing (a propósito)
 
 - Páginas por comuna de termitas (`exterminacion-de-plagas-de-termitas-en-[comuna]`) — vienen después, esta landing es la plantilla base para llegar ahí.
 - Nuevas landing de otros servicios (ratones, sanitización) — mismo caso, después.
