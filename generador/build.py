@@ -58,6 +58,25 @@ def apply_markers(text, ctx, partials):
     return text
 
 
+def sync_cotizador_wa_number():
+    """cotizador.js tiene su propio WA_NUMBER, separado de _data.json. No es un
+    partial (es un valor dentro de un .js, no un bloque de HTML), pero igual
+    hay que mantenerlo sincronizado o el cotizador manda mensajes al numero viejo."""
+    f = WEB / "js" / "cotizador.js"
+    text = f.read_text(encoding="utf-8")
+    new_text, n = re.subn(
+        r"var WA_NUMBER\s*=\s*'[^']*';",
+        f"var WA_NUMBER   = '{DATA['WA_DIGITS']}';",
+        text,
+        count=1,
+    )
+    if n == 0:
+        print("  [!] no encontre 'var WA_NUMBER' en cotizador.js, revisar a mano")
+    else:
+        f.write_text(new_text, encoding="utf-8")
+        print(f"js/cotizador.js: WA_NUMBER sincronizado (sin cambios de valor: {new_text == text})")
+
+
 def build():
     partials = load_partials()
 
@@ -71,6 +90,8 @@ def build():
         text = f.read_text(encoding="utf-8")
         f.write_text(apply_markers(text, BLOG_CTX, partials), encoding="utf-8")
         print(f"blog/{plaga}/index.html actualizado")
+
+    sync_cotizador_wa_number()
 
 
 if __name__ == "__main__":
