@@ -32,10 +32,14 @@ cd generador
 python build.py
 ```
 
-Reescribe los 10 archivos de `web/` y también sincroniza `web/js/cotizador.js`
-(tiene su propio número de WhatsApp, ver "Lo que NO cubre" abajo). Correrlo sin
-haber cambiado nada en `_partials/` o `_data.json` no modifica ningún archivo
-(es idempotente, probado con checksums).
+Reescribe los 10 archivos de `web/` y además:
+1. Sincroniza teléfono/email en **todo** `.html` bajo `web/` (no solo header/footer, también el contenido único de cada página y los JSON-LD), buscando por patrón (`tel:`, `wa.me/`, `"telephone"`, formato visible, `@aycmip.cl`), no por el valor viejo, así funciona aunque el número ya haya cambiado varias veces antes.
+2. Sincroniza las 3 copias del teléfono que viven en JS aparte del HTML: `cotizador.js` (`WA_NUMBER`) y `main.js` (`FA_WA_NUMBER`, `FA_TEL_NUMBER`).
+
+Correrlo sin haber cambiado nada en `_partials/` o `_data.json` no modifica
+ningún archivo (es idempotente, probado con checksums). Probado también de
+punta a punta con un número/email de prueba: cero rastros del valor viejo en
+ningún archivo después de correrlo.
 
 **Regla de oro: nunca editar a mano el contenido entre**
 `<!-- PARTIAL:xxx:start -->` **y** `<!-- PARTIAL:xxx:end -->` **dentro de
@@ -95,29 +99,41 @@ solo en cualquier página que lo enlace. Hoy solo `web/index.html` lo enlaza.
 Su número de WhatsApp (`WA_NUMBER` en la línea 7) es una excepción: no es un
 bloque de HTML así que no puede ser un partial, pero sí depende del mismo dato
 que `_data.json`, así que `build.py` lo sincroniza al final de cada corrida
-(función `sync_cotizador_wa_number`).
+(función `sync_cotizador_wa_number` → `sync_js_constant`).
+
+**Ojo con `js/main.js`:** ya traía, de antes de este trabajo, su propio
+mini-sistema (`FA_WA_NUMBER` / `FA_TEL_NUMBER`, líneas 12-13, con un comentario
+que literalmente dice "cambiar número aquí actualiza todos los links del
+sitio"). Reescribe en el navegador, al cargar la página, cualquier
+`<a href="wa.me/...">` o `<a href="tel:...">` que encuentre. Es una segunda
+red de seguridad en tiempo de ejecución, redundante ahora con lo que hace
+`build.py` en el HTML fuente, pero no molesta y se dejó tal cual (no se borró
+código que ya funcionaba). `build.py` también sincroniza estas 2 constantes.
 
 Si se quiere embeber el cotizador en una página nueva (la landing de Termitas,
 por ejemplo), falta un sexto partial (`cotizador-embed.html`, el `<div>` del
 widget/modal + el `<script>`), todavía no existe porque depende de cómo se
 decida mostrarlo ahí (modal vs. widget inline).
 
-## Lo que este sistema NO cubre todavía (auditado 2026-07-29)
+## Lo que este sistema NO cubre todavía (actualizado 2026-07-29)
 
-- **El número de WhatsApp sigue apareciendo a mano dentro del contenido único
-  de cada página** (CTAs del hero, sección de garantía, urgencia, contacto en
-  la home; el CTA de servicio en cada página de `blog/`). El build solo cubre
-  header/footer/analytics, no el body completo. Si el número cambia, esas
-  ocurrencias hay que buscarlas y cambiarlas a mano (`grep -rn "56936678897"
-  web/`), o esperar al generador completo (fase de comunas) que sí va a
-  tokenizar el contenido entero.
-- **Los bloques JSON-LD** (`Service`, `BreadcrumbList` en cada página de
-  `blog/`; `PestControlService`, `FAQPage` en la home) tienen el nombre y
-  teléfono de la empresa escritos a mano por página, no están centralizados.
-- **Las clases CSS `.btn-primary` / `.btn-secondary` / `.btn-sistema`** siguen
+**Resuelto (ya no es limitación):** el número de WhatsApp y el email dentro
+del contenido único de cada página (CTAs, JSON-LD) — antes solo se cubría
+header/footer, ahora `sync_contact_fields()` recorre todo `web/*.html`.
+
+**Sigue pendiente:**
+- El **nombre de la empresa** ("A&C Soluciones Agrícolas y Urbanas") dentro de
+  los JSON-LD no está tokenizado, solo teléfono/email. Si el nombre legal
+  cambia, sigue siendo grep+replace a mano.
+- Las **clases CSS `.btn-primary` / `.btn-secondary` / `.btn-sistema`** siguen
   duplicadas entre `css/styles.css` y `css/subpages.css` (no se heredan), esto
   ya estaba documentado en `../CLAUDE.md` antes de este trabajo, sigue igual.
+- El **texto de contenido** (garantía "14 días", menciones SEREMI, copy del
+  hero/FAQ/etc.) sigue siendo HTML fijo por página, no un dato en `_data.json`.
+  Tokenizar contenido de verdad (no solo contacto) es del tamaño del generador
+  de comunas/servicios que viene después de la landing de Termitas, no de este
+  ajuste puntual.
 
 No se resolvieron ahora a propósito: son cambios más grandes que tocan
-contenido único por página, no solo lo compartido, y se solapan con el
+contenido único por página, no solo un valor de contacto, y se solapan con el
 generador de comunas que se viene después de la landing de Termitas.
