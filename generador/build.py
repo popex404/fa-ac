@@ -58,23 +58,64 @@ def apply_markers(text, ctx, partials):
     return text
 
 
-def sync_cotizador_wa_number():
-    """cotizador.js tiene su propio WA_NUMBER, separado de _data.json. No es un
-    partial (es un valor dentro de un .js, no un bloque de HTML), pero igual
-    hay que mantenerlo sincronizado o el cotizador manda mensajes al numero viejo."""
-    f = WEB / "js" / "cotizador.js"
+CONTACT_PATTERNS = [
+    (re.compile(r"tel:\+\d{10,11}"), lambda: f"tel:+{DATA['WA_DIGITS']}"),
+    (re.compile(r"wa\.me/\d{10,11}"), lambda: f"wa.me/{DATA['WA_DIGITS']}"),
+    (re.compile(r'"telephone":\s*"\+\d{10,11}"'), lambda: f'"telephone": "+{DATA["WA_DIGITS"]}"'),
+    (re.compile(r"\+56\s9\s\d{4}\s\d{4}"), lambda: DATA["WA_DISPLAY"]),  # espacios OBLIGATORIOS: no debe tocar tel:+56936678897
+    (re.compile(r"[\w.+-]+@aycmip\.cl"), lambda: DATA["EMAIL"]),
+]
+
+
+def sync_contact_fields():
+    """Telefono/email no viven solo en header/footer: tambien aparecen sueltos
+    en contenido unico de cada pagina (el CTA de cada blog/[plaga], los JSON-LD,
+    etc). Estos son VALORES reconocibles por su formato (numero de telefono,
+    email @aycmip.cl), no bloques identicos, asi que no se resuelven con el
+    mecanismo de partials. Se buscan por patron (no por el valor viejo) y se
+    normalizan al valor actual de _data.json, asi funciona aunque el numero ya
+    haya cambiado varias veces. Recorre TODO .html bajo web/ automaticamente
+    (no hay que registrar archivos nuevos aca, a diferencia de los partials)."""
+    changed = []
+    for f in sorted(WEB.rglob("*.html")):
+        text = f.read_text(encoding="utf-8")
+        new_text = text
+        for pattern, repl in CONTACT_PATTERNS:
+            new_text = pattern.sub(lambda _m, r=repl: r(), new_text)
+        if new_text != text:
+            f.write_text(new_text, encoding="utf-8")
+            changed.append(f.relative_to(WEB))
+    if changed:
+        print("contacto sincronizado en:", ", ".join(str(c) for c in changed))
+    else:
+        print("contacto: sin cambios de valor (ya estaba al dia)")
+
+
+def sync_js_constant(relpath, var_name, value, quote="'"):
+    """Sincroniza una constante 'var NOMBRE = valor;' dentro de un .js. No es un
+    partial (no es HTML), pero es otra fuente de verdad del telefono que hay
+    que mantener igual a _data.json o queda desactualizada en silencio."""
+    f = WEB / relpath
     text = f.read_text(encoding="utf-8")
-    new_text, n = re.subn(
-        r"var WA_NUMBER\s*=\s*'[^']*';",
-        f"var WA_NUMBER   = '{DATA['WA_DIGITS']}';",
-        text,
-        count=1,
-    )
+    pattern = re.compile(r"var\s+" + re.escape(var_name) + r"\s*=\s*'[^']*';")
+    new_text, n = pattern.subn(f"var {var_name} = {quote}{value}{quote};", text, count=1)
     if n == 0:
-        print("  [!] no encontre 'var WA_NUMBER' en cotizador.js, revisar a mano")
+        print(f"  [!] no encontre 'var {var_name}' en {relpath}, revisar a mano")
     else:
         f.write_text(new_text, encoding="utf-8")
-        print(f"js/cotizador.js: WA_NUMBER sincronizado (sin cambios de valor: {new_text == text})")
+
+
+def sync_cotizador_wa_number():
+    """cotizador.js:7 (WA_NUMBER) y main.js:12-13 (FA_WA_NUMBER, FA_TEL_NUMBER)
+    son 2 archivos JS con su propia copia del telefono, ademas de todo lo que
+    ya cubre sync_contact_fields() en el HTML. main.js ademas reescribe en el
+    navegador (al cargar la pagina) cualquier <a href="wa.me/..."> o
+    <a href="tel:..."> que encuentre, es una segunda red de seguridad en
+    tiempo de ejecucion que ya existia antes de este build.py, se deja tal cual."""
+    sync_js_constant("js/cotizador.js", "WA_NUMBER", DATA["WA_DIGITS"])
+    sync_js_constant("js/main.js", "FA_WA_NUMBER", DATA["WA_DIGITS"])
+    sync_js_constant("js/main.js", "FA_TEL_NUMBER", "+" + DATA["WA_DIGITS"])
+    print("js/cotizador.js + js/main.js: constantes de telefono sincronizadas")
 
 
 def build():
@@ -91,6 +132,7 @@ def build():
         f.write_text(apply_markers(text, BLOG_CTX, partials), encoding="utf-8")
         print(f"blog/{plaga}/index.html actualizado")
 
+    sync_contact_fields()
     sync_cotizador_wa_number()
 
 
