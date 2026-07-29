@@ -408,8 +408,8 @@ button { cursor: pointer; font-family: var(--font-base); border: none; backgroun
     rgba(217, 106, 14, 0.92) 0%,
     rgba(165, 75, 0, 0.82) 50%,
     rgba(58, 107, 40, 0.60) 100%
-  ), url('../Imagenes/rrss_empresarial_control plagas.png') center/cover no-repeat;
-  background-color: #9b4a00; /* fallback */
+  );
+  background-color: #9b4a00;
 }
 
 /* Accent bar */
