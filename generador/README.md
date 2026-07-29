@@ -117,23 +117,24 @@ decida mostrarlo ahí (modal vs. widget inline).
 
 ## Lo que este sistema NO cubre todavía (actualizado 2026-07-29)
 
-**Resuelto (ya no es limitación):** el número de WhatsApp y el email dentro
-del contenido único de cada página (CTAs, JSON-LD) — antes solo se cubría
-header/footer, ahora `sync_contact_fields()` recorre todo `web/*.html`.
+**Resuelto (ya no es limitación):**
+- El número de WhatsApp y el email dentro del contenido único de cada página
+  (CTAs, JSON-LD) — antes solo se cubría header/footer, ahora
+  `sync_contact_fields()` recorre todo `web/*.html`.
+- Las clases CSS `.btn-primary` / `.btn-secondary` / `.btn-sistema` duplicadas
+  entre `css/styles.css` y `css/subpages.css`: eran código muerto (`subpages.css`
+  carga antes que `styles.css`, así que `styles.css` ya ganaba en la cascada).
+  Se borró la copia de `subpages.css`, cero cambio visual. Ya no hay que
+  duplicar nada ahí.
 
-**Sigue pendiente:**
+**Decidido no tokenizar (a propósito, no es un olvido):**
 - El **nombre de la empresa** ("A&C Soluciones Agrícolas y Urbanas") dentro de
-  los JSON-LD no está tokenizado, solo teléfono/email. Si el nombre legal
-  cambia, sigue siendo grep+replace a mano.
-- Las **clases CSS `.btn-primary` / `.btn-secondary` / `.btn-sistema`** siguen
-  duplicadas entre `css/styles.css` y `css/subpages.css` (no se heredan), esto
-  ya estaba documentado en `../CLAUDE.md` antes de este trabajo, sigue igual.
+  los JSON-LD. Javier: es muy improbable que cambie, cambiar el nombre legal de
+  una empresa es complicado, no vale la pena la abstracción para algo que
+  casi no va a cambiar.
+
+**Sigue pendiente (más grande, no es de este ajuste puntual):**
 - El **texto de contenido** (garantía "14 días", menciones SEREMI, copy del
   hero/FAQ/etc.) sigue siendo HTML fijo por página, no un dato en `_data.json`.
   Tokenizar contenido de verdad (no solo contacto) es del tamaño del generador
-  de comunas/servicios que viene después de la landing de Termitas, no de este
-  ajuste puntual.
-
-No se resolvieron ahora a propósito: son cambios más grandes que tocan
-contenido único por página, no solo un valor de contacto, y se solapan con el
-generador de comunas que se viene después de la landing de Termitas.
+  de comunas/servicios que viene después de la landing de Termitas.
