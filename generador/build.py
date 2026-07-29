@@ -1,24 +1,29 @@
 """
-Regenera las secciones compartidas (header, footer, analytics, main.js, year-script)
-en index.html y blog/*/index.html a partir de web/_partials/ + web/_data.json.
+generador/  = herramienta de construccion. NUNCA se le pasa a Miguel.
+web/        = lo unico deployable, el .zip que se le manda a Miguel sale de aqui.
 
-Uso: python build.py
+Regenera las secciones compartidas (header, footer, analytics, main.js, year-script)
+dentro de web/index.html y web/blog/*/index.html, a partir de
+generador/_partials/ + generador/_data.json.
+
+Uso: python build.py   (desde generador/, o desde donde sea, la ruta a web/ es fija)
 Editar SOLO los archivos en _partials/ (o _data.json para el numero de WhatsApp,
 GA4, Clarity, email). Nunca editar a mano el contenido entre los marcadores
-<!-- PARTIAL:xxx:start --> ... <!-- PARTIAL:xxx:end --> en index.html o blog/*/index.html,
-se pierde en el proximo build.
+<!-- PARTIAL:xxx:start --> ... <!-- PARTIAL:xxx:end --> en web/index.html o
+web/blog/*/index.html, se pierde en el proximo build.
 """
 import json
 import pathlib
 import re
 import sys
 
-WEB = pathlib.Path(__file__).parent
-PARTIALS = WEB / "_partials"
+HERE = pathlib.Path(__file__).parent
+WEB = HERE.parent / "web"
+PARTIALS = HERE / "_partials"
 PLAGAS = ["aranas", "avispas", "chinche", "cucarachas", "hormigas",
           "mosquito", "palomas", "ratones", "termitas"]
 
-DATA = json.loads((WEB / "_data.json").read_text(encoding="utf-8"))
+DATA = json.loads((HERE / "_data.json").read_text(encoding="utf-8"))
 
 HOME_CTX = dict(DATA, ROOT="", HOME_LINK="#", HOME_ANCHOR="", PLAGA_PREFIX="blog/")
 BLOG_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
