@@ -38,8 +38,18 @@
        con el home y con blog/*, esto es solo para esta pagina) -->
   <style>
     /* PRUEBA: video de fondo en el hero, solo desktop (styles.css solo tiene
-       la regla ".hero-image-wrap img", faltaba la del <video>). */
+       la regla ".hero-image-wrap img", faltaba la del <video>).
+       position:absolute (en vez de width/height:100% en flujo normal) es
+       clave: sin esto, el video mete su propio aspect-ratio en el calculo
+       de alto de la fila del grid (".hero-inner" es grid con fila "auto"),
+       asi que un video mas angosto/alto (como el actual, 401x718) estira
+       toda la fila -incluida la columna de texto- a una altura enorme.
+       Con position:absolute el video queda fuera del flujo, no afecta el
+       alto de ".hero-image-wrap" (que ya es position:relative), y ese alto
+       vuelve a depender solo del min-height de ".hero-inner", como antes. */
     .hero-image-wrap video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -60,22 +70,78 @@
       object-fit: cover;
       object-position: center;
       z-index: 0;
+      /* Video atenuado sobre fondo oscuro (#hero de base), en vez de tapar
+         todo con un degradado de color saturado encima: mismo mecanismo que
+         usa liniero.cl (video a ~55% de opacidad contra un fondo casi negro
+         detras), se ve el metraje real en vez de un "filtro" plano. */
+      opacity: 0.55;
     }
     .hero-mobile-overlay {
       z-index: 1;
       pointer-events: none;
-      /* Mismo degradado naranjo->verde que ya usaba #hero de fondo en mobile:
-         ya estaba probado que da buen contraste contra el texto blanco. */
-      background: linear-gradient(
-        160deg,
-        rgba(217, 106, 14, 0.92) 0%,
-        rgba(165, 75, 0, 0.82) 50%,
-        rgba(58, 107, 40, 0.72) 100%
-      );
+      /* Oscurecido parejo (sin tinte de color) para asegurar contraste con
+         el texto blanco encima, sin el efecto "polarizado" del degradado
+         naranjo/verde anterior. */
+      background: rgba(8, 8, 8, 0.45);
+    }
+    /* Fondo base detras del video (SOLO mobile, <1024px): oscuro y neutro, no
+       el degradado naranjo/verde de marca que usa #hero en el resto del
+       sitio (home/blog sin video) — se anula SOLO en esta pagina, ver nota
+       del overlay arriba. Con media query para no pisar el fondo blanco que
+       styles.css define para el hero de escritorio (min-width:1024px). */
+    @media (max-width: 1023px) {
+      #hero {
+        background: #14120f;
+      }
     }
     #hero .hero-decoration { z-index: 1; }
     #hero .container { position: relative; z-index: 2; }
     .desktop-only { display: none; }
+
+    /* Mobile: pretitle arriba (pegado al navbar), CTAs abajo (pegados al
+       borde inferior), h1 justo encima de los CTAs (no al medio). #hero pasa
+       a "stretch" para que .container (position:relative, ya definido
+       arriba) ocupe todo el alto disponible y sirva de referencia para el
+       top/bottom absolutos de pretitle y CTAs. */
+    @media (max-width: 1023px) {
+      #hero {
+        align-items: stretch;
+      }
+      /* .hero-content tiene la clase "reveal" (transform: translateY(...)),
+         y CUALQUIER transform !== none vuelve al elemento containing block
+         de sus descendientes position:absolute (aunque sea translateY(0)).
+         Sin esto, el top/bottom de pretitle y CTAs quedarian anclados a la
+         caja chica de hero-content (solo el alto del h1) en vez de al alto
+         completo del hero. Se estira hero-inner/hero-content a 100% para
+         que esa caja (la que ya es containing block por el transform)
+         alcance de verdad las esquinas del hero. */
+      .hero-inner {
+        height: 100%;
+      }
+      .hero-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        /* Reserva el espacio de los CTAs (position:absolute, no cuentan en
+           el flujo) para que el h1 no quede tapado por ellos al pegarse
+           abajo con justify-content:flex-end. */
+        padding-bottom: 14rem;
+      }
+      .hero-pretitle {
+        position: absolute;
+        top: 0.5rem;
+        left: 0;
+        right: 0;
+        margin: 0;
+      }
+      .hero-ctas {
+        position: absolute;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
+      }
+    }
 
     @media (min-width: 1024px) {
       .hero-mobile-video,
@@ -83,6 +149,13 @@
         display: none;
       }
       .desktop-only { display: block; }
+
+      /* Mismo oscurecido parejo que el video mobile (rgba(8,8,8,.45)), en vez
+         del degradado suave blanco/negro/verde que traia styles.css para
+         cuando .hero-image-wrap era una foto fija. */
+      .hero-image-wrap::after {
+        background: rgba(8, 8, 8, 0.45);
+      }
     }
 
     /* #pain-points trae un corte diagonal (clip-path) pensado para entrar en
@@ -900,8 +973,7 @@
             madera seca</strong>, que vive dentro de la madera sin necesitar contacto con el suelo, y la
             <strong>termita subterr&aacute;nea</strong>, la m&aacute;s destructiva, que construye galer&iacute;as de
             barro desde el suelo hasta la estructura. Nuestro diagn&oacute;stico identifica la especie exacta antes
-            de definir el tratamiento &mdash;
-            <a href="../../blog/termitas/index.html">conoce el detalle t&eacute;cnico de cada especie</a>.
+            de definir el tratamiento.
           </p>
         </div>
 
@@ -920,7 +992,6 @@
       <div class="section-header reveal">
         <span class="section-label">Nuestra metodolog&iacute;a</span>
         <h2 id="treatment-title">M&eacute;todo de Tratamiento</h2>
-        <p>Protocolos espec&iacute;ficos seg&uacute;n la especie y el nivel de infestaci&oacute;n.</p>
       </div>
 
       <div class="treatment__grid">
@@ -1305,8 +1376,12 @@
 
 <!-- PARTIAL:cobertura:start -->
   <!-- ============================================================
-     COBERTURA — fase 1: provincias -> comunas, sin mapa todavia
-     (el mapa interactivo de Chile queda para una fase 2, ver TODO abajo)
+     COBERTURA — provincias -> comunas + mapa interactivo de la V Region
+     (con la IV Region y la Region Metropolitana de contexto, no interactivas)
+     Fuente del mapa: limites administrativos DPA (BCN Chile), via
+     https://github.com/jlhonora/geo (dominio publico / datos oficiales
+     Biblioteca del Congreso Nacional). Simplificado con shapely para uso
+     decorativo, no para navegacion/medicion.
      ============================================================ -->
   <section id="cobertura" aria-labelledby="cobertura-heading">
     <div class="container">
@@ -1314,42 +1389,104 @@
       <div class="section-header reveal">
         <span class="section-label">D&oacute;nde atendemos</span>
         <h2 id="cobertura-heading">Cobertura en la Regi&oacute;n de Valpara&iacute;so</h2>
-        <p>Atendemos las 7 provincias continentales de la Quinta Regi&oacute;n. Elige una provincia para ver sus
-          comunas.</p>
+        <p>Atendemos las 7 provincias continentales de la Quinta Regi&oacute;n. Elige una provincia (o t&oacute;cala
+          en el mapa) para ver sus comunas.</p>
       </div>
 
       <div class="cobertura-grid">
 
-        <div class="cobertura-provincias">
-          <h3 class="cobertura-subtitle">Provincias</h3>
-          <div class="cobertura-provincia-list" id="cobertura-provincia-list" role="list">
-            <button type="button" class="cobertura-provincia-btn" data-provincia="quillota" aria-pressed="true">Quillota</button>
-            <button type="button" class="cobertura-provincia-btn" data-provincia="valparaiso" aria-pressed="false">Valpara&iacute;so</button>
-            <button type="button" class="cobertura-provincia-btn" data-provincia="marga-marga" aria-pressed="false">Marga Marga</button>
-            <button type="button" class="cobertura-provincia-btn" data-provincia="san-antonio" aria-pressed="false">San Antonio</button>
-            <button type="button" class="cobertura-provincia-btn" data-provincia="petorca" aria-pressed="false">Petorca</button>
-            <button type="button" class="cobertura-provincia-btn" data-provincia="san-felipe" aria-pressed="false">San Felipe de Aconcagua</button>
-            <button type="button" class="cobertura-provincia-btn" data-provincia="los-andes" aria-pressed="false">Los Andes</button>
+        <div class="cobertura-left">
+          <div class="cobertura-provincias">
+            <h3 class="cobertura-subtitle">Provincias</h3>
+            <div class="cobertura-provincia-list" id="cobertura-provincia-list" role="list">
+              <button type="button" class="cobertura-provincia-btn" data-provincia="quillota" aria-pressed="true">Quillota</button>
+              <button type="button" class="cobertura-provincia-btn" data-provincia="valparaiso" aria-pressed="false">Valpara&iacute;so</button>
+              <button type="button" class="cobertura-provincia-btn" data-provincia="marga-marga" aria-pressed="false">Marga Marga</button>
+              <button type="button" class="cobertura-provincia-btn" data-provincia="san-antonio" aria-pressed="false">San Antonio</button>
+              <button type="button" class="cobertura-provincia-btn" data-provincia="petorca" aria-pressed="false">Petorca</button>
+              <button type="button" class="cobertura-provincia-btn" data-provincia="san-felipe" aria-pressed="false">San Felipe de Aconcagua</button>
+              <button type="button" class="cobertura-provincia-btn" data-provincia="los-andes" aria-pressed="false">Los Andes</button>
+            </div>
+            <p class="cobertura-note">&iquest;No ves tu comuna? Escr&iacute;benos igual, coordinamos visitas fuera de
+              estas zonas caso a caso.</p>
           </div>
-          <p class="cobertura-note">&iquest;No ves tu comuna? Escr&iacute;benos igual, coordinamos visitas fuera de
-            estas zonas caso a caso.</p>
+
+          <div class="cobertura-comunas" aria-live="polite">
+            <h3 class="cobertura-subtitle" id="cobertura-comunas-title">Comunas de Quillota</h3>
+            <ul class="cobertura-comuna-list" id="cobertura-comuna-list" role="list">
+              <li>Quillota</li>
+              <li>La Cruz</li>
+              <li>Nogales</li>
+              <li>Calera</li>
+              <li>Hijuelas</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="cobertura-comunas" aria-live="polite">
-          <h3 class="cobertura-subtitle" id="cobertura-comunas-title">Comunas de Quillota</h3>
-          <ul class="cobertura-comuna-list" id="cobertura-comuna-list" role="list">
-            <li>Quillota</li>
-            <li>La Cruz</li>
-            <li>Nogales</li>
-            <li>Calera</li>
-            <li>Hijuelas</li>
-          </ul>
+        <div class="cobertura-map-wrap" id="cobertura-map-wrap">
+        <svg viewBox="0 0 6993.2 8740.5" class="cobertura-map-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa de la Región de Valparaíso y regiones vecinas, por provincia">
+          <g class="cobertura-map-context" data-region="coquimbo">
+            <path class="cobertura-map-context-shape" d="M 1067.1,42.5 L 1085.1,43.0 L 1069.0,50.2 L 1067.1,42.5 Z M 5299.2,20.7 L 5423.9,121.1 L 5499.0,255.2 L 5503.1,328.8 L 5364.0,386.5 L 5368.7,511.7 L 5318.5,568.5 L 5250.4,569.3 L 5234.8,621.5 L 5097.9,611.8 L 4989.8,517.7 L 4929.4,521.1 L 4899.3,593.4 L 5076.8,696.8 L 5030.3,767.8 L 5057.9,858.0 L 5103.9,927.0 L 5182.2,961.7 L 5136.4,1030.1 L 5138.3,1126.9 L 5191.4,1237.3 L 5157.6,1313.0 L 5184.7,1356.0 L 5103.9,1522.6 L 5000.0,1432.3 L 4808.2,1545.5 L 4732.5,1498.1 L 4748.8,1324.9 L 4678.4,1310.3 L 4706.1,1169.2 L 4671.8,1106.9 L 4513.9,1102.9 L 4508.3,1041.3 L 4415.3,1009.5 L 4420.2,1079.2 L 4371.7,1117.6 L 4208.9,1072.6 L 4142.2,1001.1 L 4038.2,973.1 L 4007.9,951.6 L 3996.0,813.1 L 4038.8,728.5 L 3997.2,636.3 L 3882.7,669.7 L 3848.2,548.2 L 3720.4,500.0 L 3610.9,578.0 L 3543.2,591.9 L 3508.6,554.3 L 3252.8,672.6 L 3133.5,670.0 L 3079.6,734.8 L 3006.2,608.9 L 2708.3,546.7 L 2692.8,611.9 L 2743.9,709.5 L 2552.9,830.8 L 2403.6,974.2 L 2393.0,1023.9 L 2236.9,1101.4 L 2166.1,951.0 L 2102.3,926.1 L 2018.4,1017.1 L 1988.5,1105.7 L 1890.7,1137.1 L 1871.6,1184.2 L 1802.4,1178.1 L 1710.6,1229.1 L 1425.7,1161.2 L 1243.8,1037.0 L 1193.5,1053.8 L 1158.2,1140.5 L 1032.7,1128.4 L 1074.6,1034.9 L 1038.5,968.6 L 1097.6,959.8 L 1122.1,911.5 L 1061.5,842.4 L 1103.7,625.9 L 1072.7,568.3 L 1133.7,514.3 L 1128.0,463.0 L 1080.9,436.7 L 1200.1,296.5 L 1160.8,272.6 L 1159.8,213.8 L 1072.5,218.2 L 1123.9,144.7 L 1092.2,123.3 L 1107.6,59.9 L 1176.1,20.0 L 5299.2,20.7 Z" />
+            <text class="cobertura-map-context-label" x="1844.0" y="790.5">IV Región</text>
+          </g>
+          <g class="cobertura-map-context" data-region="metropolitana">
+            <path class="cobertura-map-context-shape" d="M 3528.5,8142.4 L 3434.8,8265.1 L 3524.6,8316.9 L 3544.8,8388.9 L 3494.6,8450.9 L 3491.9,8518.3 L 3458.1,8558.7 L 3360.5,8531.2 L 3219.6,8571.6 L 3205.1,8720.5 L 1949.7,8720.5 L 1942.2,8632.5 L 1866.9,8595.3 L 1837.4,8538.4 L 1799.7,8592.4 L 1701.0,8620.2 L 1668.9,8677.4 L 1601.6,8660.6 L 1536.6,8719.4 L 1454.8,8647.6 L 1460.7,8561.4 L 1397.5,8548.1 L 1341.9,8474.5 L 1178.3,8427.8 L 1028.8,8452.6 L 948.1,8364.0 L 876.7,8552.7 L 785.0,8430.5 L 612.1,8408.1 L 596.1,8308.0 L 516.7,8318.5 L 457.9,8282.6 L 450.1,8201.7 L 526.3,8129.6 L 897.8,7884.4 L 979.9,7906.0 L 981.6,7548.3 L 1016.4,7477.6 L 1097.9,7530.2 L 1182.8,7494.6 L 1252.6,7554.6 L 1386.5,7568.8 L 1572.6,7563.4 L 1639.5,7499.1 L 1644.0,7404.2 L 1531.5,7366.1 L 1515.1,7298.9 L 1435.3,7250.6 L 1434.8,7167.1 L 1377.5,7136.4 L 1414.1,7058.8 L 1507.3,7068.6 L 1562.5,6910.2 L 1641.3,6909.9 L 1719.5,6846.4 L 1745.7,6656.5 L 1732.9,6559.0 L 1701.6,6539.2 L 1684.0,6542.0 L 1668.5,6531.1 L 1661.6,6387.1 L 1719.1,6242.6 L 1694.6,6079.6 L 1751.5,6044.8 L 1901.5,6058.9 L 1951.0,5967.2 L 2098.5,5909.5 L 2130.7,5741.2 L 2190.9,5658.9 L 2154.7,5651.0 L 2085.9,5494.6 L 2109.4,5454.9 L 2089.6,5402.3 L 2124.3,5354.3 L 2299.8,5319.7 L 2376.3,5367.9 L 2530.7,5295.6 L 2603.1,5338.3 L 2644.6,5317.9 L 2655.5,5234.8 L 2751.2,5283.8 L 2757.5,5223.9 L 2854.3,5211.3 L 2868.0,5114.5 L 2798.6,5012.9 L 2780.6,4892.4 L 2795.7,4798.8 L 2748.1,4752.6 L 2843.5,4618.5 L 2756.5,4437.6 L 2753.2,4373.5 L 2794.2,4326.3 L 2892.7,4337.5 L 3001.9,4281.5 L 3050.6,4308.3 L 3159.8,4160.5 L 3229.3,4171.7 L 3376.8,4106.8 L 3613.0,4159.0 L 3758.3,4115.1 L 3786.0,4229.1 L 3828.4,4259.5 L 4065.6,4206.8 L 4141.4,4223.7 L 4174.4,4185.3 L 4207.7,4211.1 L 4212.1,4294.1 L 4352.8,4447.8 L 4345.8,4556.1 L 4432.8,4626.5 L 4493.4,4773.6 L 4583.5,4741.2 L 4714.7,4535.6 L 4775.0,4502.0 L 4861.3,4553.8 L 4871.2,4619.7 L 4836.6,4679.3 L 4945.0,4837.8 L 5068.2,4802.7 L 5195.4,4868.3 L 5220.9,4935.8 L 5293.4,4948.8 L 5306.1,5142.9 L 5381.4,5167.1 L 5440.1,5019.7 L 5409.1,4978.5 L 5583.3,4825.5 L 5678.7,4869.4 L 5669.1,4813.5 L 5744.1,4793.6 L 5822.8,4704.4 L 5814.9,4673.6 L 5887.4,4622.6 L 5951.3,4675.6 L 5975.5,4764.0 L 5946.9,4900.1 L 6026.5,4958.4 L 5976.4,5035.8 L 6009.4,5101.7 L 5983.3,5134.5 L 5986.2,5240.2 L 6016.5,5320.3 L 6112.3,5356.6 L 6071.8,5497.8 L 6180.9,5561.1 L 6158.6,5621.4 L 6189.6,5705.9 L 6297.2,5658.5 L 6370.6,5543.1 L 6480.7,5485.2 L 6479.6,5393.6 L 6523.7,5508.6 L 6672.1,5548.7 L 6736.4,5504.0 L 6820.5,5571.7 L 6873.0,5569.3 L 6973.2,5845.1 L 6923.4,5971.2 L 6819.8,5981.1 L 6886.7,6106.9 L 6810.1,6137.3 L 6821.9,6294.3 L 6774.0,6332.7 L 6754.0,6478.3 L 6632.7,6574.7 L 6652.4,6764.0 L 6601.4,6891.4 L 6607.4,7005.7 L 6637.7,7026.2 L 6589.7,7151.9 L 6657.0,7282.7 L 6523.1,7509.6 L 6562.9,7588.6 L 6542.8,7807.2 L 6627.0,7860.0 L 6686.8,7985.8 L 6569.8,8099.6 L 6517.3,8270.7 L 6596.3,8323.3 L 6623.9,8275.1 L 6693.1,8271.0 L 6739.3,8445.7 L 6800.3,8479.1 L 6690.8,8642.5 L 6759.8,8720.5 L 5637.2,8720.5 L 5632.4,8596.2 L 5579.2,8547.0 L 5481.5,8538.3 L 5381.7,8554.9 L 5369.3,8645.9 L 5322.9,8702.7 L 5233.7,8650.2 L 5165.9,8684.3 L 5145.1,8646.0 L 5059.9,8629.8 L 5046.0,8572.9 L 5123.4,8482.3 L 5101.9,8456.0 L 5124.2,8414.2 L 4939.4,8128.6 L 4964.9,8042.4 L 4943.8,7951.6 L 4865.9,7938.2 L 4795.5,7841.1 L 4728.7,7819.3 L 4515.3,7868.8 L 4465.8,7971.1 L 4341.7,7941.7 L 4266.4,8003.9 L 4188.2,7994.8 L 4007.5,8164.6 L 3946.5,8151.7 L 3824.7,8038.7 L 3706.9,8112.7 L 3657.6,8188.4 L 3528.5,8142.4 Z M 3655.9,5358.7 L 3655.8,5358.3 L 3655.9,5358.7 L 3655.9,5358.7 Z M 3875.6,5944.5 L 3871.4,5933.3 L 3874.7,5942.2 L 3875.6,5944.5 Z M 3579.3,6072.6 L 3577.1,6072.6 L 3576.0,6072.7 L 3579.3,6072.6 Z M 3901.1,6329.3 L 3901.1,6329.3 L 3901.5,6331.3 L 3901.1,6329.3 Z M 3528.9,6269.4 L 3501.8,6269.1 L 3528.7,6269.4 L 3528.9,6269.4 Z M 3628.2,6702.9 L 3626.9,6704.7 L 3626.9,6704.7 L 3628.2,6702.9 Z M 3679.3,6131.0 L 3678.8,6130.8 L 3678.4,6130.6 L 3679.3,6131.0 Z M 3505.5,5818.3 L 3505.2,5819.2 L 3505.3,5818.7 L 3505.5,5818.3 Z M 3754.8,5724.1 L 3751.8,5725.1 L 3754.6,5724.2 L 3754.8,5724.1 Z M 3832.2,6518.4 L 3830.4,6541.8 L 3830.5,6541.7 L 3832.2,6518.4 Z M 3902.1,6573.3 L 3902.1,6573.3 L 3901.6,6574.4 L 3902.1,6573.3 Z M 4011.2,6607.3 L 4010.1,6612.0 L 4008.9,6616.9 L 4011.2,6607.3 Z M 4065.8,6491.8 L 4067.5,6491.5 L 4065.8,6491.7 L 4065.8,6491.8 Z M 4000.1,5923.9 L 3995.2,5921.7 L 3997.9,5923.0 L 4000.1,5923.9 Z M 4078.4,6198.5 L 4083.1,6217.2 L 4082.8,6216.2 L 4078.4,6198.5 Z M 4048.2,6324.3 L 4047.3,6324.4 L 4047.8,6324.4 L 4048.2,6324.3 Z M 3829.1,6212.0 L 3829.3,6212.0 L 3832.1,6211.9 L 3829.1,6212.0 Z M 3881.1,6184.5 L 3880.4,6195.5 L 3880.4,6194.8 L 3881.1,6184.5 Z M 3949.7,6322.0 L 3948.4,6322.3 L 3947.9,6322.4 L 3949.7,6322.0 Z M 3919.6,6170.6 L 3919.9,6170.6 L 3919.7,6170.6 L 3919.6,6170.6 Z M 3914.1,6029.1 L 3913.9,6028.8 L 3908.0,6018.1 L 3914.1,6029.1 Z M 4142.7,6450.2 L 4142.5,6449.9 L 4143.0,6450.5 L 4142.7,6450.2 Z" />
+            <text class="cobertura-map-context-label" x="4212.7" y="6418.5">Región Metropolitana</text>
+          </g>
+          <g class="cobertura-map-provincia" data-provincia="quillota">
+            <path class="cobertura-map-comuna" data-comuna="calera" data-provincia="quillota" d="M 2480.0,3414.0 L 2553.1,3432.1 L 2559.3,3503.5 L 2477.6,3605.4 L 2334.1,3552.4 L 2320.8,3564.3 L 2300.8,3532.4 L 2242.2,3582.5 L 2277.3,3657.2 L 2312.3,3680.3 L 2334.9,3728.9 L 2417.9,3798.2 L 2369.1,3840.1 L 2358.4,3886.2 L 2320.9,3872.9 L 2290.4,3765.1 L 2257.8,3732.4 L 2199.0,3695.7 L 2197.0,3676.3 L 2133.1,3622.8 L 2050.4,3578.0 L 2084.8,3565.4 L 2196.3,3474.6 L 2289.8,3479.0 L 2312.8,3460.3 L 2390.8,3497.1 L 2414.0,3489.0 L 2461.8,3424.3 L 2480.0,3414.0 Z" />
+            <path class="cobertura-map-comuna" data-comuna="hijuelas" data-provincia="quillota" d="M 2665.6,3362.3 L 2701.1,3465.2 L 2783.5,3554.8 L 2796.0,3658.4 L 2839.6,3731.5 L 2795.1,3779.2 L 2712.0,3764.3 L 2713.8,3815.6 L 2734.8,3875.7 L 2717.6,3943.7 L 2750.5,4020.1 L 2744.1,4115.9 L 2829.4,4221.9 L 2806.2,4243.4 L 2798.8,4323.9 L 2754.7,4372.7 L 2715.8,4378.9 L 2648.3,4353.8 L 2609.7,4355.7 L 2581.3,4326.6 L 2511.3,4323.2 L 2469.0,4279.1 L 2441.5,4216.2 L 2370.4,4183.1 L 2358.4,4149.9 L 2336.9,4134.9 L 2363.9,4031.0 L 2356.6,3866.9 L 2417.9,3798.2 L 2334.9,3728.9 L 2312.3,3680.3 L 2277.3,3657.2 L 2242.2,3582.5 L 2300.8,3532.4 L 2320.8,3564.3 L 2334.1,3552.4 L 2477.6,3605.4 L 2559.3,3503.5 L 2552.7,3431.5 L 2589.6,3390.1 L 2645.7,3360.5 L 2665.6,3362.3 Z" />
+            <path class="cobertura-map-comuna" data-comuna="la_cruz" data-provincia="quillota" d="M 1930.1,3538.4 L 1970.3,3570.2 L 1987.2,3624.0 L 2033.2,3664.0 L 2050.4,3578.0 L 2133.1,3622.8 L 2197.0,3676.3 L 2199.0,3695.7 L 2290.4,3765.1 L 2320.9,3872.9 L 2349.8,3881.0 L 2358.6,3888.5 L 2290.9,3873.1 L 2226.4,3897.5 L 2155.6,3855.2 L 2044.2,3836.6 L 2044.7,3787.1 L 2032.7,3783.1 L 1966.8,3782.3 L 1948.8,3757.1 L 1909.4,3764.3 L 1843.2,3737.9 L 1748.9,3745.2 L 1738.2,3727.0 L 1750.2,3690.2 L 1823.7,3622.2 L 1824.1,3570.8 L 1890.8,3538.9 L 1930.1,3538.4 Z" />
+            <path class="cobertura-map-comuna" data-comuna="nogales" data-provincia="quillota" d="M 2306.5,2780.5 L 2374.4,2860.9 L 2434.8,2873.9 L 2446.8,2895.5 L 2477.2,2884.0 L 2548.5,2901.4 L 2574.7,2885.9 L 2594.5,2796.3 L 2617.5,2790.8 L 2632.3,2814.3 L 2662.7,2816.4 L 2640.4,2871.7 L 2657.3,2883.4 L 2659.8,2920.2 L 2692.8,2955.2 L 2671.9,2958.4 L 2661.8,2978.2 L 2678.4,3023.5 L 2703.2,3037.5 L 2702.1,3065.7 L 2734.7,3102.5 L 2722.6,3149.2 L 2697.4,3181.2 L 2712.6,3216.6 L 2697.8,3232.4 L 2688.4,3289.9 L 2700.8,3338.3 L 2691.5,3360.4 L 2645.7,3360.5 L 2592.1,3388.4 L 2559.5,3430.5 L 2480.0,3414.0 L 2398.6,3495.4 L 2312.8,3460.3 L 2289.8,3479.0 L 2181.9,3480.9 L 2084.8,3565.4 L 2049.5,3578.9 L 2033.2,3664.0 L 1987.2,3624.0 L 1954.9,3552.9 L 1917.9,3533.0 L 1857.6,3547.8 L 1866.2,3491.3 L 1839.0,3473.3 L 1855.1,3449.4 L 1791.1,3405.6 L 1795.3,3353.7 L 1813.4,3348.8 L 1822.3,3318.6 L 1892.8,3278.1 L 1913.5,3240.1 L 1913.8,3209.1 L 1854.5,3165.9 L 1780.8,3145.1 L 1776.7,3121.9 L 1856.9,3073.9 L 1867.0,3027.7 L 1912.9,3008.6 L 1908.1,2961.7 L 1959.8,2954.7 L 2022.9,2918.3 L 2027.8,2878.7 L 2067.4,2833.0 L 2190.6,2836.1 L 2306.5,2780.5 Z" />
+            <path class="cobertura-map-comuna" data-comuna="quillota" data-provincia="quillota" d="M 1843.2,3737.9 L 1909.4,3764.3 L 1948.8,3757.1 L 1966.8,3782.3 L 2044.7,3787.1 L 2044.2,3836.6 L 2155.6,3855.2 L 2224.8,3897.0 L 2290.9,3873.1 L 2358.6,3888.5 L 2351.1,3922.8 L 2365.3,3967.0 L 2363.9,4031.0 L 2336.9,4134.9 L 2358.4,4149.9 L 2370.4,4183.1 L 2439.1,4213.9 L 2445.5,4235.4 L 2394.8,4281.3 L 2326.6,4313.0 L 2259.7,4292.7 L 2023.3,4312.4 L 1890.4,4259.1 L 1865.0,4263.9 L 1809.5,4228.1 L 1733.4,4223.9 L 1683.9,4176.5 L 1674.8,4158.5 L 1683.0,4140.1 L 1592.0,4089.0 L 1540.2,4108.9 L 1520.4,4092.2 L 1417.0,4087.2 L 1362.3,4112.4 L 1362.0,4083.9 L 1377.7,4080.1 L 1366.1,4066.4 L 1373.9,4049.9 L 1334.1,4008.5 L 1329.3,3980.6 L 1383.3,3988.9 L 1403.7,3943.0 L 1490.0,3900.9 L 1503.7,3867.3 L 1544.0,3844.6 L 1594.3,3867.8 L 1618.6,3844.2 L 1647.5,3840.7 L 1681.9,3774.6 L 1730.6,3768.0 L 1752.1,3743.0 L 1843.2,3737.9 Z" />
+          </g>
+          <g class="cobertura-map-provincia" data-provincia="valparaiso">
+            <path class="cobertura-map-comuna" data-comuna="casablanca" data-provincia="valparaiso" d="M 497.9,5038.9 L 622.5,5060.0 L 652.1,5082.5 L 698.4,5051.1 L 756.6,5052.8 L 824.1,5086.7 L 896.5,5177.7 L 934.6,5161.1 L 998.3,5182.1 L 1006.0,5216.5 L 1046.5,5272.2 L 1068.5,5250.3 L 1091.0,5254.7 L 1093.2,5271.8 L 1175.8,5231.1 L 1217.5,5254.6 L 1269.6,5219.4 L 1294.1,5240.1 L 1348.2,5232.1 L 1384.4,5250.7 L 1440.1,5239.7 L 1468.3,5261.2 L 1485.0,5225.3 L 1516.7,5222.9 L 1560.1,5153.9 L 1613.4,5119.9 L 1642.2,5163.7 L 1670.2,5178.3 L 1685.8,5233.9 L 1729.9,5216.2 L 1818.2,5230.3 L 1857.5,5284.0 L 1902.7,5275.4 L 1929.3,5314.9 L 1949.6,5309.7 L 1971.5,5350.1 L 1999.7,5344.3 L 2026.7,5373.2 L 2074.3,5384.3 L 2109.0,5452.1 L 2085.6,5490.9 L 2100.3,5535.2 L 2128.4,5561.0 L 2126.3,5590.1 L 2154.7,5651.0 L 2190.3,5661.3 L 2158.8,5700.9 L 2156.2,5740.0 L 2130.7,5741.2 L 2138.8,5759.5 L 2122.5,5811.1 L 2128.0,5837.7 L 2108.6,5861.4 L 2098.5,5909.5 L 2054.8,5913.1 L 2027.4,5951.5 L 1951.0,5967.2 L 1901.5,6058.9 L 1845.3,6069.8 L 1818.3,6054.6 L 1767.6,6061.0 L 1751.5,6044.8 L 1694.6,6079.6 L 1693.5,6141.5 L 1714.9,6183.4 L 1718.5,6240.4 L 1681.0,6223.9 L 1559.2,6249.1 L 1532.2,6237.4 L 1479.9,6278.8 L 1465.3,6316.7 L 1405.3,6324.7 L 1379.1,6374.0 L 1312.9,6370.9 L 1233.7,6307.4 L 1226.3,6333.2 L 1215.3,6305.6 L 1166.4,6323.6 L 1132.0,6317.1 L 1127.1,6288.7 L 1104.1,6292.2 L 1052.0,6251.8 L 1047.6,6263.0 L 922.0,6251.1 L 892.1,6268.2 L 856.6,6263.1 L 849.6,6243.9 L 776.7,6198.8 L 828.6,6151.5 L 881.0,6150.9 L 867.0,6079.2 L 887.7,5972.0 L 1009.8,5997.6 L 999.9,5905.7 L 1058.6,5802.6 L 1075.5,5710.6 L 1089.3,5700.3 L 1092.3,5632.8 L 1062.7,5616.8 L 1035.4,5569.7 L 1078.1,5488.8 L 1045.3,5453.8 L 1007.1,5462.5 L 994.3,5443.9 L 981.2,5460.5 L 964.2,5448.1 L 944.9,5456.8 L 929.7,5489.2 L 903.8,5491.5 L 910.4,5460.3 L 849.1,5424.6 L 813.8,5462.5 L 805.7,5439.3 L 780.3,5452.5 L 770.9,5487.0 L 679.5,5468.3 L 647.1,5522.2 L 604.7,5535.8 L 552.4,5442.6 L 514.6,5416.1 L 514.7,5397.5 L 565.2,5352.0 L 559.9,5302.8 L 540.6,5274.5 L 497.2,5252.7 L 496.6,5235.9 L 484.6,5241.1 L 492.4,5226.0 L 478.9,5231.3 L 472.7,5215.8 L 488.2,5193.5 L 481.1,5180.0 L 500.9,5190.3 L 508.4,5170.4 L 531.2,5168.2 L 549.8,5129.2 L 497.9,5038.9 Z" />
+            <path class="cobertura-map-comuna" data-comuna="concon" data-provincia="valparaiso" d="M 1092.4,4089.9 L 1119.0,4096.8 L 1140.5,4080.1 L 1155.5,4105.4 L 1199.2,4118.3 L 1295.0,4090.5 L 1311.0,4120.6 L 1353.5,4130.2 L 1376.2,4152.6 L 1415.6,4147.4 L 1409.8,4169.2 L 1441.2,4186.1 L 1446.6,4158.2 L 1469.6,4153.7 L 1494.7,4186.3 L 1515.6,4260.2 L 1547.3,4297.7 L 1523.4,4315.3 L 1423.8,4322.2 L 1388.9,4392.8 L 1391.4,4423.1 L 1361.3,4426.1 L 1335.0,4390.6 L 1297.9,4362.7 L 1250.1,4352.4 L 1228.4,4323.5 L 1178.7,4326.7 L 1137.1,4259.8 L 993.1,4192.8 L 988.3,4200.0 L 983.6,4203.1 L 997.8,4130.9 L 1016.5,4122.6 L 1055.6,4140.3 L 1092.4,4089.9 Z" />
+            <path class="cobertura-map-comuna" data-comuna="puchuncavi" data-provincia="valparaiso" d="M 1459.9,2939.6 L 1475.7,2934.1 L 1505.7,2986.9 L 1514.6,2980.1 L 1571.0,3015.7 L 1581.3,3071.2 L 1559.8,3082.2 L 1585.2,3087.8 L 1605.0,3124.8 L 1679.9,3151.3 L 1725.1,3108.3 L 1760.9,3113.7 L 1777.4,3122.8 L 1780.8,3145.1 L 1854.5,3165.9 L 1915.9,3221.8 L 1892.8,3278.1 L 1822.3,3318.6 L 1813.4,3348.8 L 1795.3,3353.7 L 1791.1,3405.6 L 1855.1,3449.4 L 1839.0,3474.4 L 1865.9,3490.2 L 1863.4,3552.8 L 1824.1,3570.8 L 1823.7,3622.2 L 1750.7,3689.3 L 1738.9,3761.3 L 1677.6,3776.8 L 1648.3,3840.1 L 1618.6,3844.2 L 1596.5,3867.5 L 1543.8,3844.9 L 1533.8,3821.5 L 1449.2,3821.6 L 1431.3,3786.7 L 1466.8,3669.5 L 1451.3,3625.1 L 1422.2,3623.1 L 1430.7,3618.5 L 1414.7,3605.7 L 1450.6,3556.8 L 1373.5,3536.4 L 1330.7,3541.0 L 1289.0,3621.7 L 1200.7,3549.6 L 1252.8,3490.8 L 1231.1,3478.8 L 1197.5,3497.7 L 1205.5,3482.6 L 1184.3,3468.3 L 1206.5,3481.1 L 1215.6,3430.4 L 1185.8,3428.7 L 1215.6,3429.0 L 1214.2,3406.4 L 1200.0,3385.9 L 1173.4,3394.9 L 1156.7,3359.6 L 1169.4,3350.3 L 1154.9,3342.9 L 1161.7,3328.3 L 1147.5,3325.4 L 1160.4,3314.8 L 1135.6,3290.6 L 1147.6,3257.4 L 1202.2,3249.1 L 1236.8,3279.0 L 1272.3,3259.7 L 1353.7,3133.3 L 1358.7,3011.9 L 1396.4,2988.2 L 1401.4,2945.8 L 1425.1,2951.6 L 1451.6,2924.1 L 1459.9,2939.6 Z" />
+            <path class="cobertura-map-comuna" data-comuna="quintero" data-provincia="valparaiso" d="M 1046.7,3483.7 L 1075.9,3495.8 L 1080.5,3543.1 L 1107.0,3554.8 L 1160.5,3538.6 L 1229.2,3479.4 L 1252.8,3490.8 L 1200.7,3549.6 L 1289.0,3621.7 L 1330.7,3541.0 L 1373.5,3536.4 L 1450.6,3556.8 L 1414.7,3605.7 L 1430.7,3618.5 L 1422.2,3623.1 L 1451.3,3625.1 L 1466.8,3669.5 L 1431.3,3786.7 L 1449.2,3821.6 L 1533.8,3821.5 L 1543.8,3844.9 L 1503.7,3867.3 L 1490.0,3900.9 L 1403.7,3943.0 L 1383.3,3988.9 L 1329.3,3980.6 L 1334.1,4008.5 L 1373.9,4049.9 L 1366.1,4066.4 L 1377.7,4080.1 L 1362.0,4083.9 L 1362.3,4112.4 L 1328.0,4118.8 L 1292.7,4090.2 L 1199.2,4118.3 L 1150.3,4101.6 L 1143.9,4007.9 L 1123.1,3976.7 L 1133.0,3925.1 L 1098.2,3755.6 L 1083.4,3733.8 L 1059.2,3739.0 L 1032.1,3706.8 L 1021.0,3712.3 L 1006.2,3701.3 L 1029.4,3702.5 L 1007.5,3653.7 L 1024.5,3551.0 L 1057.7,3547.4 L 1036.0,3515.0 L 1046.7,3483.7 Z M 1102.1,3969.3 L 1098.5,3983.4 L 1091.8,3973.7 L 1102.1,3969.3 Z M 1089.9,3969.5 L 1091.0,3971.1 L 1088.4,3971.0 L 1089.9,3969.5 Z" />
+            <path class="cobertura-map-comuna" data-comuna="valparaiso" data-provincia="valparaiso" d="M 706.5,4494.2 L 729.5,4524.5 L 746.9,4527.6 L 765.3,4546.7 L 742.2,4530.4 L 741.3,4565.8 L 767.3,4589.9 L 805.7,4586.7 L 882.5,4533.4 L 922.6,4603.2 L 976.3,4622.2 L 978.2,4687.7 L 1010.6,4726.2 L 1028.9,4775.8 L 1011.4,4804.5 L 1022.0,4834.8 L 1079.8,4828.6 L 1153.4,4796.3 L 1239.0,4884.4 L 1205.4,4927.5 L 1223.9,4945.4 L 1242.0,4941.8 L 1234.7,4982.8 L 1272.2,5032.0 L 1320.8,5037.6 L 1348.8,5069.2 L 1402.7,5066.6 L 1460.3,5107.6 L 1524.7,5112.9 L 1558.6,5157.7 L 1516.7,5222.9 L 1485.0,5225.3 L 1468.3,5261.2 L 1440.1,5239.7 L 1384.4,5250.7 L 1348.2,5232.1 L 1294.1,5240.1 L 1269.6,5219.4 L 1217.5,5254.6 L 1175.8,5231.1 L 1093.2,5271.8 L 1091.0,5254.7 L 1068.5,5250.3 L 1046.5,5272.2 L 1006.0,5216.5 L 998.3,5182.1 L 934.6,5161.1 L 896.5,5177.7 L 824.1,5086.7 L 756.6,5052.8 L 698.4,5051.1 L 652.1,5082.5 L 622.5,5060.0 L 477.8,5028.9 L 458.8,4976.9 L 481.4,4967.9 L 377.5,4889.5 L 383.6,4862.1 L 369.1,4842.9 L 379.4,4827.8 L 346.1,4815.8 L 400.0,4771.7 L 497.3,4825.2 L 567.1,4833.0 L 606.7,4812.6 L 621.4,4782.7 L 601.5,4739.1 L 625.1,4719.9 L 635.3,4632.5 L 626.3,4621.8 L 647.6,4559.3 L 640.1,4541.6 L 670.5,4525.9 L 675.7,4500.1 L 706.5,4494.2 Z" />
+            <path class="cobertura-map-comuna" data-comuna="vina_del_mar" data-provincia="valparaiso" d="M 1216.4,4661.2 L 1271.4,4683.7 L 1260.9,4752.8 L 1212.3,4771.3 L 1194.0,4834.6 L 1153.1,4796.3 L 1079.8,4828.6 L 1021.3,4834.0 L 1011.4,4804.5 L 1028.9,4775.8 L 1010.6,4726.2 L 978.2,4687.7 L 976.3,4622.2 L 922.6,4603.2 L 877.0,4532.0 L 962.0,4492.8 L 997.8,4442.8 L 1001.2,4378.3 L 1010.0,4377.4 L 1000.2,4346.3 L 1016.0,4307.7 L 995.4,4249.4 L 1008.6,4229.0 L 993.5,4199.2 L 1137.1,4259.8 L 1178.7,4326.7 L 1228.4,4323.5 L 1250.1,4352.4 L 1297.9,4362.7 L 1335.0,4390.6 L 1361.3,4426.1 L 1352.5,4470.0 L 1329.6,4482.8 L 1331.4,4497.6 L 1271.8,4482.7 L 1216.4,4559.3 L 1216.4,4661.2 Z" />
+          </g>
+          <g class="cobertura-map-provincia" data-provincia="marga-marga">
+            <path class="cobertura-map-comuna" data-comuna="limache" data-provincia="marga-marga" d="M 1420.4,4089.4 L 1520.4,4092.2 L 1540.2,4108.9 L 1585.5,4089.0 L 1608.6,4094.2 L 1683.0,4140.1 L 1674.8,4158.5 L 1683.9,4176.5 L 1733.4,4223.9 L 1809.5,4228.1 L 1865.0,4263.9 L 1890.4,4259.1 L 2019.9,4311.7 L 2117.5,4309.3 L 2099.9,4417.5 L 2173.7,4444.3 L 2167.2,4465.7 L 2138.0,4485.3 L 2192.1,4515.3 L 2204.4,4540.4 L 2203.3,4563.1 L 2216.5,4570.2 L 2250.1,4667.3 L 2252.5,4724.3 L 2341.2,4794.2 L 2337.8,4840.7 L 2376.1,4851.3 L 2398.7,4968.5 L 2348.3,4969.8 L 2324.5,4991.7 L 2241.8,4986.5 L 2243.3,5013.6 L 2217.0,5023.0 L 2189.9,5063.3 L 2123.1,4976.6 L 2074.9,4977.4 L 2054.2,4993.8 L 1950.6,4887.7 L 1985.9,4819.0 L 1905.1,4707.7 L 1865.8,4675.0 L 1888.3,4565.5 L 1873.7,4531.0 L 1890.9,4498.9 L 1854.9,4462.3 L 1774.1,4509.8 L 1744.8,4595.7 L 1707.1,4594.6 L 1643.7,4533.8 L 1591.0,4518.5 L 1559.3,4474.5 L 1428.4,4453.2 L 1391.4,4423.1 L 1388.9,4392.8 L 1423.8,4322.2 L 1523.4,4315.3 L 1547.6,4296.5 L 1515.6,4260.2 L 1476.3,4157.3 L 1446.6,4158.2 L 1441.2,4186.1 L 1409.8,4169.2 L 1415.6,4147.4 L 1376.2,4152.6 L 1310.5,4119.2 L 1420.4,4089.4 Z" />
+            <path class="cobertura-map-comuna" data-comuna="olmue" data-provincia="marga-marga" d="M 2449.2,4239.2 L 2511.3,4323.2 L 2581.3,4326.6 L 2609.7,4355.7 L 2648.3,4353.8 L 2693.8,4377.7 L 2753.4,4373.1 L 2756.9,4439.1 L 2779.2,4463.3 L 2801.0,4568.9 L 2843.6,4617.4 L 2821.1,4627.5 L 2816.5,4677.1 L 2758.9,4729.8 L 2717.3,4802.0 L 2635.7,4823.4 L 2603.5,4803.6 L 2476.8,4891.8 L 2438.9,4876.1 L 2389.9,4901.7 L 2376.1,4851.3 L 2337.8,4840.7 L 2341.2,4794.2 L 2252.5,4724.3 L 2250.1,4667.3 L 2192.1,4515.3 L 2138.0,4485.3 L 2167.2,4465.7 L 2173.7,4444.3 L 2099.9,4417.5 L 2117.5,4309.3 L 2259.7,4292.7 L 2326.6,4313.0 L 2449.2,4239.2 Z" />
+            <path class="cobertura-map-comuna" data-comuna="quilpue" data-provincia="marga-marga" d="M 1508.4,4472.7 L 1504.7,4688.7 L 1574.6,4717.2 L 1585.2,4745.5 L 1606.0,4738.5 L 1615.8,4790.1 L 1644.0,4813.2 L 1728.8,4855.3 L 1755.4,4845.6 L 1822.8,4899.7 L 1862.7,4890.6 L 1896.0,4904.4 L 1949.4,4883.5 L 2054.2,4993.8 L 2116.4,4974.6 L 2143.8,4989.6 L 2183.2,5062.7 L 2207.3,5052.3 L 2217.9,5022.1 L 2243.3,5013.6 L 2241.8,4986.5 L 2324.5,4991.7 L 2348.3,4969.8 L 2398.7,4968.5 L 2383.8,4934.9 L 2389.9,4901.3 L 2438.9,4876.1 L 2476.8,4891.8 L 2603.5,4803.6 L 2635.7,4823.4 L 2713.7,4803.8 L 2748.6,4752.9 L 2795.7,4798.8 L 2779.0,4859.3 L 2803.8,4945.7 L 2798.0,5010.4 L 2812.4,5032.6 L 2831.1,5034.3 L 2862.6,5094.8 L 2871.7,5146.1 L 2852.6,5185.8 L 2856.8,5207.1 L 2797.1,5216.3 L 2788.1,5230.4 L 2757.5,5223.9 L 2752.8,5283.6 L 2716.7,5246.8 L 2686.4,5255.9 L 2655.5,5234.8 L 2644.6,5317.9 L 2604.6,5338.0 L 2531.5,5295.6 L 2475.3,5300.2 L 2444.6,5340.6 L 2376.3,5367.9 L 2336.9,5331.4 L 2300.6,5319.8 L 2273.6,5340.3 L 2210.9,5323.9 L 2124.5,5354.2 L 2124.8,5373.4 L 2089.4,5403.0 L 1999.7,5344.3 L 1971.5,5350.1 L 1949.6,5309.7 L 1929.3,5314.9 L 1902.7,5275.4 L 1857.5,5284.0 L 1818.2,5230.3 L 1729.9,5216.2 L 1685.8,5233.9 L 1670.2,5178.3 L 1642.2,5163.7 L 1613.4,5119.9 L 1560.2,5153.9 L 1536.3,5140.4 L 1524.7,5112.9 L 1460.3,5107.6 L 1402.7,5066.6 L 1348.8,5069.2 L 1320.8,5037.6 L 1290.1,5042.4 L 1243.1,5005.5 L 1241.1,4940.5 L 1223.9,4945.4 L 1205.4,4927.5 L 1239.3,4885.8 L 1196.8,4841.8 L 1193.9,4811.8 L 1213.6,4770.1 L 1260.9,4752.8 L 1271.4,4683.7 L 1216.1,4664.7 L 1216.4,4559.3 L 1271.4,4483.1 L 1331.4,4497.6 L 1329.6,4482.8 L 1352.5,4470.0 L 1361.4,4425.6 L 1392.7,4423.3 L 1428.4,4453.2 L 1495.4,4463.2 L 1508.4,4472.7 Z" />
+            <path class="cobertura-map-comuna" data-comuna="villa_alemana" data-provincia="marga-marga" d="M 1888.1,4557.1 L 1865.8,4675.0 L 1905.1,4707.7 L 1985.9,4819.0 L 1942.0,4890.2 L 1896.0,4904.4 L 1862.7,4890.6 L 1822.8,4899.7 L 1755.4,4845.6 L 1728.8,4855.3 L 1644.0,4813.2 L 1615.8,4790.1 L 1606.0,4738.5 L 1585.2,4745.5 L 1574.6,4717.2 L 1504.7,4688.7 L 1508.4,4472.7 L 1559.3,4474.5 L 1592.1,4519.3 L 1643.7,4533.8 L 1702.7,4593.2 L 1739.1,4596.9 L 1774.1,4509.8 L 1854.9,4462.3 L 1890.9,4498.9 L 1873.7,4531.0 L 1888.1,4557.1 Z" />
+          </g>
+          <g class="cobertura-map-provincia" data-provincia="san-antonio">
+            <path class="cobertura-map-comuna" data-comuna="algarrobo" data-provincia="san-antonio" d="M 847.9,5425.1 L 910.4,5460.3 L 903.8,5491.5 L 929.7,5489.2 L 944.9,5456.8 L 964.2,5448.1 L 981.2,5460.5 L 994.3,5443.9 L 1007.1,5462.5 L 1045.3,5453.8 L 1078.1,5488.8 L 1035.4,5569.7 L 1062.7,5616.8 L 1092.3,5632.8 L 1089.3,5700.3 L 1075.5,5710.6 L 1058.6,5802.6 L 999.9,5905.7 L 1009.8,5997.6 L 933.9,5990.2 L 899.7,5967.3 L 872.5,6013.6 L 780.3,5988.4 L 771.1,6008.1 L 660.2,6028.8 L 630.4,6009.6 L 612.0,5967.7 L 575.8,5967.6 L 540.4,5910.8 L 504.5,5897.2 L 520.8,5894.5 L 507.5,5885.4 L 515.6,5868.6 L 540.8,5882.5 L 536.6,5851.4 L 582.0,5873.2 L 595.4,5857.1 L 579.4,5858.1 L 589.8,5845.0 L 614.1,5859.2 L 652.1,5812.4 L 662.4,5736.2 L 645.6,5642.0 L 654.2,5632.7 L 610.4,5539.8 L 647.1,5522.2 L 679.5,5468.3 L 770.9,5487.0 L 776.9,5455.9 L 801.6,5439.7 L 813.8,5462.5 L 847.9,5425.1 Z M 517.6,5805.0 L 511.8,5806.7 L 511.2,5803.3 L 517.6,5805.0 Z M 520.9,5808.7 L 519.6,5810.3 L 518.8,5808.6 L 520.9,5808.7 Z" />
+            <path class="cobertura-map-comuna" data-comuna="cartagena" data-provincia="san-antonio" d="M 1647.5,6223.9 L 1719.0,6240.9 L 1699.0,6276.5 L 1707.5,6320.8 L 1661.6,6387.1 L 1677.9,6454.1 L 1668.5,6531.1 L 1732.9,6559.0 L 1723.4,6581.9 L 1745.7,6656.5 L 1735.5,6687.0 L 1742.5,6744.6 L 1700.8,6717.0 L 1622.9,6735.4 L 1597.3,6785.5 L 1508.0,6810.7 L 1468.1,6855.4 L 1248.6,6729.8 L 1197.3,6718.7 L 1143.3,6728.0 L 1108.7,6702.8 L 936.8,6652.2 L 898.0,6667.7 L 839.1,6666.0 L 742.1,6625.6 L 811.1,6614.6 L 819.7,6534.8 L 807.3,6503.0 L 820.1,6489.0 L 843.0,6492.0 L 849.9,6508.8 L 884.2,6502.4 L 908.3,6545.8 L 960.2,6520.9 L 986.2,6526.1 L 998.0,6478.8 L 1043.0,6475.7 L 1065.6,6490.6 L 1087.5,6474.6 L 1110.4,6496.3 L 1138.0,6477.3 L 1194.8,6374.1 L 1214.8,6377.8 L 1219.0,6341.2 L 1244.7,6318.2 L 1312.9,6370.9 L 1380.4,6373.7 L 1405.3,6324.7 L 1465.3,6316.7 L 1479.9,6278.8 L 1532.2,6237.4 L 1570.3,6247.9 L 1647.5,6223.9 Z" />
+            <path class="cobertura-map-comuna" data-comuna="el_quisco" data-provincia="san-antonio" d="M 872.5,6013.6 L 866.5,6094.6 L 881.0,6150.9 L 828.6,6151.5 L 784.2,6184.2 L 758.8,6181.7 L 760.8,6164.4 L 730.3,6132.9 L 703.8,6156.1 L 679.4,6151.2 L 674.5,6181.3 L 580.2,6187.7 L 561.5,6206.8 L 467.8,6115.5 L 496.1,6111.5 L 493.2,6085.7 L 478.2,6085.9 L 496.7,6030.6 L 475.4,6004.2 L 492.9,5979.1 L 510.8,5992.8 L 522.4,5973.8 L 508.4,5940.2 L 516.2,5919.0 L 496.4,5914.9 L 510.2,5906.5 L 540.4,5910.8 L 575.8,5967.6 L 606.2,5962.8 L 630.4,6009.6 L 660.2,6028.8 L 771.1,6008.1 L 780.3,5988.4 L 872.5,6013.6 Z" />
+            <path class="cobertura-map-comuna" data-comuna="el_tabo" data-provincia="san-antonio" d="M 730.3,6132.9 L 760.8,6164.4 L 758.8,6181.7 L 783.9,6184.1 L 777.6,6201.7 L 849.6,6243.9 L 856.6,6263.1 L 892.1,6268.2 L 922.0,6251.1 L 1047.6,6263.0 L 1052.0,6251.8 L 1104.1,6292.2 L 1127.1,6288.7 L 1132.0,6317.1 L 1166.4,6323.6 L 1215.3,6305.6 L 1226.3,6333.2 L 1233.7,6307.4 L 1244.7,6318.2 L 1219.0,6341.2 L 1214.8,6377.8 L 1198.5,6371.9 L 1185.3,6387.7 L 1133.2,6482.7 L 1110.4,6496.3 L 1087.5,6474.6 L 1065.6,6490.6 L 1043.0,6475.7 L 998.0,6478.8 L 986.2,6526.1 L 960.2,6520.9 L 907.5,6545.6 L 884.2,6502.4 L 849.9,6508.8 L 843.0,6492.0 L 821.3,6488.7 L 807.3,6503.0 L 764.3,6425.6 L 712.5,6423.6 L 709.0,6399.4 L 686.3,6397.8 L 692.0,6371.3 L 652.8,6294.2 L 624.0,6258.3 L 583.1,6243.8 L 561.7,6207.6 L 580.2,6187.7 L 674.5,6181.3 L 679.4,6151.2 L 703.8,6156.1 L 730.3,6132.9 Z" />
+            <path class="cobertura-map-comuna" data-comuna="san_antonio" data-provincia="san-antonio" d="M 739.4,6632.2 L 841.3,6666.2 L 936.8,6652.2 L 1108.7,6702.8 L 1143.3,6728.0 L 1197.3,6718.7 L 1248.6,6729.8 L 1468.1,6855.4 L 1508.0,6810.7 L 1597.3,6785.5 L 1622.9,6735.4 L 1700.8,6717.0 L 1740.0,6740.7 L 1708.8,6860.3 L 1639.9,6910.4 L 1562.5,6910.2 L 1562.7,6954.8 L 1518.5,6990.1 L 1507.3,7068.6 L 1443.9,7049.1 L 1414.1,7058.8 L 1377.5,7136.4 L 1383.1,7156.7 L 1434.8,7167.1 L 1422.0,7209.8 L 1435.3,7250.6 L 1515.1,7298.9 L 1536.7,7332.7 L 1531.5,7366.1 L 1644.0,7404.2 L 1639.5,7499.1 L 1617.6,7530.7 L 1564.1,7565.6 L 1508.4,7556.1 L 1386.5,7568.8 L 1311.8,7559.6 L 1283.0,7537.7 L 1252.6,7554.6 L 1238.8,7527.3 L 1182.8,7494.6 L 1100.0,7530.6 L 1086.4,7522.4 L 1041.4,7464.9 L 1034.0,7433.0 L 1044.9,7405.7 L 1015.2,7404.2 L 966.5,7369.0 L 966.2,7334.9 L 983.1,7305.9 L 980.0,7251.3 L 946.9,7227.4 L 945.2,7163.6 L 922.8,7157.3 L 913.8,7121.9 L 884.1,7086.7 L 881.3,7009.9 L 835.6,6945.3 L 729.6,6882.2 L 755.7,6803.1 L 752.2,6762.2 L 771.6,6796.6 L 778.8,6775.9 L 767.3,6763.2 L 789.4,6762.1 L 779.7,6741.2 L 749.7,6736.6 L 741.5,6715.1 L 756.9,6675.4 L 739.4,6632.2 Z" />
+            <path class="cobertura-map-comuna" data-comuna="santo_domingo" data-provincia="san-antonio" d="M 927.6,7160.9 L 945.2,7163.6 L 946.9,7227.4 L 971.2,7233.8 L 982.5,7262.9 L 966.5,7369.0 L 1015.2,7404.2 L 1046.4,7407.9 L 1034.0,7433.0 L 1048.1,7473.3 L 999.8,7491.5 L 981.6,7548.3 L 979.9,7906.0 L 923.3,7912.2 L 897.8,7884.4 L 613.6,8089.7 L 526.3,8129.6 L 485.3,8178.9 L 462.5,8182.5 L 431.8,8240.5 L 410.1,8232.4 L 410.7,8200.5 L 388.2,8178.6 L 313.4,8168.0 L 331.3,8098.0 L 290.3,8113.9 L 258.8,8162.7 L 222.6,8156.8 L 221.8,8113.7 L 199.0,8090.4 L 170.0,8095.7 L 132.0,8046.2 L 91.7,8059.4 L 47.3,8112.0 L 20.0,8099.5 L 51.7,8047.5 L 74.7,7969.4 L 64.1,7854.9 L 109.7,7761.0 L 125.5,7653.3 L 175.0,7595.1 L 183.0,7507.9 L 231.0,7480.2 L 289.7,7483.4 L 356.4,7459.6 L 591.8,7296.6 L 687.8,7116.5 L 729.6,6882.2 L 796.2,6913.8 L 862.1,6981.9 L 882.0,7011.8 L 884.1,7086.7 L 927.6,7160.9 Z" />
+          </g>
+          <g class="cobertura-map-provincia" data-provincia="petorca">
+            <path class="cobertura-map-comuna" data-comuna="cabildo" data-provincia="petorca" d="M 4687.3,1313.9 L 4711.1,1299.9 L 4748.8,1324.9 L 4732.5,1498.1 L 4762.7,1505.7 L 4820.8,1569.6 L 4807.2,1640.8 L 4747.2,1728.9 L 4746.9,1761.0 L 4701.7,1774.9 L 4629.1,1763.0 L 4598.0,1844.1 L 4433.9,1827.2 L 4355.6,1906.1 L 4324.0,1890.7 L 4277.6,1894.0 L 4238.6,1921.5 L 4189.9,1876.8 L 4148.1,1891.0 L 4148.4,1932.3 L 4121.9,1958.7 L 4140.9,2007.5 L 4116.9,2047.1 L 4134.4,2076.5 L 4125.2,2114.2 L 4073.8,2176.4 L 4077.6,2221.7 L 4061.9,2255.6 L 4012.8,2249.9 L 3997.4,2284.2 L 3934.1,2266.2 L 3915.9,2230.0 L 3867.8,2191.6 L 3799.2,2225.6 L 3741.4,2179.7 L 3648.2,2147.5 L 3628.4,2155.6 L 3594.1,2134.2 L 3600.9,2192.9 L 3510.1,2189.0 L 3513.6,2226.2 L 3494.9,2263.3 L 3431.4,2296.0 L 3373.8,2413.8 L 3413.6,2471.1 L 3410.8,2526.7 L 3458.1,2563.2 L 3552.3,2567.1 L 3574.5,2604.7 L 3572.1,2696.6 L 3476.6,2764.0 L 3530.6,2839.2 L 3468.0,2895.5 L 3452.5,2936.7 L 3403.2,2918.8 L 3371.3,2925.2 L 3303.8,2878.0 L 3231.7,2874.0 L 3205.4,2845.8 L 3139.8,2902.5 L 3077.1,2889.1 L 3011.1,2938.5 L 2956.7,2930.4 L 2883.7,2944.3 L 2849.6,2907.5 L 2780.8,2869.7 L 2750.4,2905.4 L 2745.7,2939.4 L 2726.8,2939.7 L 2708.8,2913.0 L 2692.8,2955.2 L 2659.8,2920.2 L 2657.3,2883.4 L 2640.4,2871.7 L 2663.1,2817.2 L 2632.3,2814.3 L 2628.5,2797.1 L 2653.7,2760.2 L 2648.3,2727.6 L 2684.5,2702.2 L 2687.0,2680.6 L 2673.3,2667.3 L 2691.4,2661.5 L 2691.8,2626.0 L 2531.7,2517.1 L 2431.6,2491.8 L 2411.9,2451.8 L 2423.1,2423.7 L 2377.6,2381.2 L 2366.2,2243.7 L 2395.7,2171.9 L 2530.4,2098.4 L 2529.3,2072.8 L 2499.3,2024.9 L 2472.5,2033.1 L 2485.3,2020.7 L 2477.1,1992.6 L 2488.7,1888.1 L 2521.0,1890.7 L 2551.1,1926.6 L 2567.5,1913.9 L 2643.7,1941.5 L 2657.1,1959.6 L 2729.2,1903.0 L 2760.7,1842.2 L 2753.4,1810.8 L 2821.2,1728.7 L 2908.7,1700.6 L 2995.5,1730.1 L 3053.6,1780.8 L 3129.9,1783.1 L 3152.8,1771.6 L 3176.9,1698.2 L 3203.8,1664.7 L 3272.1,1671.1 L 3378.7,1597.6 L 3385.8,1545.6 L 3418.2,1489.8 L 3624.8,1557.2 L 3732.3,1516.3 L 3878.1,1500.9 L 3927.7,1463.0 L 4011.2,1474.6 L 4043.1,1447.0 L 4101.8,1440.5 L 4159.0,1461.8 L 4244.2,1417.0 L 4370.2,1421.9 L 4442.4,1452.3 L 4514.0,1369.0 L 4574.5,1363.8 L 4651.0,1275.0 L 4667.9,1268.0 L 4687.3,1313.9 Z" />
+            <path class="cobertura-map-comuna" data-comuna="la_ligua" data-provincia="petorca" d="M 2100.2,927.0 L 2136.7,928.5 L 2164.0,948.9 L 2168.7,975.8 L 2204.5,1022.0 L 2235.6,1099.5 L 2243.0,1204.9 L 2305.3,1321.4 L 2288.8,1410.6 L 2269.6,1432.0 L 2270.4,1466.0 L 2319.6,1561.9 L 2318.2,1618.5 L 2349.4,1617.7 L 2397.6,1659.1 L 2427.6,1734.7 L 2497.1,1823.4 L 2494.3,1879.9 L 2479.7,1907.0 L 2485.3,2020.7 L 2473.8,2027.3 L 2472.5,2033.1 L 2499.3,2024.9 L 2529.3,2072.8 L 2530.4,2098.4 L 2395.7,2171.9 L 2366.2,2243.7 L 2377.6,2381.2 L 2423.1,2423.7 L 2411.9,2451.8 L 2431.6,2491.8 L 2531.7,2517.1 L 2692.1,2627.5 L 2691.4,2661.5 L 2673.3,2667.3 L 2688.5,2689.6 L 2648.3,2727.6 L 2650.1,2769.4 L 2628.5,2797.1 L 2587.5,2800.9 L 2576.3,2883.7 L 2549.9,2901.2 L 2477.2,2884.0 L 2446.8,2895.5 L 2434.8,2873.9 L 2376.9,2862.8 L 2306.5,2780.5 L 2171.7,2833.9 L 2150.7,2766.9 L 2076.8,2637.4 L 1997.3,2545.5 L 1864.5,2467.7 L 1868.7,2442.7 L 1837.0,2408.7 L 1845.4,2379.5 L 1822.2,2323.7 L 1772.7,2285.1 L 1758.9,2232.7 L 1768.9,2183.6 L 1785.9,2200.6 L 1848.0,2172.1 L 1867.3,2189.8 L 1893.8,2183.3 L 1825.7,2162.7 L 1754.4,2030.6 L 1696.2,2075.7 L 1604.7,2025.6 L 1572.2,2041.3 L 1477.4,2033.6 L 1474.5,1982.2 L 1409.1,1873.4 L 1379.0,1877.8 L 1359.7,1827.5 L 1324.0,1792.8 L 1303.7,1794.4 L 1298.1,1810.5 L 1294.7,1798.6 L 1266.8,1803.8 L 1268.6,1785.1 L 1250.3,1763.0 L 1261.1,1722.7 L 1249.4,1669.7 L 1260.3,1657.0 L 1248.9,1638.6 L 1255.9,1591.7 L 1243.9,1587.6 L 1261.1,1564.2 L 1252.2,1532.4 L 1264.3,1516.7 L 1248.0,1470.3 L 1184.1,1385.4 L 1137.2,1368.9 L 1116.1,1397.2 L 1081.0,1384.4 L 1091.3,1375.5 L 1077.5,1353.2 L 1089.7,1353.8 L 1082.3,1342.2 L 1098.7,1329.4 L 1075.1,1292.8 L 1086.2,1286.1 L 1081.9,1250.2 L 1053.1,1243.9 L 1052.8,1215.3 L 1028.8,1206.8 L 1024.3,1186.4 L 1035.0,1186.7 L 1039.4,1157.3 L 1026.6,1126.4 L 1158.2,1140.5 L 1193.5,1053.8 L 1243.8,1037.0 L 1281.8,1083.0 L 1350.0,1099.2 L 1425.7,1161.2 L 1542.8,1175.6 L 1604.1,1217.5 L 1652.6,1207.4 L 1710.6,1229.1 L 1802.4,1178.1 L 1871.6,1184.2 L 1887.0,1172.7 L 1890.7,1137.1 L 1930.4,1129.8 L 1951.7,1099.1 L 1988.5,1105.7 L 2018.4,1017.1 L 2059.3,967.8 L 2086.2,960.7 L 2100.2,927.0 Z M 1053.2,1250.0 L 1052.1,1252.9 L 1049.6,1249.6 L 1053.2,1250.0 Z M 1025.1,1205.8 L 1023.9,1209.6 L 1022.4,1208.0 L 1025.1,1205.8 Z M 1032.2,1216.5 L 1029.1,1214.3 L 1032.1,1213.9 L 1032.2,1216.5 Z M 1026.5,1215.0 L 1024.3,1217.9 L 1022.5,1217.8 L 1026.5,1215.0 Z M 1050.7,1237.4 L 1049.1,1239.1 L 1048.9,1237.4 L 1050.7,1237.4 Z M 1038.4,1213.3 L 1036.3,1214.9 L 1037.1,1212.7 L 1038.4,1213.3 Z" />
+            <path class="cobertura-map-comuna" data-comuna="papudo" data-provincia="petorca" d="M 1626.1,2034.8 L 1696.2,2075.7 L 1754.4,2030.6 L 1825.7,2162.7 L 1893.8,2183.3 L 1867.3,2189.8 L 1848.0,2172.1 L 1788.9,2200.5 L 1768.9,2183.6 L 1764.3,2198.5 L 1758.9,2232.7 L 1772.7,2285.1 L 1822.2,2323.7 L 1845.4,2379.5 L 1837.0,2408.7 L 1774.0,2418.1 L 1764.6,2443.9 L 1696.2,2459.9 L 1626.7,2499.6 L 1599.8,2547.4 L 1603.2,2581.6 L 1548.8,2627.9 L 1474.6,2619.5 L 1431.3,2630.6 L 1389.4,2606.3 L 1375.1,2581.3 L 1327.2,2566.3 L 1293.4,2419.7 L 1345.7,2440.0 L 1390.8,2394.7 L 1399.4,2264.4 L 1382.9,2220.1 L 1416.6,2196.5 L 1404.9,2127.0 L 1418.5,2111.3 L 1408.9,2087.5 L 1421.2,2056.0 L 1460.5,2065.2 L 1477.4,2033.6 L 1626.1,2034.8 Z" />
+            <path class="cobertura-map-comuna" data-comuna="petorca" data-provincia="petorca" d="M 3752.6,523.6 L 3850.6,550.8 L 3881.0,622.6 L 3882.7,669.7 L 3904.8,657.2 L 3965.6,661.0 L 3997.2,636.3 L 4038.8,728.5 L 4013.4,748.0 L 3996.2,807.0 L 4013.5,837.3 L 4008.6,952.6 L 4106.2,1003.7 L 4142.2,1001.1 L 4165.0,1039.2 L 4208.9,1072.6 L 4307.4,1078.4 L 4371.7,1117.6 L 4409.0,1100.2 L 4420.2,1079.2 L 4397.6,1022.4 L 4415.3,1009.5 L 4508.3,1041.3 L 4522.5,1064.9 L 4513.9,1102.9 L 4584.4,1095.7 L 4614.0,1120.6 L 4669.6,1105.2 L 4706.1,1169.2 L 4683.3,1205.3 L 4673.7,1261.8 L 4570.7,1366.4 L 4513.0,1369.7 L 4442.4,1452.3 L 4370.2,1421.9 L 4244.2,1417.0 L 4159.0,1461.8 L 4101.8,1440.5 L 4043.1,1447.0 L 4011.2,1474.6 L 3927.7,1463.0 L 3878.1,1500.9 L 3732.3,1516.3 L 3624.8,1557.2 L 3525.9,1527.6 L 3510.2,1509.5 L 3417.1,1490.2 L 3385.8,1545.6 L 3378.7,1597.6 L 3272.1,1671.1 L 3203.3,1665.1 L 3144.3,1779.6 L 3059.0,1782.8 L 3007.0,1752.0 L 2995.5,1730.1 L 2908.7,1700.6 L 2820.1,1729.3 L 2753.4,1810.8 L 2760.7,1842.2 L 2729.2,1903.0 L 2655.4,1960.0 L 2645.9,1942.5 L 2595.4,1922.4 L 2563.0,1914.0 L 2551.1,1926.6 L 2535.5,1901.3 L 2494.3,1879.9 L 2496.3,1821.0 L 2427.6,1734.7 L 2400.0,1661.9 L 2349.4,1617.7 L 2318.2,1618.5 L 2319.6,1561.9 L 2270.4,1466.0 L 2269.6,1432.0 L 2288.8,1410.6 L 2305.3,1321.4 L 2241.6,1200.7 L 2236.0,1101.7 L 2318.6,1066.9 L 2365.7,1022.2 L 2393.0,1023.9 L 2403.6,974.2 L 2432.9,969.2 L 2438.6,948.7 L 2468.7,933.2 L 2552.9,830.8 L 2620.4,795.8 L 2692.5,720.2 L 2742.0,712.0 L 2742.9,692.6 L 2692.8,611.9 L 2708.3,546.7 L 2801.5,554.1 L 2888.0,599.0 L 2934.6,589.6 L 3006.2,608.9 L 3008.3,645.7 L 3040.3,652.8 L 3049.0,713.3 L 3079.6,734.8 L 3133.5,670.0 L 3165.5,682.1 L 3228.9,662.1 L 3252.8,672.6 L 3315.8,628.7 L 3393.5,620.1 L 3416.8,589.8 L 3508.6,554.3 L 3534.2,564.9 L 3543.2,591.9 L 3610.9,578.0 L 3702.2,526.5 L 3720.4,500.0 L 3752.6,523.6 Z" />
+            <path class="cobertura-map-comuna" data-comuna="zapallar" data-provincia="petorca" d="M 1282.9,2397.6 L 1324.9,2563.9 L 1375.1,2581.3 L 1389.4,2606.3 L 1434.8,2630.7 L 1474.6,2619.5 L 1548.8,2627.9 L 1603.2,2581.6 L 1599.8,2547.4 L 1626.7,2499.6 L 1696.2,2459.9 L 1764.6,2443.9 L 1774.0,2418.1 L 1837.0,2408.7 L 1867.9,2440.3 L 1864.5,2467.7 L 1997.3,2545.5 L 2076.8,2637.4 L 2150.7,2766.9 L 2171.7,2833.9 L 2054.3,2841.5 L 2044.5,2870.9 L 2027.8,2878.7 L 2022.9,2918.3 L 1959.8,2954.7 L 1908.1,2961.7 L 1912.9,3008.6 L 1867.0,3027.7 L 1858.8,3071.5 L 1806.1,3107.9 L 1776.1,3122.2 L 1726.9,3107.5 L 1682.9,3151.0 L 1605.0,3124.8 L 1585.2,3087.8 L 1559.8,3082.2 L 1581.3,3071.2 L 1571.0,3015.7 L 1514.6,2980.1 L 1505.7,2986.9 L 1475.7,2934.1 L 1459.9,2939.6 L 1451.6,2924.1 L 1425.1,2951.6 L 1401.4,2945.8 L 1373.1,2801.3 L 1345.3,2764.2 L 1310.5,2750.5 L 1318.8,2732.7 L 1300.3,2715.7 L 1310.6,2690.3 L 1263.2,2625.2 L 1290.3,2632.0 L 1302.6,2617.0 L 1278.5,2600.4 L 1280.4,2578.5 L 1265.3,2573.1 L 1275.4,2540.2 L 1248.0,2507.8 L 1282.9,2397.6 Z M 1316.4,2757.0 L 1307.3,2761.1 L 1314.4,2754.7 L 1316.4,2757.0 Z" />
+          </g>
+          <g class="cobertura-map-provincia" data-provincia="san-felipe">
+            <path class="cobertura-map-comuna" data-comuna="catemu" data-provincia="san-felipe" d="M 3209.8,2846.6 L 3231.7,2874.0 L 3303.8,2878.0 L 3371.3,2925.2 L 3403.2,2918.8 L 3452.5,2936.7 L 3446.2,2998.6 L 3427.9,3012.5 L 3406.7,3069.7 L 3407.1,3122.0 L 3279.4,3344.3 L 3320.4,3392.9 L 3340.5,3502.8 L 3269.5,3566.5 L 3202.0,3597.2 L 3156.3,3596.0 L 3056.6,3630.8 L 3020.2,3621.8 L 3033.0,3654.2 L 3022.5,3713.7 L 2998.3,3715.3 L 2976.5,3685.0 L 2941.6,3673.4 L 2971.1,3653.1 L 2960.3,3612.4 L 2912.3,3621.2 L 2851.2,3676.1 L 2839.6,3731.5 L 2796.0,3658.4 L 2783.5,3554.8 L 2701.1,3465.2 L 2667.5,3379.4 L 2665.6,3362.3 L 2691.5,3360.4 L 2702.0,3333.4 L 2688.4,3289.9 L 2697.8,3232.4 L 2712.6,3216.6 L 2697.4,3181.2 L 2734.9,3105.7 L 2702.1,3065.7 L 2701.8,3035.1 L 2678.4,3023.5 L 2662.7,2970.6 L 2695.2,2953.6 L 2707.6,2913.5 L 2726.8,2939.7 L 2745.7,2939.4 L 2750.4,2905.4 L 2780.8,2869.7 L 2852.6,2909.7 L 2870.6,2937.8 L 2911.1,2943.9 L 2956.7,2930.4 L 3014.6,2937.7 L 3077.1,2889.1 L 3131.7,2905.7 L 3209.8,2846.6 Z" />
+            <path class="cobertura-map-comuna" data-comuna="llaillay" data-provincia="san-felipe" d="M 2960.3,3612.4 L 2971.1,3653.1 L 2941.6,3673.4 L 2976.5,3685.0 L 2998.3,3715.3 L 3136.9,3752.3 L 3183.4,3754.6 L 3224.9,3721.0 L 3286.8,3747.5 L 3332.4,3727.1 L 3495.6,3750.7 L 3629.0,3720.1 L 3680.5,3912.5 L 3673.8,3937.4 L 3702.0,3946.1 L 3726.8,3978.9 L 3736.0,4070.4 L 3758.3,4115.1 L 3646.1,4134.4 L 3613.0,4159.0 L 3536.6,4120.5 L 3504.3,4116.5 L 3461.0,4139.5 L 3396.5,4125.5 L 3376.8,4106.8 L 3229.3,4171.7 L 3191.9,4154.0 L 3159.8,4160.5 L 3151.1,4197.0 L 3128.5,4195.7 L 3105.8,4233.2 L 3093.1,4280.9 L 3050.6,4308.3 L 3025.2,4306.3 L 3001.9,4281.5 L 2970.7,4311.4 L 2904.2,4322.7 L 2892.7,4337.5 L 2847.7,4319.2 L 2798.8,4323.9 L 2806.2,4243.4 L 2829.4,4221.9 L 2744.1,4115.9 L 2750.5,4020.1 L 2717.6,3943.7 L 2734.8,3875.7 L 2713.8,3815.6 L 2712.0,3764.3 L 2798.5,3778.1 L 2839.8,3731.1 L 2862.6,3659.8 L 2908.7,3622.9 L 2960.3,3612.4 Z" />
+            <path class="cobertura-map-comuna" data-comuna="panquehue" data-provincia="san-felipe" d="M 3633.1,3352.0 L 3730.0,3449.1 L 3715.2,3465.8 L 3670.7,3477.2 L 3633.8,3513.7 L 3654.5,3577.7 L 3642.6,3618.8 L 3676.8,3649.5 L 3645.5,3705.0 L 3598.6,3733.5 L 3495.6,3750.7 L 3332.4,3727.1 L 3286.8,3747.5 L 3224.9,3721.0 L 3182.6,3754.8 L 3108.4,3735.1 L 3063.9,3740.4 L 3022.2,3713.7 L 3033.0,3654.2 L 3020.2,3621.8 L 3056.6,3630.8 L 3259.3,3571.8 L 3477.9,3401.2 L 3588.3,3343.7 L 3633.1,3352.0 Z" />
+            <path class="cobertura-map-comuna" data-comuna="putaendo" data-provincia="san-felipe" d="M 5096.6,1522.5 L 5128.2,1490.6 L 5207.3,1529.5 L 5246.6,1585.9 L 5317.8,1581.5 L 5388.4,1678.3 L 5446.5,1706.7 L 5471.8,1752.3 L 5466.3,1805.1 L 5438.9,1869.0 L 5475.6,1945.0 L 5453.6,1976.8 L 5426.2,1979.9 L 5402.9,2037.6 L 5410.2,2103.7 L 5434.4,2138.3 L 5402.9,2187.9 L 5418.0,2237.1 L 5372.4,2257.4 L 5333.6,2316.4 L 5218.9,2315.5 L 5158.2,2369.8 L 5140.6,2459.3 L 5097.9,2506.7 L 5095.6,2543.0 L 5069.2,2572.5 L 5080.4,2595.4 L 5057.4,2617.5 L 5048.6,2670.1 L 5004.4,2750.2 L 4938.5,2786.7 L 4896.8,2839.6 L 4871.5,2820.0 L 4855.3,2773.5 L 4818.4,2756.3 L 4772.9,2807.0 L 4734.1,2809.4 L 4726.7,2828.4 L 4675.2,2798.3 L 4589.0,2811.1 L 4566.2,2789.0 L 4544.8,2809.0 L 4478.2,2825.7 L 4460.5,2802.2 L 4414.6,2791.4 L 4410.0,2752.8 L 4373.6,2731.2 L 4353.2,2698.8 L 4271.3,2696.1 L 4236.2,2789.5 L 4167.7,2818.4 L 4116.9,2860.5 L 4121.7,2949.4 L 4048.9,3077.0 L 4045.6,3104.4 L 3999.3,3115.1 L 3974.9,3172.6 L 3925.6,3196.4 L 3822.4,3202.0 L 3790.2,3224.6 L 3754.2,3224.2 L 3708.7,3275.3 L 3700.0,3273.9 L 3726.3,3198.9 L 3659.6,3170.5 L 3637.6,3183.0 L 3600.5,3125.4 L 3595.9,3087.1 L 3518.5,3073.5 L 3489.9,3051.7 L 3481.2,3015.9 L 3446.2,2998.6 L 3464.9,2900.5 L 3530.6,2839.2 L 3502.1,2811.6 L 3500.6,2783.7 L 3477.8,2770.4 L 3480.3,2750.4 L 3572.1,2696.6 L 3574.5,2604.7 L 3552.3,2567.1 L 3458.1,2563.2 L 3410.8,2526.7 L 3413.6,2471.1 L 3373.8,2413.8 L 3431.4,2296.0 L 3494.9,2263.3 L 3513.6,2226.2 L 3510.1,2189.0 L 3600.9,2192.9 L 3593.3,2134.0 L 3628.4,2155.6 L 3648.2,2147.5 L 3741.4,2179.7 L 3799.2,2225.6 L 3867.8,2191.6 L 3915.9,2230.0 L 3934.1,2266.2 L 3987.5,2283.2 L 4012.8,2249.9 L 4059.7,2258.6 L 4077.6,2221.7 L 4073.8,2176.4 L 4105.1,2147.6 L 4132.7,2089.1 L 4116.9,2047.1 L 4140.4,1998.3 L 4121.9,1958.7 L 4148.4,1932.3 L 4148.1,1891.0 L 4189.9,1876.8 L 4241.2,1921.3 L 4277.6,1894.0 L 4324.0,1890.7 L 4355.6,1906.1 L 4433.9,1827.2 L 4604.5,1841.3 L 4629.1,1763.0 L 4701.7,1774.9 L 4748.8,1758.4 L 4747.2,1728.9 L 4819.0,1606.1 L 4808.2,1545.5 L 4930.6,1487.9 L 4987.3,1432.9 L 5028.0,1445.5 L 5053.1,1500.4 L 5096.6,1522.5 Z" />
+            <path class="cobertura-map-comuna" data-comuna="san_felipe" data-provincia="san-felipe" d="M 3523.4,3075.3 L 3595.9,3087.1 L 3600.5,3125.4 L 3637.6,3183.0 L 3659.6,3170.5 L 3726.3,3198.9 L 3704.5,3275.1 L 3754.2,3224.2 L 3790.2,3224.6 L 3822.4,3202.0 L 3925.6,3196.4 L 3975.1,3172.7 L 3985.5,3190.2 L 3978.3,3280.8 L 3909.6,3407.3 L 3906.6,3520.5 L 4018.2,3576.3 L 4073.5,3619.5 L 4061.8,3639.3 L 3990.1,3691.4 L 3991.2,3719.1 L 3870.6,3680.8 L 3811.1,3683.4 L 3796.9,3639.6 L 3820.5,3613.5 L 3809.7,3564.5 L 3763.3,3615.6 L 3711.8,3620.5 L 3676.8,3649.5 L 3642.6,3618.8 L 3654.5,3577.7 L 3633.1,3516.2 L 3670.7,3477.2 L 3702.2,3476.6 L 3729.9,3448.0 L 3633.1,3352.0 L 3598.6,3341.9 L 3477.9,3401.2 L 3340.5,3502.8 L 3320.4,3392.9 L 3280.2,3341.6 L 3407.1,3122.0 L 3406.7,3069.7 L 3432.2,3006.8 L 3472.8,3009.2 L 3491.4,3053.9 L 3523.4,3075.3 Z" />
+            <path class="cobertura-map-comuna" data-comuna="santa_maria" data-provincia="san-felipe" d="M 4267.4,2697.9 L 4355.0,2700.3 L 4373.6,2731.2 L 4410.0,2752.8 L 4414.6,2791.4 L 4460.5,2802.2 L 4476.9,2816.1 L 4477.0,2838.1 L 4410.0,2922.3 L 4300.2,2956.4 L 4264.7,3045.8 L 4305.9,3132.7 L 4303.1,3149.6 L 4283.7,3157.2 L 4281.8,3209.1 L 4222.7,3233.2 L 4215.7,3259.8 L 4142.6,3319.1 L 4147.0,3347.8 L 4167.5,3359.3 L 4165.7,3434.6 L 4148.2,3488.7 L 4181.5,3519.2 L 4153.2,3567.0 L 4165.5,3596.5 L 4164.9,3672.1 L 3906.6,3520.5 L 3909.6,3407.3 L 3978.3,3280.8 L 3985.5,3190.2 L 3974.9,3172.6 L 3990.2,3130.7 L 4000.7,3114.0 L 4045.6,3104.4 L 4048.9,3077.0 L 4121.7,2949.4 L 4116.9,2860.5 L 4167.7,2818.4 L 4236.2,2789.5 L 4267.4,2697.9 Z" />
+          </g>
+          <g class="cobertura-map-provincia" data-provincia="los-andes">
+            <path class="cobertura-map-comuna" data-comuna="calle_larga" data-provincia="los-andes" d="M 4079.9,3764.6 L 4108.9,3770.0 L 4118.8,3777.2 L 4122.7,3775.9 L 4123.3,3776.1 L 4135.8,3782.1 L 4154.3,3796.0 L 4168.0,3799.4 L 4175.4,3845.8 L 4203.4,3847.2 L 4225.9,3829.5 L 4246.9,3838.4 L 4242.4,3793.6 L 4307.4,3860.8 L 4413.8,3909.0 L 4426.1,3937.5 L 4498.0,3940.3 L 4507.3,4035.6 L 4532.4,4062.0 L 4584.8,4061.1 L 4605.9,4125.8 L 4640.9,4160.6 L 4652.4,4256.2 L 4709.4,4291.4 L 4837.3,4421.6 L 4808.2,4444.0 L 4814.3,4476.8 L 4789.4,4516.9 L 4744.7,4501.8 L 4714.7,4535.6 L 4659.2,4609.3 L 4638.5,4668.4 L 4599.9,4689.1 L 4583.5,4741.2 L 4495.2,4774.1 L 4459.8,4731.1 L 4432.8,4626.5 L 4345.8,4556.1 L 4367.0,4490.2 L 4352.8,4447.8 L 4329.9,4431.1 L 4330.7,4411.3 L 4305.0,4377.8 L 4212.1,4294.1 L 4215.7,4254.3 L 4196.6,4228.7 L 4203.0,4203.7 L 4171.5,4185.4 L 4141.4,4223.7 L 4072.0,4206.5 L 4037.0,4227.6 L 3987.8,4230.7 L 3984.0,4209.7 L 3999.7,4191.9 L 3991.8,4181.3 L 4024.2,4104.0 L 3977.2,4039.5 L 3929.5,4040.9 L 3950.9,3871.9 L 3984.5,3837.6 L 3991.1,3717.7 L 4081.7,3754.0 L 4079.9,3764.6 Z M 4166.8,3829.1 L 4168.4,3830.2 L 4166.8,3829.1 L 4166.8,3829.1 Z M 4123.0,3776.1 L 4123.0,3776.1 L 4122.8,3776.2 L 4123.0,3776.1 Z" />
+            <path class="cobertura-map-comuna" data-comuna="los_andes" data-provincia="los-andes" d="M 5711.2,3316.8 L 5747.2,3353.8 L 5744.5,3381.5 L 5772.6,3449.4 L 5823.0,3493.3 L 5846.8,3625.7 L 5899.4,3631.6 L 5947.6,3709.8 L 6021.6,3749.0 L 6020.0,3853.9 L 6086.3,3911.9 L 6193.5,3944.9 L 6228.5,3990.4 L 6238.8,4024.5 L 6231.1,4062.7 L 6190.7,4112.1 L 6180.4,4146.0 L 6193.3,4200.3 L 6177.2,4235.6 L 6207.0,4245.1 L 6237.7,4308.7 L 6269.8,4324.7 L 6276.7,4344.1 L 6244.1,4410.9 L 6162.7,4399.6 L 6084.3,4509.5 L 5932.2,4542.8 L 5910.0,4576.6 L 5910.6,4600.1 L 5858.6,4628.1 L 5812.3,4677.0 L 5822.7,4704.3 L 5768.4,4734.3 L 5757.4,4779.9 L 5669.1,4813.5 L 5688.5,4844.3 L 5678.7,4869.3 L 5588.2,4824.8 L 5563.4,4854.6 L 5531.9,4860.9 L 5515.1,4914.1 L 5409.0,4978.4 L 5440.1,5019.6 L 5427.7,5051.7 L 5398.9,5075.5 L 5404.1,5120.1 L 5382.5,5167.1 L 5306.0,5142.9 L 5312.0,5084.2 L 5292.0,5032.4 L 5293.4,4948.8 L 5220.9,4935.7 L 5195.4,4868.2 L 5134.0,4855.3 L 5124.0,4829.1 L 5068.1,4802.7 L 5025.9,4836.7 L 4948.7,4839.9 L 4909.0,4790.9 L 4897.8,4771.7 L 4906.4,4750.1 L 4877.3,4738.2 L 4876.8,4710.1 L 4836.6,4679.3 L 4871.1,4619.6 L 4855.3,4590.3 L 4861.3,4553.8 L 4789.3,4516.9 L 4814.3,4476.8 L 4808.1,4444.0 L 4837.2,4421.5 L 4709.3,4291.4 L 4652.3,4256.2 L 4640.9,4160.6 L 4605.8,4125.7 L 4584.8,4061.1 L 4532.3,4061.9 L 4507.3,4035.5 L 4499.2,3941.5 L 4426.1,3937.4 L 4413.8,3909.0 L 4307.3,3860.7 L 4242.4,3793.5 L 4246.9,3838.4 L 4225.9,3829.5 L 4203.4,3847.2 L 4175.4,3845.8 L 4168.0,3799.4 L 3991.1,3717.7 L 3990.1,3691.4 L 4041.3,3663.1 L 4077.6,3619.5 L 4220.2,3718.4 L 4240.5,3756.8 L 4286.2,3722.4 L 4335.8,3721.8 L 4364.7,3755.2 L 4417.3,3771.0 L 4530.3,3847.4 L 4564.8,3855.2 L 4636.2,3833.1 L 4825.3,3879.0 L 4903.1,3962.5 L 4924.7,3964.0 L 4926.8,3991.9 L 4978.4,4035.4 L 4984.2,4056.9 L 5032.9,4007.6 L 5067.3,3999.8 L 5094.9,3924.4 L 5157.6,3906.6 L 5187.1,3869.1 L 5204.6,3807.1 L 5253.0,3775.0 L 5274.0,3726.6 L 5298.4,3722.2 L 5358.7,3752.4 L 5391.4,3687.7 L 5383.6,3656.1 L 5408.9,3623.2 L 5474.6,3623.8 L 5478.9,3585.4 L 5530.4,3571.1 L 5615.8,3505.6 L 5659.3,3377.5 L 5711.2,3316.8 Z" />
+            <path class="cobertura-map-comuna" data-comuna="rinconada" data-provincia="los-andes" d="M 3818.3,3618.0 L 3796.9,3639.6 L 3811.1,3683.4 L 3870.6,3680.8 L 3991.2,3719.1 L 3986.7,3827.7 L 3950.9,3871.9 L 3929.5,4040.9 L 3977.2,4039.5 L 4024.2,4105.8 L 3991.8,4181.3 L 3999.7,4191.9 L 3983.6,4211.0 L 3988.8,4231.4 L 3940.3,4255.5 L 3880.5,4238.6 L 3828.4,4259.5 L 3787.1,4231.1 L 3776.4,4128.0 L 3736.0,4070.4 L 3726.8,3978.9 L 3702.0,3946.1 L 3673.8,3937.4 L 3680.5,3912.5 L 3644.0,3807.6 L 3646.4,3755.2 L 3625.4,3720.1 L 3687.2,3639.8 L 3714.5,3619.6 L 3763.3,3615.6 L 3809.7,3564.5 L 3818.3,3618.0 Z" />
+            <path class="cobertura-map-comuna" data-comuna="san_esteban" data-provincia="los-andes" d="M 5493.3,2174.9 L 5636.7,2231.5 L 5687.4,2268.1 L 5721.8,2320.5 L 5726.8,2355.2 L 5749.3,2373.5 L 5729.8,2417.8 L 5788.7,2566.0 L 5772.5,2628.6 L 5777.3,2719.6 L 5696.0,2738.2 L 5659.8,2799.7 L 5646.0,2883.7 L 5624.5,2905.7 L 5691.8,2966.1 L 5722.2,3157.3 L 5709.5,3243.9 L 5714.7,3317.0 L 5695.0,3323.1 L 5659.4,3377.6 L 5615.8,3505.6 L 5530.4,3571.2 L 5478.9,3585.4 L 5474.7,3623.9 L 5408.9,3623.2 L 5383.6,3656.1 L 5391.4,3687.8 L 5358.7,3752.5 L 5298.5,3722.2 L 5274.0,3726.7 L 5253.0,3775.0 L 5204.7,3807.2 L 5187.1,3869.1 L 5157.6,3906.7 L 5094.9,3924.5 L 5067.4,3999.9 L 5032.9,4007.6 L 4984.2,4056.9 L 4978.4,4035.5 L 4926.8,3991.9 L 4924.7,3964.1 L 4903.2,3962.5 L 4825.3,3879.1 L 4636.2,3833.2 L 4564.9,3855.2 L 4530.4,3847.4 L 4417.3,3771.1 L 4364.8,3755.2 L 4335.9,3721.8 L 4286.3,3722.4 L 4240.6,3756.9 L 4220.2,3718.4 L 4164.9,3672.1 L 4165.5,3596.5 L 4153.2,3567.0 L 4181.5,3519.2 L 4148.2,3488.7 L 4165.7,3434.6 L 4167.5,3359.3 L 4147.0,3347.8 L 4142.6,3319.1 L 4215.7,3259.8 L 4222.7,3233.2 L 4281.8,3209.1 L 4283.7,3157.2 L 4303.1,3149.6 L 4305.9,3132.7 L 4264.7,3045.8 L 4300.2,2956.4 L 4410.0,2922.3 L 4481.7,2822.3 L 4544.8,2809.0 L 4566.2,2789.0 L 4589.0,2811.1 L 4675.2,2798.3 L 4726.7,2828.4 L 4734.1,2809.4 L 4772.9,2807.0 L 4819.8,2756.4 L 4855.3,2773.5 L 4871.5,2820.0 L 4896.8,2839.6 L 4938.5,2786.7 L 5005.3,2749.0 L 5048.6,2670.1 L 5057.4,2617.5 L 5080.4,2595.4 L 5069.2,2572.5 L 5095.6,2543.0 L 5097.9,2506.7 L 5140.6,2459.3 L 5158.2,2369.8 L 5193.5,2327.2 L 5264.1,2308.2 L 5300.7,2322.2 L 5340.1,2312.2 L 5372.4,2257.4 L 5418.0,2237.1 L 5402.9,2187.9 L 5434.7,2138.0 L 5470.5,2140.4 L 5493.3,2174.9 Z" />
+          </g>
+        </svg>
         </div>
 
       </div>
-
-      <!-- TODO (fase 2): mapa interactivo de Chile (V, y quizas IV y RM),
-           sincronizado en ambos sentidos con estos botones de provincia. -->
 
     </div>
   </section>
@@ -1357,34 +1494,88 @@
   <script>
     (function () {
       'use strict';
+      // Cada comuna es [nombre visible, slug que la liga a su
+      // data-comuna en el SVG del mapa; null = sin trazo en el mapa].
       var COMUNAS = {
-        'quillota':    { nombre: 'Quillota', comunas: ['Quillota', 'La Cruz', 'Nogales', 'Calera', 'Hijuelas'] },
-        'valparaiso':  { nombre: 'Valparaíso', comunas: ['Valparaíso', 'Viña del Mar', 'Concón', 'Quintero', 'Puchuncaví', 'Casablanca', 'Juan Fernández'] },
-        'marga-marga': { nombre: 'Marga Marga', comunas: ['Quilpué', 'Villa Alemana', 'Limache', 'Olmué'] },
-        'san-antonio': { nombre: 'San Antonio', comunas: ['San Antonio', 'Cartagena', 'El Tabo', 'El Quisco', 'Algarrobo', 'Santo Domingo'] },
-        'petorca':     { nombre: 'Petorca', comunas: ['La Ligua', 'Cabildo', 'Petorca', 'Zapallar', 'Papudo'] },
-        'san-felipe':  { nombre: 'San Felipe de Aconcagua', comunas: ['San Felipe', 'Putaendo', 'Santa María', 'Panquehue', 'Llaillay', 'Catemu'] },
-        'los-andes':   { nombre: 'Los Andes', comunas: ['Los Andes', 'San Esteban', 'Calle Larga', 'Rinconada'] }
+        'quillota':    { nombre: 'Quillota', comunas: [['Quillota', 'quillota'], ['La Cruz', 'la_cruz'], ['Nogales', 'nogales'], ['Calera', 'calera'], ['Hijuelas', 'hijuelas']] },
+        'valparaiso':  { nombre: 'Valpara\u00edso', comunas: [['Valpara\u00edso', 'valparaiso'], ['Vi\u00f1a del Mar', 'vina_del_mar'], ['Conc\u00f3n', 'concon'], ['Quintero', 'quintero'], ['Puchuncav\u00ed', 'puchuncavi'], ['Casablanca', 'casablanca'], ['Juan Fern\u00e1ndez', null]] },
+        'marga-marga': { nombre: 'Marga Marga', comunas: [['Quilpu\u00e9', 'quilpue'], ['Villa Alemana', 'villa_alemana'], ['Limache', 'limache'], ['Olmu\u00e9', 'olmue']] },
+        'san-antonio': { nombre: 'San Antonio', comunas: [['San Antonio', 'san_antonio'], ['Cartagena', 'cartagena'], ['El Tabo', 'el_tabo'], ['El Quisco', 'el_quisco'], ['Algarrobo', 'algarrobo'], ['Santo Domingo', 'santo_domingo']] },
+        'petorca':     { nombre: 'Petorca', comunas: [['La Ligua', 'la_ligua'], ['Cabildo', 'cabildo'], ['Petorca', 'petorca'], ['Zapallar', 'zapallar'], ['Papudo', 'papudo']] },
+        'san-felipe':  { nombre: 'San Felipe de Aconcagua', comunas: [['San Felipe', 'san_felipe'], ['Putaendo', 'putaendo'], ['Santa Mar\u00eda', 'santa_maria'], ['Panquehue', 'panquehue'], ['Llay-Llay', 'llaillay'], ['Catemu', 'catemu']] },
+        'los-andes':   { nombre: 'Los Andes', comunas: [['Los Andes', 'los_andes'], ['San Esteban', 'san_esteban'], ['Calle Larga', 'calle_larga'], ['Rinconada', 'rinconada']] }
       };
+      // Comunas que no van con el "check" verde en el listado (ej. islas
+      // lejanas del continente, sin cobertura de terreno confirmada).
+      var SIN_COBERTURA = ['Juan Fern\u00e1ndez'];
 
       var list  = document.getElementById('cobertura-provincia-list');
       var title = document.getElementById('cobertura-comunas-title');
       var ul    = document.getElementById('cobertura-comuna-list');
+      var mapWrap = document.getElementById('cobertura-map-wrap');
       if (!list || !title || !ul) return;
+
+      function selectComuna(slug, li) {
+        if (!slug || !mapWrap) return;
+        mapWrap.querySelectorAll('.cobertura-map-comuna').forEach(function (p) {
+          p.classList.toggle('is-selected', p.getAttribute('data-comuna') === slug);
+        });
+        ul.querySelectorAll('.cobertura-comuna-btn').forEach(function (item) {
+          item.classList.toggle('is-selected', item === li);
+        });
+      }
 
       function show(key) {
         var d = COMUNAS[key];
         if (!d) return;
         title.textContent = 'Comunas de ' + d.nombre;
-        ul.innerHTML = d.comunas.map(function (c) { return '<li>' + c + '</li>'; }).join('');
+        ul.innerHTML = d.comunas.map(function (c) {
+          var nombre = c[0], slug = c[1];
+          var off = SIN_COBERTURA.indexOf(nombre) !== -1;
+          if (off) return '<li class="cobertura-comuna-off">' + nombre + '</li>';
+          return '<li class="cobertura-comuna-btn" data-comuna="' + slug + '" role="button" tabindex="0">' + nombre + '</li>';
+        }).join('');
         list.querySelectorAll('.cobertura-provincia-btn').forEach(function (b) {
           b.setAttribute('aria-pressed', b.getAttribute('data-provincia') === key ? 'true' : 'false');
+        });
+        if (mapWrap) {
+          mapWrap.querySelectorAll('.cobertura-map-provincia').forEach(function (g) {
+            g.classList.toggle('is-active', g.getAttribute('data-provincia') === key);
+          });
+          mapWrap.querySelectorAll('.cobertura-map-comuna').forEach(function (p) {
+            p.classList.remove('is-selected');
+          });
+        }
+        ul.querySelectorAll('.cobertura-comuna-btn').forEach(function (li) {
+          li.addEventListener('click', function () { selectComuna(li.getAttribute('data-comuna'), li); });
+          li.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              selectComuna(li.getAttribute('data-comuna'), li);
+            }
+          });
         });
       }
 
       list.querySelectorAll('.cobertura-provincia-btn').forEach(function (btn) {
         btn.addEventListener('click', function () { show(btn.getAttribute('data-provincia')); });
       });
+
+      if (mapWrap) {
+        mapWrap.querySelectorAll('.cobertura-map-provincia').forEach(function (g) {
+          g.addEventListener('click', function (e) {
+            show(g.getAttribute('data-provincia'));
+            var comunaPath = e.target.closest('.cobertura-map-comuna');
+            if (comunaPath) {
+              var slug = comunaPath.getAttribute('data-comuna');
+              var li = ul.querySelector('.cobertura-comuna-btn[data-comuna="' + slug + '"]');
+              selectComuna(slug, li);
+            }
+          });
+        });
+      }
+
+      show('quillota');
     })();
   </script>
 <!-- PARTIAL:cobertura:end -->

@@ -4,8 +4,8 @@
 llamada de revisión con Francisco (FA) — "Fase 1 Revisiones", transcrita en
 `C:\Users\Popex404\Downloads\Fase 1 Revisiones.mp4-es-asr.vtt` (referenciada
 acá para no releerla). Deadline seguía siendo viernes 2026-07-31 la última vez
-que se habló de fecha. No pusheado a GitHub — repo público desde 2026-07-30,
-pero pendiente confirmación explícita de Javier para el push de este trabajo.
+que se habló de fecha. Pusheado a GitHub el 2026-07-30 con confirmación
+explícita de Javier.
 
 **Dónde está todo:**
 - Landing: `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html`
@@ -15,8 +15,13 @@ pero pendiente confirmación explícita de Javier para el push de este trabajo.
   proof-counters,para-quien,value-stack,garantia,cobertura,contacto-final,
   cotizador-embed}.html` — aplicados solo a páginas de `servicios/` vía
   `SERVICE_PARTIAL_NAMES` en `build.py` (no a home/blog)
-- Video hero: `web/img/hero-video/termitas-hero.mp4` (640×800, 5s loop) + poster
-  — es un placeholder de prueba, el video definitivo todavía no está listo
+- Video hero: `web/img/hero-video/termitas-hero.mp4` (400×718, 16s completos,
+  las 3 escenas: termita asomándose en la madera, técnico aplicando el
+  tratamiento, inyección terminando en la espuma) + poster — **video
+  definitivo**, ya no es el placeholder de prueba. Fuente HD exportada por
+  Javier desde CapCut, comprimida a ~1MB para carga rápida en mobile. Mismo
+  filtro oscuro (video a 55% opacidad + overlay parejo `rgba(8,8,8,.45)`,
+  estilo liniero.cl) en mobile y desktop — ver "Hecho esta sesión".
 
 ---
 
@@ -35,27 +40,53 @@ adelante se quiere un mensaje contextual por indicio): gránulos café →
 termita de madera seca; túneles de barro → termita subterránea; alitas/vuelo
 distingue especie según la época del año.
 
-### 2. Cobertura — seguimos puliendo, no sacar nada
-Javier confirmó: dejar las 7 provincias tal como están, no sacar ninguna.
-Falta:
+### 2. Cobertura — mapa interactivo terminado (provincia + comuna), falta expandir a otras páginas
+**Mapa interactivo — HECHO, incluyendo selección por comuna.** Se construyó un
+mapa SVG real de las 7 provincias (con sus comunas) de la Región de
+Valparaíso, sincronizado en ambos sentidos con los botones (clic en botón
+resalta en el mapa, clic en el mapa resalta el botón y actualiza el listado
+de comunas) **y ahora también a nivel de comuna individual**: clic en una
+comuna del listado o directo en su trazo del mapa la pinta de naranjo
+(`var(--primary)`) mientras la provincia se queda en verde, en vez de solo
+resaltar toda la provincia. Fuente de los límites geográficos: dataset
+público `jlhonora/geo` en GitHub (basado en datos DPA de la Biblioteca del
+Congreso Nacional), simplificado con `shapely` para uso decorativo. Layout
+desktop: provincias + comunas a la izquierda, mapa a la derecha (según lo
+acordado con FA); en mobile el mapa va primero (después del subtítulo de la
+sección, antes del listado). Isla de Pascua y Juan Fernández quedan fuera del
+mapa visual (son parte de la Región/provincia de Valparaíso
+administrativamente, pero son islas muy alejadas del continente — incluirlas
+rompería la escala del mapa; Juan Fernández se marca con ❌ en el listado, sin
+check verde, y no es clickeable).
+
+**Sigue pendiente:**
 - **Agregarla también a la home** (`web/index.html`). FA fue explícito: *"la
   idea es que esté en los dos lados porque es una sección que nos faltó y que
   nos ayuda para el SEO."* Hoy `cobertura.html` solo se aplica en páginas de
-  `servicios/` vía `SERVICE_PARTIAL_NAMES`, no en home. **Pendiente.**
-- Mapa interactivo de Chile (fase 2) — layout confirmado por FA: provincias
-  a la izquierda, mapa a la derecha (coincide con lo construido). FA aclaró
-  que no hay que dibujar Chile completo, solo la zona relevante. **Pendiente.**
+  `servicios/` vía `SERVICE_PARTIAL_NAMES`, no en home.
 
-### 3. Hero video — última prioridad, sin cambios por ahora
-El video final todavía no está listo — seguimos usando el placeholder actual
-(`termitas-hero.mp4`, primeros 5s del clip de prueba) mientras tanto. Cuando
-llegue el video definitivo: FA prefiere cortar en el punto donde se ve la
-espuma (no necesariamente "los primeros 5 segundos"). Si se hace la versión
-de 3 cortes estilo liniero.cl, FA sugirió clips de técnico conectando el
-equipo, inyectando en la madera, y posiblemente un close-up de termita
-asomándose o gránulos cayendo — sin decidir cuál al final. El enfoque
-pantalla-completa + overlay que ya está montado es el que FA y Javier
-querían — confirmado, no es una contradicción real, no tocar.
+### 3. Hero video — HECHO, video definitivo instalado
+Ya no es el placeholder de prueba. Javier grabó/editó el video final (3
+escenas: termita asomándose, técnico aplicando el tratamiento, inyección
+terminando en la espuma — el punto que FA quería que se viera), lo exportó en
+alta calidad desde CapCut y quedó comprimido a ~1MB para no afectar la carga
+en mobile. El enfoque pantalla-completa + overlay que ya estaba montado se
+mantuvo (confirmado con FA, no era una contradicción real). Se agregó además
+un filtro oscuro parejo (video a 55% opacidad + overlay `rgba(8,8,8,.45)`,
+inspirado en liniero.cl) en mobile y desktop, reemplazando el degradado de
+color naranjo/verde saturado que había antes.
+
+**Sigue pendiente: aprobación de FA.** Técnicamente listo, falta que Francisco
+lo vea y confirme.
+
+### 4. Sección "4 síntomas de termita" (`#pain-points`) — falta definición de FA
+Los 4 popups "Ver foto real" (uno por síntoma: gránulos, alitas, galerías de
+barro, madera hueca) están montados como prueba con 4 variantes de formato
+distintas, para que FA elija cuál prefiere (ver comentario en el HTML,
+`.pain-photo-btn`, línea ~307). Hoy las tarjetas siguen con emoji genérico en
+vez de fotos reales. **Falta que FA seleccione un estilo (de las 4
+variantes) y mande las fotos reales** de cada síntoma para reemplazar los
+emoji.
 
 ---
 
@@ -92,6 +123,41 @@ querían — confirmado, no es una contradicción real, no tocar.
   esta sesión (aunque el fix de anchors locales ya estaba desde el primer
   build). Si lo ves de nuevo, dime en qué página exacta, qué link, y
   desktop o mobile, para poder reproducirlo.
+- **Fix "Llaillay" → "Llay-Llay"** en el listado de comunas de San Felipe de
+  Aconcagua (nombre oficial correcto), y **emoji de Juan Fernández** cambiado
+  de una cruz gris/negra (`✗`) a ❌.
+- **Mapa: clic en comuna, no solo en provincia.** Antes clic en el mapa solo
+  resaltaba toda la provincia; ahora clic en el trazo de una comuna específica
+  (o en su nombre en el listado) la selecciona igual en ambos lugares.
+- **Layout del hero en mobile reordenado**, a pedido de Javier: "A&C Control
+  de Plagas" pegado arriba (justo debajo del navbar), los 3 CTAs pegados
+  abajo, y el título principal (h1) inmediatamente encima de los CTAs — antes
+  los 3 elementos quedaban centrados como un solo bloque a media pantalla,
+  tapando el video de fondo.
+- **Filtro del hero (mobile y desktop) cambiado.** El degradado naranjo/verde
+  saturado ("polarizado", palabras de Javier) se reemplazó por un
+  oscurecido parejo sin tinte de color (video a 55% opacidad + overlay
+  `rgba(8,8,8,.45)`), inspirado en cómo lo hace liniero.cl. Se aplicó primero
+  solo en mobile y después, a pedido de Javier, también en desktop.
+- **Bug de layout en el hero desktop, encontrado y corregido:** el `<video>`
+  de escritorio estaba en flujo normal con `width/height:100%`, así que su
+  propio aspect ratio (401×718, muy angosto y alto en la versión HD) se
+  metía en el cálculo de alto de la fila del grid del hero y estiraba todo el
+  bloque —video y columna de texto— a más de 1000px de alto. Se corrigió
+  poniendo el video en `position:absolute` dentro de su contenedor (mismo
+  patrón que ya se usaba en mobile), así el tamaño del contenedor ya no
+  depende del aspect ratio del archivo de video que se use.
+- **Video hero reemplazado dos veces**: primero por un recorte de 5s de un
+  clip de prueba, después (a pedido de Javier, el video ya venía armado para
+  mostrar 3 escenas completas) por el video completo de 16s, y finalmente por
+  la versión HD exportada desde CapCut, comprimida a ~1MB. Ver sección "3.
+  Hero video" arriba para el detalle.
+- **Contenido recortado en 2 secciones**, a pedido de Javier: en
+  "Especialistas en las dos especies..." se sacó el link "conoce el detalle
+  técnico de cada especie" (apuntaba a `blog/termitas/`) y el párrafo ahora
+  termina en "...antes de definir el tratamiento."; en "Método de
+  Tratamiento" se sacó el subtítulo "Protocolos específicos según la especie
+  y el nivel de infestación."
 
 ---
 

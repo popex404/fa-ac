@@ -68,11 +68,15 @@ son las mismas.
 Los valores por contexto (home vs. blog) están al principio de `build.py`, en
 `HOME_CTX` y `BLOG_CTX`.
 
-## Cómo agregar una página nueva al sistema (ej. la landing de Termitas, futuras páginas de comuna)
+## Cómo agregar una página nueva al sistema (ej. futuras páginas de comuna)
 
-**Hoy `build.py` tiene la lista de archivos escrita a mano** (la home + las 9
-plagas, variable `PLAGAS`). Para que una página nueva reciba el mismo
-header/footer automático:
+**Hoy `build.py` tiene la lista de archivos escrita a mano**: la home + las 9
+plagas (variable `PLAGAS`) para header/footer/analytics, y las páginas de
+`servicios/` (variable `SERVICIOS`, lista de diccionarios `{slug, overrides...}`)
+para eso más los partials de contenido (`SERVICE_PARTIAL_NAMES`). La landing de
+Termitas ya usa este segundo patrón — es el ejemplo a seguir para la próxima
+página de servicio. Para que una página nueva reciba el mismo header/footer
+automático:
 
 1. En su HTML, dejar los mismos marcadores `<!-- PARTIAL:header:start -->` /
    `:end` (y los de footer, analytics, main-js, year-script) en el lugar
@@ -94,7 +98,9 @@ decidirlo cuando se sepa cómo se van a organizar las carpetas nuevas.
 `web/js/cotizador.js` **no** es un partial, es un solo archivo JS que las
 páginas enlazan (`<script src=".../js/cotizador.js">`). Cambiar su lógica
 (precios, preguntas, textos) es editar ese archivo directo, sin build, aplica
-solo en cualquier página que lo enlace. Hoy solo `web/index.html` lo enlaza.
+solo en cualquier página que lo enlace. Hoy `web/index.html` lo enlaza, y la
+landing de Termitas usa su propio `web/js/cotizador-termitas.js` (separado a
+propósito, para que futuras plagas tengan el suyo sin pisarse).
 
 Su número de WhatsApp (`WA_NUMBER` en la línea 7) es una excepción: no es un
 bloque de HTML así que no puede ser un partial, pero sí depende del mismo dato
@@ -110,10 +116,10 @@ red de seguridad en tiempo de ejecución, redundante ahora con lo que hace
 `build.py` en el HTML fuente, pero no molesta y se dejó tal cual (no se borró
 código que ya funcionaba). `build.py` también sincroniza estas 2 constantes.
 
-Si se quiere embeber el cotizador en una página nueva (la landing de Termitas,
-por ejemplo), falta un sexto partial (`cotizador-embed.html`, el `<div>` del
-widget/modal + el `<script>`), todavía no existe porque depende de cómo se
-decida mostrarlo ahí (modal vs. widget inline).
+Para embeber el cotizador en una página de servicio nueva ya existe el partial
+`_partials/cotizador-embed.html` (el `<div>` del widget/modal + el `<script>`,
+parte de `SERVICE_PARTIAL_NAMES`) — se agregó para la landing de Termitas, se
+reusa tal cual para la próxima página de servicio.
 
 ## Lo que este sistema NO cubre todavía (actualizado 2026-07-29)
 
@@ -133,8 +139,15 @@ decida mostrarlo ahí (modal vs. widget inline).
   una empresa es complicado, no vale la pena la abstracción para algo que
   casi no va a cambiar.
 
+**Resuelto parcialmente:**
+- La **garantía** (`GARANTIA_DIAS` / `GARANTIA_PERIODO`) ya es un token con
+  default "14 días" en `SERVICIO_CTX`, sobreescribible por página vía el
+  diccionario `SERVICIOS` — la landing de Termitas lo usa para su garantía de
+  1 año sin tocar el default del resto del sitio. Ese es el patrón a repetir
+  para cualquier otro valor que varíe por página de servicio.
+
 **Sigue pendiente (más grande, no es de este ajuste puntual):**
-- El **texto de contenido** (garantía "14 días", menciones SEREMI, copy del
+- El resto del **texto de contenido** (menciones SEREMI, copy del
   hero/FAQ/etc.) sigue siendo HTML fijo por página, no un dato en `_data.json`.
-  Tokenizar contenido de verdad (no solo contacto) es del tamaño del generador
-  de comunas/servicios que viene después de la landing de Termitas.
+  Tokenizar contenido de verdad (no solo contacto/garantía) es del tamaño del
+  generador de comunas/servicios que viene después de la landing de Termitas.

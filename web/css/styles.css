@@ -2992,7 +2992,7 @@ details[open] .faq-question {
 
 
 /* ============================================================
-   COBERTURA — provincias -> comunas interactivo (fase 1, sin mapa)
+   COBERTURA — provincias/comunas + mapa interactivo de la V Region.
    Pensada para reusarse en cualquier landing de servicio futura.
    ============================================================ */
 #cobertura {
@@ -3005,6 +3005,19 @@ details[open] .faq-question {
   grid-template-columns: 1fr;
   gap: 1.75rem;
   margin-top: var(--space-lg);
+}
+
+.cobertura-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Mobile: mapa primero (justo despues del subtexto de la seccion), listado
+   de provincias/comunas despues. Desktop mantiene el orden del HTML (listado
+   a la izquierda, mapa a la derecha), ver el reset abajo. */
+.cobertura-map-wrap {
+  order: -1;
 }
 
 .cobertura-subtitle {
@@ -3072,16 +3085,102 @@ details[open] .faq-question {
   font-size: 0.8rem;
 }
 
+/* Comunas sin cobertura confirmada (ej. islas lejanas del continente) —
+   mismo estilo que el resto, pero con cruz en vez de check. Ver
+   SIN_COBERTURA en el script del partial. */
+.cobertura-comuna-list li.cobertura-comuna-off::before {
+  content: '❌';
+  font-size: 0.7rem;
+}
+
+/* Comunas clickeables del listado (sincronizadas con el mapa). */
+.cobertura-comuna-list li.cobertura-comuna-btn {
+  cursor: pointer;
+}
+.cobertura-comuna-list li.cobertura-comuna-btn:hover,
+.cobertura-comuna-list li.cobertura-comuna-btn:focus-visible {
+  color: var(--primary);
+}
+.cobertura-comuna-list li.cobertura-comuna-btn.is-selected {
+  color: var(--primary);
+  font-weight: 700;
+}
+.cobertura-comuna-list li.cobertura-comuna-btn.is-selected::before {
+  color: var(--primary);
+}
+
 .cobertura-note {
   margin-top: 1.25rem;
   font-size: var(--text-xs);
   color: var(--text-muted);
 }
 
+/* Mapa interactivo: cada provincia es un <g> con sus comunas adentro.
+   Clic en el mapa o en un boton de provincia sincronizan el estado
+   (.is-active) via JS en el propio partial. */
+.cobertura-map-wrap {
+  background: var(--white);
+  border-radius: var(--radius, 12px);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cobertura-map-svg {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+}
+
+.cobertura-map-provincia {
+  cursor: pointer;
+}
+
+.cobertura-map-comuna {
+  fill: var(--bg-light-green);
+  stroke: var(--white);
+  stroke-width: 6;
+  transition: fill 200ms ease;
+}
+
+.cobertura-map-provincia:hover .cobertura-map-comuna {
+  fill: rgba(58, 107, 40, 0.45);
+}
+
+.cobertura-map-provincia.is-active .cobertura-map-comuna {
+  fill: var(--secondary);
+}
+
+.cobertura-map-provincia.is-active .cobertura-map-comuna.is-selected {
+  fill: var(--primary);
+}
+
+/* Regiones vecinas (IV y Metropolitana): solo contexto geografico, sin
+   interaccion — se recortan a la porcion que colinda con la V Region. */
+.cobertura-map-context {
+  pointer-events: none;
+}
+.cobertura-map-context-shape {
+  fill: #d9d9d9;
+  stroke: var(--white);
+  stroke-width: 6;
+}
+.cobertura-map-context-label {
+  font-size: 180px;
+  fill: #8a8a8a;
+  font-family: var(--font-base);
+  text-anchor: middle;
+}
+
 @media (min-width: 900px) {
   .cobertura-grid {
     grid-template-columns: 1fr 1fr;
     align-items: start;
+  }
+  .cobertura-map-wrap {
+    order: 0;
   }
   .cobertura-comuna-list {
     grid-template-columns: repeat(2, 1fr);
