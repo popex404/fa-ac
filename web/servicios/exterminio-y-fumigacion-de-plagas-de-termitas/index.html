@@ -1,38 +1,191 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" dir="ltr">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="A&C Soluciones Agricolas y Urbanas: control de plagas certificado SEREMI DS 157/05 en Valparaíso, Viña del Mar, Quilpué, Quillota y Quinta Región. Cucarachas, roedores, termitas, chinches, avispas, mosquitos, hormigas, palomas. Desinsectación, desratización, sanitización. Diagnóstico gratuito y garantía 14 días." />
+    content="Tratamiento y exterminio de plagas de termitas (madera seca y subterránea) en Valparaíso, Viña del Mar, Quilpué y Quinta Región. Diagnóstico gratuito, certificado SEREMI y garantía de 14 días." />
   <meta name="keywords"
-    content="control de plagas Valparaíso, control de plagas Viña del Mar, control de plagas Quilpué, fumigación Valparaíso, desinsectación, desratización, sanitización, fumigación cucarachas, control roedores, control termitas, chinches de cama, avispas, hormigas, mosquitos, palomas, arañas de rincón, manejo integrado de plagas, MIP, SEREMI DS 157/05, desinfección, hongos, virus, bacterias, control plagas Quinta Región, empresa certificada SEREMI Chile" />
+    content="control de termitas, plaga de termitas, problema de termitas, tratamiento de termitas, fumigación de termitas, exterminio de termitas, desinsectación termitas, termita madera seca, termita subterránea, diagnóstico gratuito termitas, certificado SEREMI, control termitas Valparaíso, control termitas Quinta Región" />
   <meta name="theme-color" content="#D96A0E" />
-  <link rel="canonical" href="https://www.aycmip.cl/" />
-  <link rel="icon" type="image/png" href="img/Logo_ayc@4x-3.png" />
-  <link rel="apple-touch-icon" href="img/Logo_ayc@4x-3.png" />
-  <meta property="og:title" content="Control de Plagas Profesional en Valparaíso | A&C Soluciones — SEREMI" />
+  <link rel="canonical" href="https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/" />
+  <link rel="icon" type="image/png" href="../../img/Logo_ayc@4x-3.png" />
+  <link rel="apple-touch-icon" href="../../img/Logo_ayc@4x-3.png" />
+  <meta property="og:title" content="Exterminio de Plagas de Termitas en Valparaíso | Certificado SEREMI — A&C Soluciones" />
   <meta property="og:description"
-    content="Empresa certificada SEREMI DS 157/05. Cucarachas, roedores, termitas, chinches, avispas, mosquitos, hormigas, palomas. Atendemos Valparaíso, Viña del Mar, Quilpué y Quinta Región. Diagnóstico gratuito." />
+    content="Tratamiento especializado de termita de madera seca y subterránea. Diagnóstico gratuito, certificado SEREMI y garantía de 14 días. Atendemos Valparaíso, Viña del Mar, Quilpué y Quinta Región." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.aycmip.cl/" />
+  <meta property="og:url" content="https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/" />
   <meta property="og:image" content="https://www.aycmip.cl/img/LOGO-01.jpg" />
 
-  <title>A&C Soluciones Agricolas y Urbanas | Control de Plagas Profesional Chile</title>
+  <title>Exterminio de Plagas de Termitas en Valparaíso | Certificado SEREMI — A&C Soluciones</title>
 
   <!-- Canonical font preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Swiper CSS CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-  <!-- Site Styles -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Site Styles (solo styles.css: subpages.css se saco de esta pagina porque
+       trae "h1,h2,h3,h4,h5{font-family:Nunito}" y ".btn{font-family:Nunito}"
+       sin Nunito cargado aca, lo que rompia la tipografia del Hero y de los
+       botones en toda la pagina) -->
+  <link rel="stylesheet" href="../../css/styles.css" />
   <!-- Cotizador Styles -->
-  <link rel="stylesheet" href="css/cotizador.css" />
+  <link rel="stylesheet" href="../../css/cotizador.css" />
+
+  <!-- Ajustes propios de esta landing (no tocar css/styles.css: es compartido
+       con el home y con blog/*, esto es solo para esta pagina) -->
+  <style>
+    /* PRUEBA: video de fondo en el hero, solo desktop (styles.css solo tiene
+       la regla ".hero-image-wrap img", faltaba la del <video>). */
+    .hero-image-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* #pain-points trae un corte diagonal (clip-path) pensado para entrar en
+       #mecanismo (su vecino en el home). Aca en medio va "Especialistas en
+       termitas", que no tiene el padding para absorber ese corte, asi que el
+       texto quedaba mal encajado. Se anula solo en esta pagina. */
+    #pain-points {
+      clip-path: none;
+      margin-bottom: 0;
+    }
+
+    /* ESPECIALISTAS EN TERMITAS — mismo padding-block que el resto de las
+       secciones (#pain-points, #mecanismo, etc. lo declaran cada una, no hay
+       una regla generica para <section>). */
+    #especialistas-termitas {
+      background: var(--white);
+      padding-block: var(--space-2xl);
+    }
+
+    /* Especies de termita: foto izquierda + texto + foto derecha en desktop,
+       texto arriba y las 2 fotos en una fila (mas chicas) en mobile. */
+    .especialistas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "texto texto" "foto1 foto2";
+      gap: 1.5rem;
+      align-items: start;
+      margin-top: var(--space-lg);
+    }
+    .especialistas-text { grid-area: texto; }
+    .especialistas-text p {
+      font-size: var(--text-base);
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .especialistas-photo:first-of-type { grid-area: foto1; }
+    .especialistas-photo:last-of-type { grid-area: foto2; }
+    .especialistas-photo { margin: 0; text-align: center; }
+    /* "Marco" verde oscuro (var(--secondary), el mismo verde A&C de botones y
+       acentos) para que la foto no quede flotando sin apoyo visual. */
+    .especialistas-photo img {
+      width: 100%;
+      max-width: 140px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 0.6rem;
+      border: 4px solid var(--secondary);
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+    }
+    .especialistas-photo figcaption {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+    .especialistas-sci {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @media (min-width: 900px) {
+      .especialistas-grid {
+        grid-template-columns: 220px 1fr 220px;
+        grid-template-areas: "foto1 texto foto2";
+        gap: 2.5rem;
+        align-items: center;
+      }
+      .especialistas-photo img { max-width: 220px; }
+    }
+
+    /* METODO DE TRATAMIENTO — traido de blog/termitas/index.html, pero
+       reimplementado con las variables/tipografia de styles.css (Inter) en
+       vez de las de subpages.css (Nunito/Roboto), para que calce con el
+       resto de la pagina. */
+    .treatment {
+      background: var(--white);
+      padding-block: var(--space-2xl);
+    }
+    .treatment__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      align-items: start;
+      margin-top: var(--space-lg);
+    }
+    .treatment__intro {
+      font-size: var(--text-base);
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.375rem;
+    }
+    .treatment__list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .treatment__list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      font-size: var(--text-base);
+      color: var(--text-dark);
+      line-height: 1.65;
+    }
+    .treatment__list li::before {
+      content: '\2713';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 50%;
+      background: var(--secondary);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 0.15rem;
+    }
+    .treatment__image img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+    }
+    @media (min-width: 768px) {
+      .treatment__grid {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 2.5rem;
+      }
+      .treatment__image img { height: 100%; }
+    }
+  </style>
 
 <!-- PARTIAL:analytics:start -->
   <!-- Google tag (gtag.js) -->
@@ -79,25 +232,25 @@
      MOBILE DRAWER MENU
      ============================================================ -->
   <nav id="mobile-menu" aria-label="Men&uacute; m&oacute;vil">
-    <a href="#">Inicio</a>
+    <a href="../../index.html">Inicio</a>
     <details class="mobile-servicios-details">
       <summary class="mobile-servicios-trigger">Plagas</summary>
       <div class="mobile-servicios-list">
-        <a href="blog/aranas/index.html">Arañas</a>
-        <a href="blog/avispas/index.html">Avispas</a>
-        <a href="blog/chinche/index.html">Chinche de cama</a>
-        <a href="blog/cucarachas/index.html">Cucarachas</a>
-        <a href="blog/mosquito/index.html">Mosquitos</a>
-        <a href="blog/hormigas/index.html">Hormigas</a>
-        <a href="blog/palomas/index.html">Palomas</a>
-        <a href="blog/ratones/index.html">Roedores</a>
-        <a href="blog/termitas/index.html">Termitas</a>
+        <a href="../../blog/aranas/index.html">Arañas</a>
+        <a href="../../blog/avispas/index.html">Avispas</a>
+        <a href="../../blog/chinche/index.html">Chinche de cama</a>
+        <a href="../../blog/cucarachas/index.html">Cucarachas</a>
+        <a href="../../blog/mosquito/index.html">Mosquitos</a>
+        <a href="../../blog/hormigas/index.html">Hormigas</a>
+        <a href="../../blog/palomas/index.html">Palomas</a>
+        <a href="../../blog/ratones/index.html">Roedores</a>
+        <a href="../../blog/termitas/index.html">Termitas</a>
       </div>
     </details>
     <details class="mobile-servicios-details">
       <summary class="mobile-servicios-trigger">Servicios</summary>
       <div class="mobile-servicios-list">
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html">Control de Termitas</a>
+        <a href="../exterminio-y-fumigacion-de-plagas-de-termitas/index.html">Control de Termitas</a>
       </div>
     </details>
     <a href="#para-quien">Para qui&eacute;n es</a>
@@ -134,15 +287,15 @@
       <div class="navbar-inner">
 
         <!-- Logo -->
-        <a href="#" class="navbar-logo" aria-label="A&C Soluciones Agr&iacute;colas y Urbanas, inicio">
-          <img src="img/LOGO-01.jpg" alt="Logo A&C Soluciones Agr&iacute;colas y Urbanas" width="160" height="60"
+        <a href="../../index.html" class="navbar-logo" aria-label="A&C Soluciones Agr&iacute;colas y Urbanas, inicio">
+          <img src="../../img/LOGO-01.jpg" alt="Logo A&C Soluciones Agr&iacute;colas y Urbanas" width="160" height="60"
             loading="eager" />
         </a>
 
         <!-- Desktop nav links -->
         <nav class="navbar-nav" aria-label="Navegaci&oacute;n principal">
           <div class="nav-dropdown-wrap">
-            <a href="#servicios" class="nav-dropdown-trigger">
+            <a href="../../index.html#servicios" class="nav-dropdown-trigger">
               Plagas
               <svg class="nav-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2.5" aria-hidden="true">
@@ -150,19 +303,19 @@
               </svg>
             </a>
             <div class="nav-dropdown-menu" role="menu">
-              <a href="blog/aranas/index.html" role="menuitem">Ara&ntilde;as</a>
-              <a href="blog/avispas/index.html" role="menuitem">Avispas</a>
-              <a href="blog/chinche/index.html" role="menuitem">Chinches</a>
-              <a href="blog/cucarachas/index.html" role="menuitem">Cucarachas</a>
-              <a href="blog/mosquito/index.html" role="menuitem">Mosquitos</a>
-              <a href="blog/hormigas/index.html" role="menuitem">Hormigas</a>
-              <a href="blog/palomas/index.html" role="menuitem">Palomas</a>
-              <a href="blog/ratones/index.html" role="menuitem">Roedores</a>
-              <a href="blog/termitas/index.html" role="menuitem">Termitas</a>
+              <a href="../../blog/aranas/index.html" role="menuitem">Ara&ntilde;as</a>
+              <a href="../../blog/avispas/index.html" role="menuitem">Avispas</a>
+              <a href="../../blog/chinche/index.html" role="menuitem">Chinches</a>
+              <a href="../../blog/cucarachas/index.html" role="menuitem">Cucarachas</a>
+              <a href="../../blog/mosquito/index.html" role="menuitem">Mosquitos</a>
+              <a href="../../blog/hormigas/index.html" role="menuitem">Hormigas</a>
+              <a href="../../blog/palomas/index.html" role="menuitem">Palomas</a>
+              <a href="../../blog/ratones/index.html" role="menuitem">Roedores</a>
+              <a href="../../blog/termitas/index.html" role="menuitem">Termitas</a>
             </div>
           </div>
           <div class="nav-dropdown-wrap">
-            <a href="servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html" class="nav-dropdown-trigger">
+            <a href="../exterminio-y-fumigacion-de-plagas-de-termitas/index.html" class="nav-dropdown-trigger">
               Servicios
               <svg class="nav-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2.5" aria-hidden="true">
@@ -170,7 +323,7 @@
               </svg>
             </a>
             <div class="nav-dropdown-menu" role="menu">
-              <a href="servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html" role="menuitem">Control de Termitas</a>
+              <a href="../exterminio-y-fumigacion-de-plagas-de-termitas/index.html" role="menuitem">Control de Termitas</a>
             </div>
           </div>
           <a href="#para-quien">Para qui&eacute;n es</a>
@@ -242,28 +395,29 @@
 
           <!-- Hero image: solo visible en mobile -->
           <div class="hero-mobile-img-wrap">
-            <img src="img/hero_main_ayc.png" alt="T&eacute;cnico certificado A&C" loading="eager" fetchpriority="high"
+            <img src="../../img/hero_main_ayc.png" alt="T&eacute;cnico certificado A&C" loading="eager" fetchpriority="high"
               class="hero-mobile-img" />
           </div>
 
           <h1 id="hero-heading">
-            Solucionamos tu problema de plagas desde la primera visita,
+            Solucionamos tu problema de plaga de termitas desde la primera visita,
             <em>garantizado</em>
           </h1>
 
           <p class="hero-subhead">
-            T&eacute;cnicos especializados, insecticidas profesionales y garant&iacute;a real. Sin repeticiones, sin
-            sorpresas. Resolvemos el problema de una vez y con respaldo oficial. Atendemos toda la V Regi&oacute;n y alrededores.
+            T&eacute;cnicos certificados, insecticidas no repelentes y diagn&oacute;stico de la especie exacta antes de
+            cotizar. Sin repeticiones, sin sorpresas. Certificado SEREMI incluido. Atendemos toda la V Regi&oacute;n y
+            alrededores.
           </p>
 
           <div class="hero-ctas">
-            <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+            <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
               target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path
                   d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>
-              Habla con un especialista t&eacute;cnico ahora
+              Habla con un especialista en termitas ahora
             </a>
             <a href="tel:+56936678897" class="btn btn-outline">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -282,19 +436,24 @@
           </div>
         </div>
 
-        <!-- Right column: image -->
+        <!-- Right column: video (solo desktop — PRUEBA, ver nota en el <head>).
+             .hero-image-wrap ya es display:none en mobile, asi que mobile
+             nunca pide el video: sigue con el hero normal. -->
         <div class="hero-image-wrap reveal reveal-delay-2">
-          <img src="img/hero_main_ayc.png"
-            alt="T&eacute;cnico certificado A&C de frente con brazos cruzados frente a cartel AyC MiP" width="640"
-            height="800" loading="eager" fetchpriority="high" />
+          <video autoplay muted loop playsinline preload="none"
+            poster="../../img/hero-video/termitas-hero-poster.jpg"
+            aria-label="T&eacute;cnico certificado A&C aplicando tratamiento en una ventana">
+            <source src="../../img/hero-video/termitas-hero.mp4" type="video/mp4" />
+          </video>
         </div>
 
       </div>
     </div>
   </section>
 
+<!-- PARTIAL:trust-bar:start -->
   <!-- ============================================================
-     2. TRUST BAR
+     TRUST BAR
      ============================================================ -->
   <div id="trust-bar" role="region" aria-label="Indicadores de confianza">
     <div class="container">
@@ -331,9 +490,11 @@
       </div>
     </div>
   </div>
+<!-- PARTIAL:trust-bar:end -->
 
+<!-- PARTIAL:clientes:start -->
   <!-- ============================================================
-     3. BANNER CLIENTES (logos empresas)
+     BANNER CLIENTES (logos empresas)
      ============================================================ -->
   <section id="clientes" aria-label="Empresas que conf&iacute;an en A&C Soluciones">
     <div class="container">
@@ -345,98 +506,91 @@
       <div class="clientes-marquee-track">
         <!-- Primera copia -->
         <div class="cliente-logo">
-          <img src="img/clientes/logo_starken.png" alt="Logo Starken" style="mix-blend-mode:multiply;" />
+          <img src="../../img/clientes/logo_starken.png" alt="Logo Starken" style="mix-blend-mode:multiply;" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_copec.png" alt="Logo Copec" style="mix-blend-mode:multiply;" />
+          <img src="../../img/clientes/logo_copec.png" alt="Logo Copec" style="mix-blend-mode:multiply;" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_integra.jpg" alt="Logo Fundaci&oacute;n Integra"
+          <img src="../../img/clientes/logo_integra.jpg" alt="Logo Fundaci&oacute;n Integra"
             style="mix-blend-mode:multiply;" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_vina_montes.png" alt="Logo Vi&ntilde;a Montes" />
+          <img src="../../img/clientes/logo_vina_montes.png" alt="Logo Vi&ntilde;a Montes" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_banamor.svg" alt="Logo Fundaci&oacute;n BanAmor" />
+          <img src="../../img/clientes/logo_banamor.svg" alt="Logo Fundaci&oacute;n BanAmor" />
         </div>
         <!-- Copias duplicadas para loop infinito seamless (3 sets extra) -->
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_starken.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_copec.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_integra.jpg" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_vina_montes.png" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_banamor.svg" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_starken.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_copec.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_integra.jpg" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" alt=""
-            style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" alt=""
-            style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" alt=""
-            style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_vina_montes.png" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_banamor.svg" alt="" /></div>
       </div>
     </div>
   </section>
+<!-- PARTIAL:clientes:end -->
 
   <!-- ============================================================
-     4. PAIN POINTS
+     PAIN POINTS (especifico termitas)
      ============================================================ -->
   <section id="pain-points" aria-labelledby="pain-heading">
     <div class="container">
 
       <div class="section-header reveal">
         <span class="section-label">El problema real</span>
-        <h2 id="pain-heading">&iquest;Reconoces alguno de estos problemas?</h2>
-        <p>El <strong>73% de nuestros clientes hab&iacute;a contratado a otra empresa antes.</strong> La plaga
-          volvi&oacute; igual. No es mala suerte: es m&eacute;todo equivocado.</p>
+        <h2 id="pain-heading">&iquest;Reconoces alguna de estas se&ntilde;ales de termitas?</h2>
+        <p>La termita act&uacute;a en silencio durante a&ntilde;os. Cuando el da&ntilde;o se ve a simple vista, ya es
+          grave. Estas son las se&ntilde;ales que no debes ignorar.</p>
       </div>
 
       <div class="pain-grid">
 
         <article class="pain-card reveal">
-          <div class="pain-card-icon" aria-hidden="true">&#128260;</div>
-          <h3>&iquest;Fumigaste y volvieron?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#128296;</div>
+          <h3>&iquest;La madera suena hueca al golpearla?</h3>
           <p>
-            Muchas empresas usan productos que dispersan la plaga en vez de eliminarla. Pagas 3 veces y el problema
-            sigue.
+            La termita de madera seca avanza por dentro sin dejar rastro visible en la superficie. Un sonido hueco al
+            golpear suave con los nudillos suele ser la primera se&ntilde;al, antes de que el da&ntilde;o sea grave.
           </p>
         </article>
 
         <article class="pain-card reveal reveal-delay-1">
-          <div class="pain-card-icon" aria-hidden="true">&#128247;</div>
-          <h3>&iquest;Nadie te responde el formulario?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#129725;</div>
+          <h3>&iquest;Viste alitas cerca de las ventanas?</h3>
           <p>
-            Cuando hay una plaga, necesitas respuesta inmediata. Los formularios no dan certeza de cu&aacute;ndo te
-            llaman.
+            En &eacute;poca de enjambre, las termitas reproductoras sueltan sus alas cerca de fuentes de luz. Si las
+            viste, hay una colonia establecida cerca de tu hogar.
           </p>
         </article>
 
         <article class="pain-card reveal reveal-delay-2">
-          <div class="pain-card-icon" aria-hidden="true">&#127922;</div>
-          <h3>&iquest;Te ofrecen precio sin ver el problema?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#128996;</div>
+          <h3>&iquest;Gr&aacute;nulos color caf&eacute; en el suelo o los muebles?</h3>
           <p>
-            Cada plaga es distinta. Sin visita t&eacute;cnica, el diagn&oacute;stico puede estar equivocado y la
-            cotizaci&oacute;n no vale nada.
+            Es el excremento de la termita de madera seca. Se confunde f&aacute;cilmente con aserr&iacute;n o tierra,
+            pero es una de las se&ntilde;ales m&aacute;s claras de infestaci&oacute;n activa.
           </p>
         </article>
 
         <article class="pain-card reveal reveal-delay-3">
-          <div class="pain-card-icon" aria-hidden="true">&#128196;</div>
-          <h3>&iquest;Te llenaron de Papeles?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#128371;</div>
+          <h3>&iquest;T&uacute;neles de barro en paredes o cimientos?</h3>
           <p>
-            Otras empresas te entregan pilas de documentos en papel. Nosotros somos 100% digitales: &oacute;rdenes,
-            informes y certificados llegan directo a tu correo, sin papeler&iacute;o.
+            Es la termita subterr&aacute;nea construyendo su camino hacia la madera. Es la especie m&aacute;s
+            destructiva y puede comprometer la estructura completa de un edificio.
           </p>
         </article>
 
@@ -445,7 +599,78 @@
   </section>
 
   <!-- ============================================================
-     5. MECANISMO UNICO
+     ESPECIALISTAS EN TERMITAS (especies + metodo de tratamiento,
+     traido de blog/termitas/index.html)
+     ============================================================ -->
+  <section id="especialistas-termitas" aria-labelledby="especialistas-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Diagn&oacute;stico preciso</span>
+        <h2 id="especialistas-heading">Especialistas en las dos especies de termita de la zona</h2>
+      </div>
+
+      <div class="especialistas-grid">
+
+        <figure class="especialistas-photo reveal">
+          <img src="../../img/maderaseca-scaled.png" alt="Termita de Madera Seca" loading="lazy" />
+          <figcaption>Termita de Madera Seca <span class="especialistas-sci">(Cryptotermes brevis)</span></figcaption>
+        </figure>
+
+        <div class="especialistas-text reveal">
+          <p>
+            Trabajamos con las dos especies m&aacute;s comunes en la Quinta Regi&oacute;n: la <strong>termita de
+            madera seca</strong>, que vive dentro de la madera sin necesitar contacto con el suelo, y la
+            <strong>termita subterr&aacute;nea</strong>, la m&aacute;s destructiva, que construye galer&iacute;as de
+            barro desde el suelo hasta la estructura. Nuestro diagn&oacute;stico identifica la especie exacta antes
+            de definir el tratamiento &mdash;
+            <a href="../../blog/termitas/index.html">conoce el detalle t&eacute;cnico de cada especie</a>.
+          </p>
+        </div>
+
+        <figure class="especialistas-photo reveal">
+          <img src="../../img/Termita-subterranea-03.jpg" alt="Termita Subterr&aacute;nea" loading="lazy" />
+          <figcaption>Termita Subterr&aacute;nea <span class="especialistas-sci">(Reticulitermes flavipes)</span></figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TREATMENT METHODS (traido tal cual de blog/termitas/index.html) -->
+  <section class="treatment" aria-labelledby="treatment-title">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Nuestra metodolog&iacute;a</span>
+        <h2 id="treatment-title">M&eacute;todo de Tratamiento</h2>
+        <p>Protocolos espec&iacute;ficos seg&uacute;n la especie y el nivel de infestaci&oacute;n.</p>
+      </div>
+
+      <div class="treatment__grid">
+        <div class="reveal">
+          <p class="treatment__intro">
+            El tratamiento de termitas exige diagn&oacute;stico preciso antes de actuar. Nuestros t&eacute;cnicos
+            certificados identifican la especie, el nivel de infestaci&oacute;n y la extensi&oacute;n del da&ntilde;o
+            para dise&ntilde;ar el protocolo m&aacute;s adecuado. No todos los tratamientos son iguales: lo que
+            funciona para madera seca no sirve para termita subterr&aacute;nea.
+          </p>
+          <ul class="treatment__list" role="list">
+            <li>Barreras qu&iacute;micas en el suelo (termiticidas l&iacute;quidos) para termita subterr&aacute;nea</li>
+            <li>Inyecci&oacute;n de productos termiticidas directamente en la madera afectada</li>
+            <li>Sistemas de cebado con inhibidores del crecimiento (IGR) para colonias subterr&aacute;neas</li>
+            <li>Erradicaci&oacute;n t&eacute;rmica para madera seca: calor localizado sin productos qu&iacute;micos</li>
+            <li>Informe t&eacute;cnico y certificado disponible para seguros y tr&aacute;mites municipales</li>
+          </ul>
+        </div>
+        <div class="treatment__image reveal">
+          <img src="../../img/control-de-termitas.jpeg" alt="Tratamiento profesional de termitas" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- PARTIAL:mecanismo:start -->
+  <!-- ============================================================
+     MECANISMO UNICO
      ============================================================ -->
   <section id="mecanismo" aria-labelledby="mecanismo-heading">
     <div class="container">
@@ -494,13 +719,15 @@
 
     </div>
   </section>
+<!-- PARTIAL:mecanismo:end -->
 
   <!-- ============================================================
-     6. PRUEBA / CREDIBILIDAD
+     PRUEBA / CREDIBILIDAD
      ============================================================ -->
   <section id="proof" aria-labelledby="proof-heading">
     <div class="container">
 
+<!-- PARTIAL:proof-counters:start -->
       <div class="section-header reveal">
         <span class="section-label">Respaldo real</span>
         <h2 id="proof-heading">Credenciales que nos respaldan</h2>
@@ -530,174 +757,46 @@
       <!-- Badges row: SEREMI + Sello + Transbank -->
       <div class="proof-badges reveal">
         <div class="proof-badge-item">
-          <img src="img/seremi-salud.png" alt="Empresa Certificada SEREMI" />
+          <img src="../../img/seremi-salud.png" alt="Empresa Certificada SEREMI" />
           <span>Empresa Certificada SEREMI</span>
         </div>
         <div class="proof-badge-item">
-          <img src="img/Calidad-AyC.png" alt="Garant&iacute;a de Calidad A&C" />
+          <img src="../../img/Calidad-AyC.png" alt="Garant&iacute;a de Calidad A&C" />
           <span>Garant&iacute;a de Calidad A&amp;C</span>
         </div>
         <div class="proof-badge-item">
-          <img src="img/transbank_medios_pago.png" alt="Medios de pago Transbank Webpay" />
+          <img src="../../img/transbank_medios_pago.png" alt="Medios de pago Transbank Webpay" />
           <span>Transbank</span>
         </div>
       </div>
+<!-- PARTIAL:proof-counters:end -->
 
       <!-- Testimonios -->
+      <!-- TODO: revisar testimonios de termitas con Francisco -->
       <div class="testimonials-wrap reveal" style="margin-top:2.5rem;">
         <h3 class="testimonials-title">Lo que dicen nuestros clientes</h3>
-        <div id="reviews-swiper" class="swiper testimonials-swiper">
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <blockquote class="testimonial-card" aria-label="Testimonio de cliente residencial">
-                <div class="testimonial-stars" aria-label="5 estrellas" role="img">
-                  <span aria-hidden="true">★★★★★</span>
-                </div>
-                <p class="testimonial-quote">
-                  "Teníamos una infestación de ratones en el primer piso que llevaba meses. Vinieron al día siguiente,
-                  diagnosticaron bien el problema y lo resolvieron en una visita. No volvió a aparecer ninguno."
-                </p>
-                <footer class="testimonial-footer">
-                  <strong class="testimonial-name">Roberto M.</strong>
-                  <span class="testimonial-company">Vivienda familiar &middot; Quillota</span>
-                </footer>
-              </blockquote>
-            </div>
-
-            <div class="swiper-slide">
-              <blockquote class="testimonial-card" aria-label="Testimonio de PYME">
-                <div class="testimonial-stars" aria-label="5 estrellas" role="img">
-                  <span aria-hidden="true">★★★★★</span>
-                </div>
-                <p class="testimonial-quote">
-                  "Necesitábamos el certificado SEREMI urgente para una auditoría. Coordinaron la visita para el mismo
-                  día, hicieron el tratamiento y tuvimos el certificado digital al día siguiente. Nos salvaron la
-                  operación."
-                </p>
-                <footer class="testimonial-footer">
-                  <strong class="testimonial-name">Alimentos Pety Ltda.</strong>
-                  <span class="testimonial-company">PYME alimentos de mascotas &middot; La Calera</span>
-                </footer>
-              </blockquote>
-            </div>
-
-            <div class="swiper-slide">
-              <blockquote class="testimonial-card" aria-label="Testimonio de empresa agrícola">
-                <div class="testimonial-stars" aria-label="5 estrellas" role="img">
-                  <span aria-hidden="true">★★★★★</span>
-                </div>
-                <p class="testimonial-quote">
-                  "Encontramos termitas en el galpón de almacenamiento. El diagnóstico fue preciso, nos explicaron la
-                  especie y el nivel de daño, y el tratamiento fue específico. La trazabilidad digital es muy útil para
-                  nuestros registros."
-                </p>
-                <footer class="testimonial-footer">
-                  <strong class="testimonial-name">Agrícola Los Naranjos</strong>
-                  <span class="testimonial-company">Empresa agrícola &middot; Limache</span>
-                </footer>
-              </blockquote>
-            </div>
-
+        <blockquote class="testimonial-card" aria-label="Testimonio de empresa agr&iacute;cola" style="max-width:640px; margin:0 auto;">
+          <div class="testimonial-stars" aria-label="5 estrellas" role="img">
+            <span aria-hidden="true">★★★★★</span>
           </div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
-     7. SERVICIOS (Lo que hacemos - emoji cards)
-     ============================================================ -->
-  <section id="servicios" aria-labelledby="services-heading">
-    <div class="container">
-
-      <div class="section-header reveal">
-        <span class="section-label">Lo que hacemos</span>
-        <h2 id="services-heading">Nuestros Servicios</h2>
-        <p>Soluciones certificadas para hogares, empresas, industrias y proyectos de construcci&oacute;n.</p>
-      </div>
-
-      <div class="svc-emoji-grid">
-
-        <a href="blog/aranas/index.html" class="svc-emoji-card reveal">
-          <div class="svc-emoji-icon">
-            <img src="img/arana.png" alt="Araña" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Ara&ntilde;as</h3>
-          <p class="svc-emoji-desc">Control de ara&ntilde;as y telara&ntilde;as en hogares y locales.</p>
-        </a>
-
-        <a href="blog/avispas/index.html" class="svc-emoji-card reveal reveal-delay-1">
-          <div class="svc-emoji-icon">
-            <img src="img/avispa.png" alt="Avispa" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Avispas</h3>
-          <p class="svc-emoji-desc">Eliminaci&oacute;n segura de nidos en estructuras y jardines.</p>
-        </a>
-
-        <a href="blog/cucarachas/index.html" class="svc-emoji-card reveal reveal-delay-2">
-          <div class="svc-emoji-icon">
-            <img src="img/cucaracha.png" alt="Cucaracha" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Cucarachas</h3>
-          <p class="svc-emoji-desc">Eliminaci&oacute;n de colonias con insecticida no repelente, resultado en 1 visita.
+          <p class="testimonial-quote">
+            "Encontramos termitas en el galp&oacute;n de almacenamiento. El diagn&oacute;stico fue preciso, nos
+            explicaron la especie y el nivel de da&ntilde;o, y el tratamiento fue espec&iacute;fico. La trazabilidad
+            digital es muy &uacute;til para nuestros registros."
           </p>
-        </a>
-
-        <a href="blog/ratones/index.html" class="svc-emoji-card reveal">
-          <div class="svc-emoji-icon">
-            <img src="img/rata.png" alt="Roedor" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Roedores</h3>
-          <p class="svc-emoji-desc">Control integral de ratones y ratas con estaciones de cebado.</p>
-        </a>
-
-        <a href="blog/hormigas/index.html" class="svc-emoji-card reveal reveal-delay-1">
-          <div class="svc-emoji-icon">
-            <img src="img/hormiga.png" alt="Hormiga" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Hormigas</h3>
-          <p class="svc-emoji-desc">Eliminaci&oacute;n de colonias con productos de efecto domin&oacute;.</p>
-        </a>
-
-        <a href="blog/mosquito/index.html" class="svc-emoji-card reveal reveal-delay-2">
-          <div class="svc-emoji-icon">
-            <img src="img/mosquito.png" alt="Mosquito" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Mosquitos</h3>
-          <p class="svc-emoji-desc">Control de mosquitos y vectores en ambientes interiores y exteriores.</p>
-        </a>
-
-        <a href="blog/palomas/index.html" class="svc-emoji-card reveal">
-          <div class="svc-emoji-icon">
-            <img src="img/paloma.png" alt="Paloma" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Palomas</h3>
-          <p class="svc-emoji-desc">Disuasi&oacute;n y control de aves urbanas en edificios y estructuras.</p>
-        </a>
-
-        <a href="blog/termitas/index.html" class="svc-emoji-card reveal reveal-delay-1">
-          <div class="svc-emoji-icon">
-            <img src="img/termitas-soldado.png" alt="Termita" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Termitas</h3>
-          <p class="svc-emoji-desc">Tratamiento especializado de termita de madera seca y subterr&aacute;nea.</p>
-        </a>
-
-        <div class="svc-emoji-card reveal reveal-delay-2">
-          <div class="svc-emoji-icon" aria-hidden="true">&#10133;</div>
-          <h3 class="svc-emoji-title">Sanitizaci&oacute;n</h3>
-          <p class="svc-emoji-desc">Sanitizaci&oacute;n de ambientes para cumplimiento normativo DS 157/05.</p>
-        </div>
-
+          <footer class="testimonial-footer">
+            <strong class="testimonial-name">Agr&iacute;cola Los Naranjos</strong>
+            <span class="testimonial-company">Empresa agr&iacute;cola &middot; Limache</span>
+          </footer>
+        </blockquote>
       </div>
+
     </div>
   </section>
 
+<!-- PARTIAL:para-quien:start -->
   <!-- ============================================================
-     8. PARA QUIEN ES
+     PARA QUIEN ES
      ============================================================ -->
   <section id="para-quien" aria-labelledby="paraquien-heading">
     <div class="container">
@@ -744,9 +843,11 @@
 
     </div>
   </section>
+<!-- PARTIAL:para-quien:end -->
 
+<!-- PARTIAL:value-stack:start -->
   <!-- ============================================================
-     9. VALUE STACK
+     VALUE STACK
      ============================================================ -->
   <section id="value-stack" aria-labelledby="valuestack-heading">
     <div class="container">
@@ -822,20 +923,21 @@
 
     </div>
   </section>
+<!-- PARTIAL:value-stack:end -->
 
   <!-- ============================================================
-     10. COTIZADOR INTERACTIVO
+     COTIZADOR INTERACTIVO
      ============================================================ -->
   <section id="cotizador" aria-labelledby="cotizador-heading">
     <div class="container">
 
       <div class="section-header reveal">
         <span class="section-label">Cotizador</span>
-        <h2 id="cotizador-heading">¿Cuánto cuesta solucionar tu problema?</h2>
+        <h2 id="cotizador-heading">¿Cuánto cuesta solucionar tu problema de termitas?</h2>
         <p>Responde 4 preguntas y recibe una estimación al instante.</p>
       </div>
 
-      <div class="cotizador-widget reveal" id="cotizador-widget">
+      <div class="cotizador-widget reveal" id="cotizador-widget" data-source="landing-termitas">
         <!-- Renderizado por cotizador.js -->
       </div>
 
@@ -843,24 +945,25 @@
   </section>
 
   <!-- ============================================================
-     11. URGENCIA
+     URGENCIA
      ============================================================ -->
   <section id="urgency" aria-labelledby="urgency-heading">
     <div class="container">
       <div class="urgency-inner reveal">
 
-        <h2 id="urgency-heading">Las plagas no esperan. Cada d&iacute;a que pasa, la colonia crece.</h2>
+        <h2 id="urgency-heading">Las termitas no esperan. Cada d&iacute;a que pasa, la colonia avanza.</h2>
 
         <p class="urgency-text">
-          Una colonia de cucarachas se duplica en 30 d&iacute;as. Lo que hoy es un problema manejable, ma&ntilde;ana es
-          una infestaci&oacute;n. No esperes: cada d&iacute;a que no act&uacute;as, el problema se multiplica.
+          Una colonia de termitas subterr&aacute;neas puede consumir hasta 500 gramos de madera por d&iacute;a, y act&uacute;a
+          en silencio durante a&ntilde;os. Lo que hoy es un se&ntilde;al menor, ma&ntilde;ana puede ser un problema
+          estructural. No esperes: cada d&iacute;a que no act&uacute;as, el da&ntilde;o se multiplica.
         </p>
 
         <p class="urgency-cta-text">
-          <strong>Las plagas se multiplican cada 48 horas.</strong> Agenda hoy y te atendemos el mismo d&iacute;a.
+          <strong>El da&ntilde;o de termitas avanza sin que lo notes.</strong> Agenda hoy y te atendemos el mismo d&iacute;a.
         </p>
 
-        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
           target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path
@@ -873,15 +976,16 @@
     </div>
   </section>
 
+<!-- PARTIAL:garantia:start -->
   <!-- ============================================================
-     11. GARANTIA
+     GARANTIA
      ============================================================ -->
   <section id="garantia" aria-labelledby="guarantee-heading">
     <div class="guarantee-inner container">
 
       <div class="reveal">
         <div class="guarantee-seal-wrap">
-          <img src="img/Calidad-AyC.png" alt="Sello Garant&iacute;a de Calidad A&C" class="guarantee-seal-img"
+          <img src="../../img/Calidad-AyC.png" alt="Sello Garant&iacute;a de Calidad A&C" class="guarantee-seal-img"
             style="min-width:150px;" />
         </div>
 
@@ -920,29 +1024,49 @@
 
     </div>
   </section>
+<!-- PARTIAL:garantia:end -->
 
   <!-- ============================================================
-     12. FAQ
+     FAQ (todas las de home + nuevas de termitas)
      ============================================================ -->
   <section id="faq" aria-labelledby="faq-heading">
     <div class="container">
 
       <div class="section-header reveal">
         <span class="section-label">Preguntas frecuentes</span>
-        <h2 id="faq-heading">Preguntas que nos hacen siempre</h2>
+        <h2 id="faq-heading">Preguntas que nos hacen siempre sobre termitas</h2>
       </div>
 
       <div class="faq-list">
 
         <details class="faq-item reveal">
-          <summary class="faq-question">&iquest;Cu&aacute;nto demora el tratamiento?</summary>
+          <summary class="faq-question">&iquest;C&oacute;mo s&eacute; si tengo termitas?</summary>
           <div class="faq-answer">
-            <p>Depende del tipo de plaga y el tama&ntilde;o del espacio. Una visita de diagn&oacute;stico suele durar
-              30-60 minutos. El tratamiento lo coordinamos en la misma visita.</p>
+            <p>Busca madera que suena hueca al golpearla, alitas desprendidas cerca de ventanas, gr&aacute;nulos color
+              caf&eacute; (excremento) o t&uacute;neles de barro en paredes y cimientos. Si ves alguna de estas
+              se&ntilde;ales, agenda una visita de diagn&oacute;stico gratuita.</p>
           </div>
         </details>
 
         <details class="faq-item reveal reveal-delay-1">
+          <summary class="faq-question">&iquest;Termita de madera seca o subterr&aacute;nea, cu&aacute;l tengo?</summary>
+          <div class="faq-answer">
+            <p>La madera seca vive dentro de los muebles y marcos sin tocar el suelo, y deja gr&aacute;nulos secos
+              color caf&eacute;. La subterr&aacute;nea construye galer&iacute;as de barro desde el suelo hacia arriba y
+              es m&aacute;s destructiva. Nuestro diagn&oacute;stico identifica la especie exacta antes de definir el
+              tratamiento.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal reveal-delay-2">
+          <summary class="faq-question">&iquest;Cu&aacute;nto demora el tratamiento?</summary>
+          <div class="faq-answer">
+            <p>Depende de la especie y el nivel de infestaci&oacute;n. Una visita de diagn&oacute;stico suele durar
+              30-60 minutos. El tratamiento lo coordinamos en la misma visita.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
           <summary class="faq-question">&iquest;Tengo que salir de mi casa durante el tratamiento?</summary>
           <div class="faq-answer">
             <p>Para algunos tratamientos s&iacute;, por seguridad. Te avisamos con anticipaci&oacute;n qu&eacute;
@@ -950,7 +1074,7 @@
           </div>
         </details>
 
-        <details class="faq-item reveal reveal-delay-2">
+        <details class="faq-item reveal reveal-delay-1">
           <summary class="faq-question">&iquest;El tratamiento es seguro para ni&ntilde;os y mascotas?</summary>
           <div class="faq-answer">
             <p>S&iacute;. Usamos productos autorizados y te indicamos el tiempo de espera seguro antes de volver al
@@ -958,7 +1082,7 @@
           </div>
         </details>
 
-        <details class="faq-item reveal">
+        <details class="faq-item reveal reveal-delay-2">
           <summary class="faq-question">&iquest;Dan certificado SEREMI?</summary>
           <div class="faq-answer">
             <p>S&iacute;. Emitimos certificado oficial v&aacute;lido para auditor&iacute;as sanitarias, requerido por la
@@ -966,21 +1090,21 @@
           </div>
         </details>
 
-        <details class="faq-item reveal reveal-delay-1">
+        <details class="faq-item reveal">
           <summary class="faq-question">&iquest;Qu&eacute; pasa si la plaga vuelve?</summary>
           <div class="faq-answer">
-            <p>Tienes garant&iacute;a de 14 d&iacute;as. Si aparece alguna plaga, volvemos sin costo adicional.</p>
+            <p>Tienes garant&iacute;a de 14 d&iacute;as. Si aparece alguna termita, volvemos sin costo adicional.</p>
           </div>
         </details>
 
-        <details class="faq-item reveal reveal-delay-2">
+        <details class="faq-item reveal reveal-delay-1">
           <summary class="faq-question">&iquest;Atienden los fines de semana y feriados?</summary>
           <div class="faq-answer">
             <p>S&iacute;, tenemos atenci&oacute;n de emergencia 24/7 los 365 d&iacute;as del a&ntilde;o.</p>
           </div>
         </details>
 
-        <details class="faq-item reveal">
+        <details class="faq-item reveal reveal-delay-2">
           <summary class="faq-question">&iquest;C&oacute;mo pago?</summary>
           <div class="faq-answer">
             <p>Aceptamos efectivo, transferencia bancaria y tarjetas a trav&eacute;s de Transbank (Visa, Mastercard,
@@ -993,8 +1117,9 @@
     </div>
   </section>
 
+<!-- PARTIAL:contacto-final:start -->
   <!-- ============================================================
-     13. CTA FINAL
+     CTA FINAL
      ============================================================ -->
   <section id="contact" aria-labelledby="contact-heading">
     <div class="container">
@@ -1062,10 +1187,8 @@
       </div>
     </div>
   </section>
+<!-- PARTIAL:contacto-final:end -->
 
-  <!-- ============================================================
-     14. FOOTER
-     ============================================================ -->
 <!-- PARTIAL:footer:start -->
   <footer id="footer" aria-label="Pie de p&aacute;gina">
     <div class="container">
@@ -1074,7 +1197,7 @@
 
         <!-- Column 1: SEREMI -->
         <div class="footer-col footer-col--seremi">
-          <img src="img/seremi-salud.png" alt="Empresa Certificada SEREMI Ministerio de Salud"
+          <img src="../../img/seremi-salud.png" alt="Empresa Certificada SEREMI Ministerio de Salud"
             style="height:100px; width:auto;" />
           <p class="footer-tagline">
             Empresa certificada SEREMI especializada en control de plagas residencial e industrial en Chile.
@@ -1086,7 +1209,7 @@
         <div class="footer-col">
           <h4>Navegaci&oacute;n</h4>
           <ul>
-            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="../../index.html#servicios">Servicios</a></li>
             <li><a href="#para-quien">Para qui&eacute;n es</a></li>
             <li><a href="#garantia">Nuestra garant&iacute;a</a></li>
             <li><a href="#faq">Preguntas frecuentes</a></li>
@@ -1160,12 +1283,7 @@
   </footer>
 <!-- PARTIAL:footer:end -->
 
-  <!-- ============================================================
-     SCRIPTS
-     ============================================================ -->
-  <!-- Swiper JS CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <!-- Site JS -->
+<!-- PARTIAL:cotizador-embed:start -->
   <!-- ============================================================
      MODAL COTIZADOR
      ============================================================ -->
@@ -1180,10 +1298,12 @@
     </div>
   </div>
 
+  <script src="../../js/cotizador.js"></script>
+<!-- PARTIAL:cotizador-embed:end -->
+
 <!-- PARTIAL:main-js:start -->
-  <script src="js/main.js"></script>
+  <script src="../../js/main.js"></script>
 <!-- PARTIAL:main-js:end -->
-  <script src="js/cotizador.js"></script>
 <!-- PARTIAL:year-script:start -->
   <script>
     (function () {
@@ -1196,35 +1316,41 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "PestControlService",
-  "name": "A&C Soluciones Agrícolas y Urbanas",
-  "description": "Empresa certificada SEREMI especializada en control de plagas residencial e industrial en la Quinta Región de Valparaíso.",
-  "url": "https://www.aycmip.cl/",
-  "@id": "https://www.aycmip.cl/",
-  "telephone": "+56936678897",
-  "email": "ventas@aycmip.cl",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "San Martín #1106",
-    "addressLocality": "Quillota",
-    "addressRegion": "Valparaíso",
-    "addressCountry": "CL"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": -32.8784,
-    "longitude": -71.2451
-  },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-    "opens": "00:00",
-    "closes": "23:59"
-  },
-  "sameAs": [
-    "https://www.instagram.com/ayc.mip"
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Servicios",
+      "item": "https://www.aycmip.cl/#servicios"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Control de Termitas",
+      "item": "https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/"
+    }
   ]
+}
+</script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Control de Termitas",
+  "url": "https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/",
+  "description": "Tratamiento y exterminio de plagas de termitas (madera seca y subterránea). Empresa certificada SEREMI. Diagnóstico gratuito y garantía 14 días.",
+  "provider": {
+    "@type": "PestControlService",
+    "@id": "https://www.aycmip.cl/",
+    "name": "A&C Soluciones Agrícolas y Urbanas",
+    "telephone": "+56936678897"
+  },
+  "areaServed": {
+    "@type": "State",
+    "name": "Región de Valparaíso"
+  }
 }
 </script>
 
@@ -1235,10 +1361,26 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "¿Cómo sé si tengo termitas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Busca madera que suena hueca al golpearla, alitas desprendidas cerca de ventanas, gránulos color café (excremento) o túneles de barro en paredes y cimientos. Si ves alguna de estas señales, agenda una visita de diagnóstico gratuita."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Termita de madera seca o subterránea, cuál tengo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La madera seca vive dentro de los muebles y marcos sin tocar el suelo, y deja gránulos secos color café. La subterránea construye galerías de barro desde el suelo hacia arriba y es más destructiva. Nuestro diagnóstico identifica la especie exacta antes de definir el tratamiento."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "¿Cuánto demora el tratamiento?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Depende del tipo de plaga y el tamaño del espacio. Una visita de diagnóstico suele durar 30-60 minutos. El tratamiento lo coordinamos en la misma visita."
+        "text": "Depende de la especie y el nivel de infestación. Una visita de diagnóstico suele durar 30-60 minutos. El tratamiento lo coordinamos en la misma visita."
       }
     },
     {
@@ -1270,7 +1412,7 @@
       "name": "¿Qué pasa si la plaga vuelve?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Tienes garantía de 14 días. Si aparece alguna plaga, volvemos sin costo adicional."
+        "text": "Tienes garantía de 14 días. Si aparece alguna termita, volvemos sin costo adicional."
       }
     },
     {

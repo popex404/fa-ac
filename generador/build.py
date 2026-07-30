@@ -22,14 +22,36 @@ WEB = HERE.parent / "web"
 PARTIALS = HERE / "_partials"
 PLAGAS = ["aranas", "avispas", "chinche", "cucarachas", "hormigas",
           "mosquito", "palomas", "ratones", "termitas"]
+SERVICIOS = ["exterminio-y-fumigacion-de-plagas-de-termitas"]
 
 DATA = json.loads((HERE / "_data.json").read_text(encoding="utf-8"))
 
-HOME_CTX = dict(DATA, ROOT="", HOME_LINK="#", HOME_ANCHOR="", PLAGA_PREFIX="blog/")
+HOME_CTX = dict(DATA, ROOT="", HOME_LINK="#", HOME_ANCHOR="", PLAGA_PREFIX="blog/",
+                SERVICIO_PREFIX="servicios/", SERVICIOS_GRID_ANCHOR="#servicios")
 BLOG_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
-                HOME_ANCHOR="../../index.html", PLAGA_PREFIX="../")
+                HOME_ANCHOR="../../index.html", PLAGA_PREFIX="../",
+                SERVICIO_PREFIX="../../servicios/",
+                SERVICIOS_GRID_ANCHOR="../../index.html#servicios")
+# Las paginas de servicios/ (landings de venta, ej. Termitas) viven a la misma
+# profundidad que blog/[plaga]/ (2 niveles bajo web/), pero HOME_ANCHOR queda
+# vacio (local, no "../../index.html"): a diferencia de blog/, estas landings
+# SI traen sus propias secciones #para-quien/#garantia/#faq/#contact (reusadas
+# como partials de contenido), asi que esos anchors deben scrollear dentro de
+# la misma pagina, no mandar de vuelta al home. La unica excepcion es el link
+# "Plagas" del header, que apunta a la grilla de plagas del home: por eso usa
+# el token aparte SERVICIOS_GRID_ANCHOR en vez de HOME_ANCHOR.
+SERVICIO_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
+                     HOME_ANCHOR="", PLAGA_PREFIX="../../blog/",
+                     SERVICIO_PREFIX="../",
+                     SERVICIOS_GRID_ANCHOR="../../index.html#servicios")
 
 PARTIAL_NAMES = ["analytics", "header", "footer", "main-js", "year-script"]
+# Partials de contenido: secciones universales (mismo copy en cualquier landing
+# de servicio futura), reusadas desde web/index.html pero SOLO inyectadas via
+# marcadores en paginas de servicios/ (no en home/blog, que no las declaran).
+SERVICE_PARTIAL_NAMES = ["trust-bar", "clientes", "mecanismo", "proof-counters",
+                         "para-quien", "value-stack", "garantia",
+                         "contacto-final", "cotizador-embed"]
 
 
 def render(tpl, ctx):
@@ -39,13 +61,13 @@ def render(tpl, ctx):
     return out
 
 
-def load_partials():
+def load_partials(names):
     return {name: (PARTIALS / f"{name}.html").read_text(encoding="utf-8")
-            for name in PARTIAL_NAMES}
+            for name in names}
 
 
-def apply_markers(text, ctx, partials):
-    for name in PARTIAL_NAMES:
+def apply_markers(text, ctx, partials, names):
+    for name in names:
         start = f"<!-- PARTIAL:{name}:start -->"
         end = f"<!-- PARTIAL:{name}:end -->"
         pattern = re.compile(re.escape(start) + r".*?" + re.escape(end), re.S)
@@ -119,18 +141,27 @@ def sync_cotizador_wa_number():
 
 
 def build():
-    partials = load_partials()
+    partials = load_partials(PARTIAL_NAMES)
+    service_partials = load_partials(SERVICE_PARTIAL_NAMES)
 
     home = WEB / "index.html"
     home_text = home.read_text(encoding="utf-8")
-    home.write_text(apply_markers(home_text, HOME_CTX, partials), encoding="utf-8")
+    home.write_text(apply_markers(home_text, HOME_CTX, partials, PARTIAL_NAMES), encoding="utf-8")
     print("index.html actualizado")
 
     for plaga in PLAGAS:
         f = WEB / "blog" / plaga / "index.html"
         text = f.read_text(encoding="utf-8")
-        f.write_text(apply_markers(text, BLOG_CTX, partials), encoding="utf-8")
+        f.write_text(apply_markers(text, BLOG_CTX, partials, PARTIAL_NAMES), encoding="utf-8")
         print(f"blog/{plaga}/index.html actualizado")
+
+    for slug in SERVICIOS:
+        f = WEB / "servicios" / slug / "index.html"
+        text = f.read_text(encoding="utf-8")
+        text = apply_markers(text, SERVICIO_CTX, partials, PARTIAL_NAMES)
+        text = apply_markers(text, SERVICIO_CTX, service_partials, SERVICE_PARTIAL_NAMES)
+        f.write_text(text, encoding="utf-8")
+        print(f"servicios/{slug}/index.html actualizado")
 
     sync_contact_fields()
     sync_cotizador_wa_number()

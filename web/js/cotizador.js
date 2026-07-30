@@ -50,7 +50,7 @@
       options: [
         { value:'cucarachas',   label:'Cucarachas',                icon:'🪳' },
         { value:'ratones',      label:'Ratones / Ratas',           icon:'🐀' },
-        { value:'termitas',     label:'Termitas',                  icon:'<img src="img/termitas-soldado.png" class="cot-pest-icon-img" alt="">' },
+        { value:'termitas',     label:'Termitas',                  icon:'<img src="/img/termitas-soldado.png" class="cot-pest-icon-img" alt="">' },
         { value:'aranas',       label:'Arañas',                    icon:'🕷️' },
         { value:'avispas',      label:'Avispas',                   icon:'🐝' },
         { value:'hormigas',     label:'Hormigas',                  icon:'🐜' },
