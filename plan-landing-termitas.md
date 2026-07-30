@@ -1,172 +1,234 @@
 # Plan — Landing de venta de Termitas
 
-**Estado:** planeación y base, todavía no se construye. Este documento es la
-entrada para la próxima sesión de construcción.
+**Estado:** esqueleto completo y construido, ajustado con lo que salió de la
+llamada de revisión con Francisco (FA) — "Fase 1 Revisiones", transcrita en
+`C:\Users\Popex404\Downloads\Fase 1 Revisiones.mp4-es-asr.vtt` (referenciada
+acá para no releerla). Deadline seguía siendo viernes 2026-07-31 la última vez
+que se habló de fecha. No pusheado a GitHub — repo público desde 2026-07-30,
+pero pendiente confirmación explícita de Javier para el push de este trabajo.
 
-**Contexto completo:** `zk-vault/clientes/FA/FA-roadmap.md` → "En curso ahora".
-Decidido en reunión con Francisco y Mario el 2026-07-28. Deadline **viernes
-2026-07-31**. Por qué Termitas primero: es el servicio más rentable de AyC.
-
-**Objetivo de la página:** vender el servicio de Termitas específicamente
-(no promocionar AyC en general), para usar como destino de campañas SEM.
-Estilo Hormozi, mismo lenguaje visual que la landing actual (`web/index.html`)
-pero enfocado 100% en un solo servicio.
-
----
-
-## 1. Fuentes de contenido
-
-| Fuente | Qué se saca de ahí |
-|---|---|
-| `web/index.html` (landing actual) | Estructura visual, secciones universales (ver tabla abajo), estilo, CSS existente |
-| `web/blog/termitas/index.html` | Contenido real de termitas: especies, señales de alerta, y sobre todo el **método de tratamiento** (la parte más importante a traer, según Javier) |
-| `generador/_partials/` | header, footer, analytics — se reutilizan tal cual, no se rehacen |
+**Dónde está todo:**
+- Landing: `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html`
+- Cotizador especializado: `web/js/cotizador-termitas.js` (separado del genérico
+  `js/cotizador.js` a propósito, para que futuras plagas tengan el suyo sin pisarse)
+- Partials de contenido: `generador/_partials/{trust-bar,clientes,mecanismo,
+  proof-counters,para-quien,value-stack,garantia,cobertura,contacto-final,
+  cotizador-embed}.html` — aplicados solo a páginas de `servicios/` vía
+  `SERVICE_PARTIAL_NAMES` en `build.py` (no a home/blog)
+- Video hero: `web/img/hero-video/termitas-hero.mp4` (640×800, 5s loop) + poster
+  — es un placeholder de prueba, el video definitivo todavía no está listo
 
 ---
 
-## 2. Comparación sección por sección: home actual → landing de Termitas
+## Pendiente — orden de prioridad que Javier le dio a FA en la llamada
+(textual: *"le voy a dar prioridad al formulario [cotizador], también a la
+sección de las provincias [cobertura], y después al final ya el giro [video
+del hero]"*)
 
-| # | Sección en `web/index.html` hoy | Acción para la landing de Termitas |
-|---|---|---|
-| 1 | Hero (título genérico + imagen genérica) | **Adaptar el título, mantener la imagen actual del landing por ahora.** Título específico de termitas (ver §3 SEO para las keywords del H1). La foto real del equipo trabajando con termitas se agrega al final, no bloquea el esqueleto (decisión de Javier: primero armar la estructura completa para compartir con Francisco, la foto es un detalle que se suma después). |
-| 2 | Trust bar (SEREMI / V Región / garantía 14 días / 24-7) | **Reusar tal cual** (universal, candidato a partial) |
-| 3 | Clientes marquee (logos) | **Reusar tal cual** (universal, candidato a partial) — evaluar si aporta en una landing corta enfocada a un solo servicio, o si se saca por espacio |
-| 4 | Pain points ("¿Reconoces alguno de estos problemas?", genéricos) | **Adaptar.** Dolores específicos de termitas: sonido hueco en la madera, alitas cerca de ventanas, gránulos color café, galerías de barro. Base real ya escrita en `blog/termitas/index.html` → sección "ALERT SIGNS" (línea 252) |
-| 5 | Mecanismo único (insecticidas no repelentes, CentralMIP, certificación, diagnóstico) | **Reusar tal cual** (universal, candidato a partial). Esto es lo que Javier se refería como "¿por qué elegir AyC?" |
-| 6 | Proof — counters + badges (500+ clientes, 10+ años, SEREMI, Transbank) | **Reusar tal cual** (universal, candidato a partial). Esto también es parte del "mostrar credenciales y experiencia" que pidió Javier |
-| 7 | Proof — testimonios (3 genéricos: ratones, SEREMI, termitas) | **Incluir la sección, pero marcarla explícitamente como "por arreglar".** Para el esqueleto: dejar el testimonio de termitas (Agrícola Los Naranjos, Limache) como placeholder, y dejar un comentario visible en el HTML (`<!-- TODO: revisar testimonios de termitas con Francisco -->`) para que no se nos olvide antes de publicar de verdad. No curar a fondo todavía, eso es para cuando se trabaje el contenido con Francisco. |
-| 8 | Servicios grid (las 9 plagas) | **No incluir en la landing.** Es networking de la home, no cabe en una landing de un solo servicio. El cross-link a "las otras plagas" ya no lo resuelve esta sección, lo resuelve el nuevo apartado "Plagas" del header (ver §5) |
-| 9 | Para quién es (dueños de casa, PYMES, colegios, industrial, emergencias) | **Reusar tal cual** (universal, candidato a partial) |
-| 10 | Value stack (visita gratis, 1 sesión, certificado, garantía, trazabilidad) | **Reusar tal cual** (universal, candidato a partial) — verificar que el texto no prometa "1 sesión" si termitas es distinto (el cotizador ya trata termitas como caso especial sin precio online, revisar consistencia) |
-| 11 | Cotizador | **Reusar el widget.** Mejora posible: al venir de una landing de termitas, saltarse la pregunta "¿qué problema tienes?" y partir directo en tamaño/urgencia. Anotado, no bloqueante |
-| 12 | Urgencia ("las plagas no esperan") | **Adaptar levemente.** Mismo mensaje, reforzado con "termitas" en vez de genérico |
-| 13 | Garantía (sello + 14 días) | **Reusar tal cual** (universal, candidato a partial) |
-| 14 | FAQ (genérico: duración, seguridad, pago, etc.) | **Mantener TODAS las preguntas actuales y agregar preguntas nuevas de termitas** (ej. "¿Cómo sé si tengo termitas?", "¿Termitas de madera seca o subterránea, cuál tengo?"), no reemplazar ni recortar todavía. Javier: en una siguiente pasada se van a remover algunas preguntas para que quede bien ajustado, pero eso es curación posterior, no parte de este build inicial |
-| 15 | Contacto / CTA final | **Reusar tal cual** (universal, candidato a partial) |
-| 16 | Footer | **Ya es partial**, se reusa sin tocar nada |
-| — | **Sección "Cobertura" (nueva, no existe en la home)** | **Placeholder por ahora, no construir el contenido final todavía.** Javier: esta sección requiere trabajo aparte (contenido real de comunas) y se va a construir/probar primero como la versión "oficial", después se busca una forma sencilla de inyectarla acá (candidato a partial una vez exista, para no repetirla a mano cuando lleguen las páginas por comuna). Para este build: dejar la sección con un título y un `<!-- TODO: seccion Cobertura pendiente de contenido real -->`, sin la lista de comunas todavía |
-| — | **Contenido a traer de `blog/termitas/index.html`** | Sección "TREATMENT METHODS" (línea 268 del archivo actual): intro + 5 métodos (barreras químicas, inyección termiticida, sistemas de cebado IGR, erradicación térmica, informe técnico). Es lo más importante a trasladar, según Javier. La sección "SPECIES SECTION" (línea 208, Cryptotermes brevis / Reticulitermes flavipes) es más informativa que de venta — evaluar si se resume en 2-3 líneas dentro de otra sección, o se deja solo en el blog y la landing linkea ahí para el que quiera el detalle técnico |
+### 1. Cotizador — ya está bien, sin pendientes
+El flujo (Indicios → Inmueble → Tamaño → Urgencia → Contacto) coincide con lo
+acordado con FA. El botón flotante de WhatsApp ya quedó resuelto (ver
+"Hecho esta sesión" abajo).
 
----
+Dato de FA para el copy (no es tarea, es conocimiento técnico útil si más
+adelante se quiere un mensaje contextual por indicio): gránulos café →
+termita de madera seca; túneles de barro → termita subterránea; alitas/vuelo
+distingue especie según la época del año.
 
-## 3. SEO — metatags y keywords
+### 2. Cobertura — seguimos puliendo, no sacar nada
+Javier confirmó: dejar las 7 provincias tal como están, no sacar ninguna.
+Falta:
+- **Agregarla también a la home** (`web/index.html`). FA fue explícito: *"la
+  idea es que esté en los dos lados porque es una sección que nos faltó y que
+  nos ayuda para el SEO."* Hoy `cobertura.html` solo se aplica en páginas de
+  `servicios/` vía `SERVICE_PARTIAL_NAMES`, no en home. **Pendiente.**
+- Mapa interactivo de Chile (fase 2) — layout confirmado por FA: provincias
+  a la izquierda, mapa a la derecha (coincide con lo construido). FA aclaró
+  que no hay que dibujar Chile completo, solo la zona relevante. **Pendiente.**
 
-Al momento de escribir title/meta description/H1/H2/alt-text, usar estas
-frases tal cual aparecen en búsquedas reales, no solo como palabras sueltas.
-
-**Palabras más importantes (van en el H1 y el title sí o sí):**
-- Plagas
-- Termitas
-
-**Le siguen en importancia (Javier):**
-- Tratamiento
-- Fumigación
-- Exterminio
-- Ayuda
-- Problemas
-
-**Relacionadas, para variar en H2/FAQ/alt-text sin repetir siempre lo mismo:**
-- Control de termitas
-- Plaga de termitas / Problema de termitas (frase ya definida en la Sesión 2)
-- Exterminación de termitas
-- Desinsectación
-- Termitas de madera / madera seca / termita subterránea
-- Diagnóstico gratuito
-- Certificado SEREMI
-- Valparaíso / Quinta Región (geografía general, la comuna específica viene con las páginas de comuna después)
-
-Esta lista se puede seguir ampliando, no es cerrada.
-
-Referencia de patrón de competidores (análisis ya hecho en esta conversación,
-antes del plan de la Sesión 2): título tipo `Control de Termitas en [zona] |
-[gancho] — [Marca]`, H1 corto y directo con la keyword principal.
+### 3. Hero video — última prioridad, sin cambios por ahora
+El video final todavía no está listo — seguimos usando el placeholder actual
+(`termitas-hero.mp4`, primeros 5s del clip de prueba) mientras tanto. Cuando
+llegue el video definitivo: FA prefiere cortar en el punto donde se ve la
+espuma (no necesariamente "los primeros 5 segundos"). Si se hace la versión
+de 3 cortes estilo liniero.cl, FA sugirió clips de técnico conectando el
+equipo, inyectando en la madera, y posiblemente un close-up de termita
+asomándose o gránulos cayendo — sin decidir cuál al final. El enfoque
+pantalla-completa + overlay que ya está montado es el que FA y Javier
+querían — confirmado, no es una contradicción real, no tocar.
 
 ---
 
-## 4. Infraestructura técnica — qué ya existe, qué falta decidir
+## Hecho esta sesión
 
-**Ya existe (no rehacer):**
-- `generador/build.py` + `generador/_partials/` — sistema de partials para header/footer/analytics/main-js/year-script. Ver `generador/README.md`.
-- `sync_contact_fields()` — sincroniza teléfono/email en cualquier `.html` nuevo bajo `web/` automáticamente, sin necesidad de registrarlo en ningún lado.
-- Tracking de origen del cotizador ya funciona (`data-source` → campo `source` en el webhook), solo falta poner el atributo correcto en la página nueva.
-
-**Decidido:**
-1. **Ruta del archivo (confirmado por Javier):** `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html`. Nombre largo a propósito, cubre keywords de SEO. Nota técnica: queda a la misma profundidad que `web/blog/[plaga]/` (2 niveles bajo `web/`), así que `{{ROOT}}` es igual (`../../`), pero **no** es el mismo contexto que `BLOG_CTX`: para linkear desde acá hacia `web/blog/termitas/` (o hacia otras páginas de `web/servicios/` que se creen después) la ruta relativa es distinta a como se linkean entre sí las páginas de `blog/`. Al construir, definir un `SERVICIO_CTX` propio en `build.py`, no reusar `BLOG_CTX` a ciegas.
-
-**Falta decidir/hacer al construir:**
-2. **Extender `_partials/` con las secciones universales de la tabla §2** (trust-bar, mecanismo, proof-counters+badges, para-quién-es, value-stack, garantía, contacto-final), no solo copiarlas a mano en la landing nueva. Javier: correr el script para agregar esas secciones y otros campos, no reescribirlas HTML a mano. Son universales (mismo contenido en cualquier landing de servicio futura), tiene sentido sacarlas del `web/index.html` actual igual que se hizo con header/footer.
-3. **Registrar la página nueva en `build.py`** (hoy la lista de archivos está a mano, ver `generador/README.md` → "Cómo agregar una página nueva al sistema"), o generalizar el script para que descubra solo cualquier `.html` con marcadores. Vale la pena resolverlo ahora que hay un caso real.
-4. **Sexto partial para el cotizador** (`_partials/cotizador-embed.html`): el `<div>` del widget/modal + el `<script src="js/cotizador.js">`, para no repetirlo a mano en esta página ni en las futuras. Depende de cómo se decida mostrarlo acá (modal como en la home, o widget inline).
-5. **Imagen del hero:** se mantiene la actual por ahora (ver tabla §2, fila 1). Reemplazar por una foto real más adelante, no bloquea el esqueleto.
-6. **Testimonios:** incluir la sección con lo que hay, marcada como pendiente de revisar con Francisco (ver tabla §2, fila 7).
-
----
-
-## 5. Header — reestructurar navegación (afecta TODO el sitio, no solo esta landing)
-
-Decisión de Javier: el header pasa a tener 2 apartados en vez de 1.
-
-| Hoy | Después |
-|---|---|
-| "Servicios" → dropdown con las 9 plagas, apunta a `blog/[plaga]/` | Se **renombra a "Plagas"** → mismo dropdown, mismos 9 links, solo cambia la etiqueta (refleja que es contenido informativo, no de venta) |
-| No existe | **Nuevo "Servicios"** → apunta a la landing de venta (por ahora solo Termitas). Con 1 solo servicio hoy, evaluar si es link directo o ya un dropdown con 1 item (recomendado: dropdown desde ya, para no tener que rehacer el header cuando se agregue el segundo servicio) |
-
-Esto se edita en `generador/_partials/header.html` (un solo lugar, se propaga a las 10 páginas existentes + la landing nueva al correr `build.py`).
-
-**Falta decidir: nombre corto para el ítem de "Termitas" dentro de Servicios**
-(la carpeta/URL puede ser larga por SEO, pero el texto del menú no). Javier no
-está seguro si "Tratamiento de Termitas" es suficientemente corto. Opciones a
-elegir en la próxima sesión:
-- "Termitas" (más corto, pero repite la misma palabra que ya aparece en
-  "Plagas → Termitas", hay que ver si se lee confuso en el menú)
-- "Control de Termitas"
-- "Fumigación de Termitas"
+- **Sacado "Erradicación térmica"** del Método de Tratamiento, en la landing
+  de Termitas **y** en `web/blog/termitas/index.html` (FA: *"se tiene que
+  eliminar de los dos lados"*).
+- **Garantía de Termitas = 1 año** (no 14 días) — pero **solo en esta
+  landing**, no tocamos el default del resto del sitio. Se resolvió con un
+  patrón parametrizable pensado para escalar (ver abajo "Arquitectura para
+  futuras páginas"): `GARANTIA_DIAS` / `GARANTIA_PERIODO` son tokens con
+  default "14 días" en `SERVICIO_CTX`, y la landing de Termitas los
+  sobreescribe vía un diccionario de overrides en `SERVICIOS` (`build.py`).
+  Afecta value-stack, la sección Garantía, meta description, og:description,
+  el FAQ y su JSON-LD — los 8 lugares donde aparecía "14 días" en esta página
+  quedaron en "1 año"; el resto del sitio (home, blog, futuras plagas) sigue
+  con 14 días por default.
+- **Botón flotante de WhatsApp con mensaje propio.** FA pidió que el botón
+  flotante (`#whatsapp-fab`) y el "Agenda gratis" del header dijeran algo de
+  termitas en esta landing, distinto al del hero, para poder diferenciar por
+  cuál botón entra cada lead. Nuevo token `{{WA_HEADER_TEXT}}` en
+  `header.html`: default = mensaje genérico de siempre (home/blog sin
+  cambios, verificado con `git diff` que quedaron byte-idénticos), y en
+  `SERVICIO_CTX` un mensaje de termitas con "(menú)" agregado para
+  diferenciarlo del mensaje del hero.
+- **Investigué el reporte de que el header de la landing de Termitas navega
+  a otra página en vez de scrollear** (FAQ, Garantía). Revisé el HTML
+  generado y el JS (`main.js`, smooth-scroll): los links son anchors locales
+  (`href="#faq"`, `href="#garantia"`, etc.), y un anchor local no puede
+  navegar a otra página por diseño del navegador — estructuralmente no
+  debería pasar. No pude reproducirlo. Posible explicación: si lo probaste
+  en el link de GitHub Pages, ese es de un push anterior a varios cambios de
+  esta sesión (aunque el fix de anchors locales ya estaba desde el primer
+  build). Si lo ves de nuevo, dime en qué página exacta, qué link, y
+  desktop o mobile, para poder reproducirlo.
 
 ---
 
-## 6. Testeo — verificar antes de dar la landing por lista
+## Arquitectura para futuras páginas — propuesta, PENDIENTE DE DECISIÓN
+(conversada el 2026-07-30, Javier todavía no decide, "necesito pensarlo")
 
-- **Con Miguel:** confirmar si su servidor sirve `carpeta/` sin mostrar `index.html` en la URL (probado localmente con el servidor de Python, funciona ahí, pero no está confirmado en el hosting real). Afecta si la URL final queda limpia o con `/index.html` visible.
-- **Google Apps Script del cotizador:** verificar si la columna `source` del Sheet efectivamente se está escribiendo con el payload actual (no se pudo confirmar desde el repo, ese script vive fuera del código versionado). Importante antes de lanzar la landing nueva, porque ahí es donde vamos a querer medir de dónde vienen los leads.
+**El problema que planteó Javier:** si a futuro se generan muchas páginas
+(ej. 50 landings por comuna/provincia), hay que garantizar que (1) el
+header/footer/CTAs de cada página copiada interactúen con esa misma página,
+no con otra ni con el home; (2) los distintos CTAs de una página no "se
+solapen" (mismo mensaje indistinguible entre sí); (3) el repo no se vuelva
+ineficiente o caro de analizar a medida que crece.
+
+**Separar 2 ejes, tienen soluciones distintas:**
+- **Eje A — otras plagas** (landing de Ratones, Cucarachas, etc.): ya
+  resuelto por el sistema actual. Cada plaga = carpeta nueva en `servicios/`
+  + su propio cotizador JS + entrada en `SERVICIOS` con overrides (patrón
+  usado en el fix de garantía de Termitas). No es un problema de escala,
+  serían ~5-10 páginas en total.
+- **Eje B — variantes geográficas de la misma plaga** (potencialmente 50+
+  páginas: "Control de Termitas en Quillota", "...en Viña del Mar", etc.):
+  este es el que preocupa a Javier, el sistema actual no está pensado para
+  esta escala.
+
+**Por qué el punto 1 (header/CTAs de cada copia apuntando a sí misma) ya
+está resuelto de base:** el sistema `HOME_CTX` / `BLOG_CTX` / `SERVICIO_CTX`
++ tokens (`{{ROOT}}`, `{{HOME_ANCHOR}}`, `{{PLAGA_PREFIX}}`, etc.) existe
+exactamente para esto — cada página se registra con su contexto y sus links
+se generan apuntando a sí misma, no se rompe al copiar. El patrón de
+`SERVICIOS` como lista de diccionarios con overrides por página (ver fix de
+garantía) es el que resuelve el punto 2: cualquier valor que varíe por
+página se agrega como token con default sensato, se sobreescribe por
+página, sin tocar partials compartidos a mano.
+
+**LA DECISIÓN ESTRATÉGICA QUE FALTA (bloquea el diseño técnico del eje B):**
+¿las páginas por comuna van a ser **landings completas** (duplicar todo:
+hero, pain-points, mecanismo, FAQ, etc., solo cambiando el nombre de la
+comuna) o **páginas delgadas** (cortas, SEO local, embudan hacia el
+cotizador y linkean de vuelta a esta landing completa para el detalle)?
+
+Recomendación dada a Javier: páginas delgadas. Razón — no es solo técnica,
+es de SEO real: 50 páginas casi idénticas de miles de palabras cada una,
+donde solo cambia el nombre de la comuna, es el patrón que Google identifica
+como contenido duplicado/delgado (puede penalizar en vez de ayudar). El
+patrón que funciona: una página "ancla" (esta landing) que concentra toda la
+autoridad/contenido largo + N páginas cortas y genuinamente distintas que
+capturan la búsqueda local y embudan hacia el cotizador o hacia la landing
+completa.
+
+**Si se opta por páginas delgadas (plano técnico propuesto, sin construir
+todavía):**
+1. **Una plantilla, no N archivos.** `generador/templates/servicio-comuna.html`
+   — un solo archivo mantenido a mano. Los outputs
+   (`web/servicios/control-de-termitas-en-[comuna]/index.html`, etc.) se
+   **generan completos** desde la plantilla, nunca se editan a mano — a
+   diferencia del sistema de partials actual (que parchea archivos ya
+   escritos), acá el archivo entero es desechable/regenerable.
+2. **Un archivo de datos**, ej. `generador/data/comunas-termitas.json`: lista
+   de `{comuna, provincia, slug, keywords locales, cualquier dato único}`.
+   Un script recorre la lista y genera cada página reusando el mecanismo de
+   tokens (`render()`) que ya existe.
+3. **Contexto nuevo** (`COMUNA_CTX` o similar), misma profundidad que
+   `SERVICIO_CTX`, pero con los anchors (`#faq`, `#garantia`, etc.)
+   apuntando de vuelta a la landing completa de Termitas en vez de a
+   secciones locales (estas páginas delgadas no tendrían esas secciones
+   propias).
+4. **Tracking por página vía `data-source`, no por mensaje distinto de
+   WhatsApp.** Mismo mensaje que la landing principal, diferenciado por
+   `data-source` (ej. `"comuna-quillota"`) que ya viaja al Sheet — sabes de
+   qué comuna vino cada lead sin mantener N mensajes distintos a mano.
+5. **Por qué esto mantiene el repo liviano de analizar:** cambios se hacen
+   en la plantilla (un archivo) y se regeneran todas las páginas — se
+   razona sobre plantilla + datos, no sobre N HTMLs casi iguales. El
+   problema de "300 páginas estáticas" solo se materializa si cada una se
+   mantiene a mano por separado; generadas, el costo no crece con la
+   cantidad.
+
+**Si se opta por landings completas:** el plano cambia — ahí sí conviene
+reusar `SERVICIO_CTX` tal cual (páginas con sus propias secciones locales),
+pero sigue siendo necesario el enfoque plantilla+datos para no mantener N
+archivos a mano, y hay que aceptar el riesgo de SEO de contenido
+duplicado/delgado (mitigable con contenido único real por comuna, que es
+más trabajo de copy).
+
+**No se ha construido nada de esto.** Es diseño para cuando Javier decida
+el punto estratégico de arriba.
+
+No se ha empezado a construir nada de esto todavía — es diseño para cuando
+se decida avanzar con las páginas por comuna.
 
 ---
 
-## 7. Fuera de alcance para esta landing (a propósito)
+## Ya hecho y confirmado por FA en la llamada (no volver a tocar)
 
-- Páginas por comuna de termitas (`exterminacion-de-plagas-de-termitas-en-[comuna]`) — vienen después, esta landing es la plantilla base para llegar ahí.
-- Nuevas landing de otros servicios (ratones, sanitización) — mismo caso, después.
-- Distancia/tiempo desde la base de operaciones por comuna — eso es para cuando existan páginas por comuna reales, acá basta con la lista simple de cobertura (§2, última fila).
+- Header: "Servicios"→"Plagas" + nuevo "Servicios"→landing de Termitas. FA lo
+  revisó en vivo, no pidió cambios.
+- FAQ "exterminio vs. control": FA confirmó que el concepto técnico correcto
+  es "control"/"manejo" (MIP) — nunca "exterminio" (riesgo legal si se
+  promete 100%, las colonias pueden volver). "Exterminio"/"fumigación" solo
+  deben aparecer en el FAQ para SEO, nunca como promesa del resto de la
+  página.
+- Título "Especialistas en las dos especies... más destructivas" con rojo —
+  FA confirmó que hay 5 especies de termita en la región y estas 2 son las
+  más dañinas (de ahí el "más destructivas").
+- Wording del sistema de cebado ("...para detección de termitas
+  subterráneas") ya corregido en landing y blog.
+- Pretitle del hero = "A&C Control de Plagas".
+- Popup "Ver foto real" (4 variantes) — la idea nació en esta misma llamada
+  (Javier proponiéndole a FA un botón interactivo en vez del emoji).
+- Testimonios: FA está de acuerdo en dejar el único testimonio de termitas
+  por ahora; reseñas reales vendrán después con incentivo (descuento por
+  reseña) — no es urgente.
+- Preocupación de Javier sobre "páginas estáticas" (números fijos en
+  Credenciales, etc.): FA dijo explícitamente que no había que preocuparse,
+  está bien así (distinto del tema de escalabilidad de arriba, que sí es una
+  preocupación vigente de Javier).
+- Video hero pantalla-completa + overlay en mobile: confirmado, no es una
+  contradicción real.
 
 ---
 
-## 8. Cómo iniciar la sesión de construcción
+## Ideas mencionadas, no urgentes (quedan anotadas para más adelante)
 
-Este plan quedó completo el 2026-07-29. Para retomarlo en una conversación
-nueva, el mensaje inicial a Claude debe:
-1. Apuntar directo a este archivo (no pedirle que re-derive el plan de memoria).
-2. Dejar claro que ya está aprobado, toca construir, no volver a planear.
-3. Nombrar las decisiones que siguen abiertas para que las resuelva preguntando, no adivinando (nombre corto del ítem "Servicios" en el header, y si el "Servicios" del header es link directo o dropdown).
+- Reemplazar los emojis de los pain-cards por mini-fotos reales recortadas
+  (alitas, gránulos, etc.) en vez de emoji genérico.
+- Mensaje contextual/explicativo en el cotizador según el indicio elegido.
+- Reseñas reales vía incentivo de descuento (más adelante, con campaña).
 
-Texto sugerido para pegar en la conversación nueva:
+---
 
-> Vamos a construir la landing de venta de Termitas para FA (A&C Soluciones).
-> El plan completo, ya aprobado, está en
-> `FA/fa-ac/plan-landing-termitas.md` — léelo entero antes de tocar nada.
-> También lee `FA/fa-ac/generador/README.md` y `FA/fa-ac/CLAUDE.md` para el
-> estado técnico del repo.
->
-> Ejecuta el plan: arma el esqueleto completo de la landing en
-> `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/`, extiende
-> `generador/_partials/` con las secciones universales que el plan marca como
-> reusables, reestructura el header (Servicios → Plagas + nuevo Servicios) y
-> registra la página nueva en `build.py`. Las secciones marcadas como
-> placeholder (Cobertura, testimonios) quedan con su TODO tal como indica el
-> plan, no las completes con contenido inventado.
->
-> Dos decisiones siguen abiertas, pregúntame antes de decidir por tu cuenta:
-> el nombre corto del ítem "Servicios" en el menú, y si ese apartado es un
-> link directo o un dropdown desde ya.
->
-> No pushees `fa-ac` a GitHub bajo ninguna circunstancia hasta que yo lo
-> confirme explícitamente. Prueba todo con el servidor local
-> (`python -m http.server` desde `web/`) antes de darlo por terminado.
+## Referencia técnica (vigente)
+
+- `generador/build.py`: `SERVICIO_CTX`, `SERVICE_PARTIAL_NAMES`,
+  `SERVICIOS = [{"slug": ..., overrides...}]` — patrón de overrides por
+  página para valores que varían (garantía, mensajes de WhatsApp)
+- `generador/_partials/`: partials de contenido reusables (ver arriba)
+- `web/js/cotizador-termitas.js`: cotizador especializado, separado del genérico
+- Testing local: `python build.py` desde `generador/`, luego
+  `python -m http.server` desde `web/`
+- No pushear a GitHub sin confirmación explícita de Javier

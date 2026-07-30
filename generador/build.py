@@ -22,16 +22,35 @@ WEB = HERE.parent / "web"
 PARTIALS = HERE / "_partials"
 PLAGAS = ["aranas", "avispas", "chinche", "cucarachas", "hormigas",
           "mosquito", "palomas", "ratones", "termitas"]
-SERVICIOS = ["exterminio-y-fumigacion-de-plagas-de-termitas"]
+# Cada servicio es un slug + overrides propios de esa pagina (ej. la garantia
+# de termitas es distinta a la generica). Lo que no se sobreescribe usa el
+# default de SERVICIO_CTX (14 dias, igual que el resto del sitio). Este es el
+# patron a seguir cuando se agreguen mas paginas de servicios/: parametrizar
+# por diccionario en vez de tocar los partials compartidos a mano por pagina.
+SERVICIOS = [
+    {
+        "slug": "exterminio-y-fumigacion-de-plagas-de-termitas",
+        "GARANTIA_DIAS": "1 año",
+        "GARANTIA_PERIODO": "durante el año siguiente al tratamiento",
+    },
+]
 
 DATA = json.loads((HERE / "_data.json").read_text(encoding="utf-8"))
 
+# Mensaje generico del header (boton flotante de WhatsApp + "Agenda gratis"
+# desktop/mobile). Cada servicio_CTX puede pisarlo con uno mas especifico (ver
+# WA_HEADER_TEXT en SERVICIO_CTX) para poder distinguir, en el mensaje que
+# llega, si el lead entro por el header o por un CTA del cuerpo de la pagina.
+WA_HEADER_TEXT_GENERICO = "Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+
 HOME_CTX = dict(DATA, ROOT="", HOME_LINK="#", HOME_ANCHOR="", PLAGA_PREFIX="blog/",
-                SERVICIO_PREFIX="servicios/", SERVICIOS_GRID_ANCHOR="#servicios")
+                SERVICIO_PREFIX="servicios/", SERVICIOS_GRID_ANCHOR="#servicios",
+                WA_HEADER_TEXT=WA_HEADER_TEXT_GENERICO)
 BLOG_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
                 HOME_ANCHOR="../../index.html", PLAGA_PREFIX="../",
                 SERVICIO_PREFIX="../../servicios/",
-                SERVICIOS_GRID_ANCHOR="../../index.html#servicios")
+                SERVICIOS_GRID_ANCHOR="../../index.html#servicios",
+                WA_HEADER_TEXT=WA_HEADER_TEXT_GENERICO)
 # Las paginas de servicios/ (landings de venta, ej. Termitas) viven a la misma
 # profundidad que blog/[plaga]/ (2 niveles bajo web/), pero HOME_ANCHOR queda
 # vacio (local, no "../../index.html"): a diferencia de blog/, estas landings
@@ -43,14 +62,21 @@ BLOG_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
 SERVICIO_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
                      HOME_ANCHOR="", PLAGA_PREFIX="../../blog/",
                      SERVICIO_PREFIX="../",
-                     SERVICIOS_GRID_ANCHOR="../../index.html#servicios")
+                     SERVICIOS_GRID_ANCHOR="../../index.html#servicios",
+                     GARANTIA_DIAS="14 días",
+                     GARANTIA_PERIODO="en los 14 días siguientes al tratamiento",
+                     # Default pensado para la landing de Termitas (unica hoy).
+                     # El "(menu)" es a proposito: distingue este boton del
+                     # botón "Habla con un especialista" del hero, que manda
+                     # el mismo mensaje sin esa palabra.
+                     WA_HEADER_TEXT="Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.")
 
 PARTIAL_NAMES = ["analytics", "header", "footer", "main-js", "year-script"]
 # Partials de contenido: secciones universales (mismo copy en cualquier landing
 # de servicio futura), reusadas desde web/index.html pero SOLO inyectadas via
 # marcadores en paginas de servicios/ (no en home/blog, que no las declaran).
 SERVICE_PARTIAL_NAMES = ["trust-bar", "clientes", "mecanismo", "proof-counters",
-                         "para-quien", "value-stack", "garantia",
+                         "para-quien", "value-stack", "garantia", "cobertura",
                          "contacto-final", "cotizador-embed"]
 
 
@@ -135,9 +161,10 @@ def sync_cotizador_wa_number():
     <a href="tel:..."> que encuentre, es una segunda red de seguridad en
     tiempo de ejecucion que ya existia antes de este build.py, se deja tal cual."""
     sync_js_constant("js/cotizador.js", "WA_NUMBER", DATA["WA_DIGITS"])
+    sync_js_constant("js/cotizador-termitas.js", "WA_NUMBER", DATA["WA_DIGITS"])
     sync_js_constant("js/main.js", "FA_WA_NUMBER", DATA["WA_DIGITS"])
     sync_js_constant("js/main.js", "FA_TEL_NUMBER", "+" + DATA["WA_DIGITS"])
-    print("js/cotizador.js + js/main.js: constantes de telefono sincronizadas")
+    print("js/cotizador*.js + js/main.js: constantes de telefono sincronizadas")
 
 
 def build():
@@ -155,11 +182,13 @@ def build():
         f.write_text(apply_markers(text, BLOG_CTX, partials, PARTIAL_NAMES), encoding="utf-8")
         print(f"blog/{plaga}/index.html actualizado")
 
-    for slug in SERVICIOS:
+    for servicio in SERVICIOS:
+        slug = servicio["slug"]
+        ctx = dict(SERVICIO_CTX, **{k: v for k, v in servicio.items() if k != "slug"})
         f = WEB / "servicios" / slug / "index.html"
         text = f.read_text(encoding="utf-8")
-        text = apply_markers(text, SERVICIO_CTX, partials, PARTIAL_NAMES)
-        text = apply_markers(text, SERVICIO_CTX, service_partials, SERVICE_PARTIAL_NAMES)
+        text = apply_markers(text, ctx, partials, PARTIAL_NAMES)
+        text = apply_markers(text, ctx, service_partials, SERVICE_PARTIAL_NAMES)
         f.write_text(text, encoding="utf-8")
         print(f"servicios/{slug}/index.html actualizado")
 

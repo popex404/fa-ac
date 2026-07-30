@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Tratamiento y exterminio de plagas de termitas (madera seca y subterránea) en Valparaíso, Viña del Mar, Quilpué y Quinta Región. Diagnóstico gratuito, certificado SEREMI y garantía de 14 días." />
+    content="Tratamiento y exterminio de plagas de termitas (madera seca y subterránea) en Valparaíso, Viña del Mar, Quilpué y Quinta Región. Diagnóstico gratuito, certificado SEREMI y garantía de 1 año." />
   <meta name="keywords"
     content="control de termitas, plaga de termitas, problema de termitas, tratamiento de termitas, fumigación de termitas, exterminio de termitas, desinsectación termitas, termita madera seca, termita subterránea, diagnóstico gratuito termitas, certificado SEREMI, control termitas Valparaíso, control termitas Quinta Región" />
   <meta name="theme-color" content="#D96A0E" />
@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="../../img/Logo_ayc@4x-3.png" />
   <meta property="og:title" content="Exterminio de Plagas de Termitas en Valparaíso | Certificado SEREMI — A&C Soluciones" />
   <meta property="og:description"
-    content="Tratamiento especializado de termita de madera seca y subterránea. Diagnóstico gratuito, certificado SEREMI y garantía de 14 días. Atendemos Valparaíso, Viña del Mar, Quilpué y Quinta Región." />
+    content="Tratamiento especializado de termita de madera seca y subterránea. Diagnóstico gratuito, certificado SEREMI y garantía de 1 año. Atendemos Valparaíso, Viña del Mar, Quilpué y Quinta Región." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/" />
   <meta property="og:image" content="https://www.aycmip.cl/img/LOGO-01.jpg" />
@@ -47,6 +47,44 @@
       display: block;
     }
 
+    /* PRUEBA: video de fondo en el hero, solo mobile (<1024px). Reemplaza la
+       fotito chica (.hero-mobile-img-wrap) que traia el hero original. */
+    .hero-mobile-video,
+    .hero-mobile-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-mobile-video {
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .hero-mobile-overlay {
+      z-index: 1;
+      pointer-events: none;
+      /* Mismo degradado naranjo->verde que ya usaba #hero de fondo en mobile:
+         ya estaba probado que da buen contraste contra el texto blanco. */
+      background: linear-gradient(
+        160deg,
+        rgba(217, 106, 14, 0.92) 0%,
+        rgba(165, 75, 0, 0.82) 50%,
+        rgba(58, 107, 40, 0.72) 100%
+      );
+    }
+    #hero .hero-decoration { z-index: 1; }
+    #hero .container { position: relative; z-index: 2; }
+    .desktop-only { display: none; }
+
+    @media (min-width: 1024px) {
+      .hero-mobile-video,
+      .hero-mobile-overlay {
+        display: none;
+      }
+      .desktop-only { display: block; }
+    }
+
     /* #pain-points trae un corte diagonal (clip-path) pensado para entrar en
        #mecanismo (su vecino en el home). Aca en medio va "Especialistas en
        termitas", que no tiene el padding para absorber ese corte, asi que el
@@ -60,8 +98,14 @@
        secciones (#pain-points, #mecanismo, etc. lo declaran cada una, no hay
        una regla generica para <section>). */
     #especialistas-termitas {
-      background: var(--white);
+      background: var(--bg-light-green);
       padding-block: var(--space-2xl);
+    }
+
+    /* "mas destructivas" en el h2 de arriba: rojo con buen contraste sobre el
+       verde claro de esta seccion y sobre el naranjo de la marca. */
+    .especialistas-highlight {
+      color: #C0392B;
     }
 
     /* Especies de termita: foto izquierda + texto + foto derecha en desktop,
@@ -124,7 +168,7 @@
        vez de las de subpages.css (Nunito/Roboto), para que calce con el
        resto de la pagina. */
     .treatment {
-      background: var(--white);
+      background: var(--bg-light-blue);
       padding-block: var(--space-2xl);
     }
     .treatment__grid {
@@ -185,6 +229,167 @@
       }
       .treatment__image img { height: 100%; }
     }
+
+    /* ============================================================
+       PRUEBA: boton "Ver foto real" + popup, 4 variantes distintas
+       (una por tarjeta de pain-points) para decidir formato con FA.
+       Los botones van con position:absolute a proposito: no deben
+       cambiar el alto/ancho que ya tienen las tarjetas.
+       ============================================================ */
+    .pain-card { position: relative; }
+
+    .pain-photo-btn {
+      position: absolute;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      z-index: 2;
+    }
+
+    /* V1: circulo arriba-derecha, solo icono */
+    .pain-photo-btn--v1 {
+      top: 0.9rem;
+      right: 0.9rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--primary);
+      box-shadow: var(--shadow-card);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pain-photo-btn--v1:hover { background: var(--primary); color: var(--white); }
+
+    /* V2: chip abajo-derecha, icono + texto */
+    .pain-photo-btn--v2 {
+      bottom: 0.9rem;
+      right: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--bg-light-blue);
+      color: var(--text-dark);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .pain-photo-btn--v2:hover { background: var(--primary); color: var(--white); }
+
+    /* V3: cuadrado arriba-izquierda, solo icono */
+    .pain-photo-btn--v3 {
+      top: 0.9rem;
+      left: 0.9rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(58, 107, 40, 0.08);
+      color: var(--secondary);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pain-photo-btn--v3:hover { background: var(--secondary); color: var(--white); }
+
+    /* V4: chip abajo-izquierda, texto en verde marca */
+    .pain-photo-btn--v4 {
+      bottom: 0.9rem;
+      left: 0.9rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .pain-photo-btn--v4:hover { background: var(--secondary-dark); }
+
+    /* ── Popups (variantes 1, 2 y 4: overlay + panel a mano) ── */
+    .pain-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+    }
+    .pain-popup[hidden] { display: none; }
+    .pain-popup-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(20, 20, 20, 0.55);
+    }
+    .pain-popup-panel {
+      position: relative;
+      background: var(--white);
+      border-radius: 16px;
+      max-width: 420px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: var(--shadow-hover);
+    }
+    .pain-popup-panel img { width: 100%; height: 280px; object-fit: cover; display: block; }
+    .pain-popup-caption {
+      padding: 1rem 1.25rem 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .pain-popup-close {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.9);
+      color: var(--text-dark);
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    /* V2: lightbox oscuro, caption superpuesto sobre la foto */
+    .pain-popup--v2 .pain-popup-overlay { background: rgba(10, 10, 10, 0.82); }
+    .pain-popup-panel--v2 { max-width: 480px; background: transparent; box-shadow: none; }
+    .pain-popup-panel--v2 img { height: 360px; border-radius: 16px; }
+    .pain-popup-caption--overlay {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 2.5rem 1.25rem 1rem;
+      color: var(--white);
+      background: linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 100%);
+      border-radius: 0 0 16px 16px;
+    }
+    .pain-popup-close--v2 { background: rgba(255,255,255,0.15); color: var(--white); }
+    .pain-popup-close--v2:hover { background: rgba(255,255,255,0.3); }
+
+    /* V4: modal oscuro (mismo tono que #urgency) + CTA */
+    .pain-popup-panel--v4 { background: var(--text-dark); }
+    .pain-popup-panel--v4 img { height: 260px; }
+    .pain-popup-caption--dark { color: rgba(255,255,255,0.85); padding-bottom: 0.5rem; }
+    .pain-popup-close--v4 { background: rgba(255,255,255,0.15); color: var(--white); }
+    .pain-popup-cta { margin: 0 1.25rem 1.25rem; }
+
+    /* ── V3: <dialog> nativo ── */
+    .pain-dialog {
+      border: none;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 90%;
+      padding: 0;
+      box-shadow: var(--shadow-hover);
+      position: relative;
+    }
+    .pain-dialog::backdrop { background: rgba(20, 20, 20, 0.55); }
+    .pain-dialog img { width: 100%; height: 280px; object-fit: cover; display: block; }
+    .pain-dialog .pain-popup-caption { padding-bottom: 0.5rem; }
+    .pain-dialog-btn { margin: 0 1.25rem 1.25rem; width: calc(100% - 2.5rem); }
   </style>
 
 <!-- PARTIAL:analytics:start -->
@@ -214,7 +419,7 @@
      FLOATING WHATSAPP BUTTON
      ============================================================ -->
   <a id="whatsapp-fab"
-    href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+    href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
     target="_blank" rel="noopener noreferrer" aria-label="Abrir chat de WhatsApp con A&C Soluciones">
     <span class="fab-tooltip">Escr&iacute;benos ahora</span>
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -268,7 +473,7 @@
         </svg>
         +56 9 3667 8897
       </a>
-      <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+      <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
         target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
         Agenda gratis
       </a>
@@ -361,7 +566,7 @@
             class="btn btn-sistema">
             Sistema para clientes
           </a>
-          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
             target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
             Agenda gratis
           </a>
@@ -384,6 +589,15 @@
      1. HERO
      ============================================================ -->
   <section id="hero" aria-labelledby="hero-heading">
+    <!-- Video de fondo solo mobile (PRUEBA, ver nota en el <head>): mismo
+         video que el hero desktop, con un overlay encima usando el mismo
+         degradado naranjo->verde que ya traia el fondo de #hero en mobile
+         (mismo contraste ya probado contra el texto blanco). -->
+    <video class="hero-mobile-video" autoplay muted loop playsinline preload="none"
+      poster="../../img/hero-video/termitas-hero-poster.jpg" aria-hidden="true">
+      <source src="../../img/hero-video/termitas-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-mobile-overlay" aria-hidden="true"></div>
     <div class="hero-decoration" aria-hidden="true"></div>
     <div class="container">
       <div class="hero-inner">
@@ -391,20 +605,14 @@
         <!-- Left column: copy -->
         <div class="hero-content reveal">
 
-          <p class="hero-pretitle">A&amp;C Soluciones Agr&iacute;colas y Urbanas</p>
-
-          <!-- Hero image: solo visible en mobile -->
-          <div class="hero-mobile-img-wrap">
-            <img src="../../img/hero_main_ayc.png" alt="T&eacute;cnico certificado A&C" loading="eager" fetchpriority="high"
-              class="hero-mobile-img" />
-          </div>
+          <p class="hero-pretitle">A&amp;C Control de Plagas</p>
 
           <h1 id="hero-heading">
             Solucionamos tu problema de plaga de termitas desde la primera visita,
             <em>garantizado</em>
           </h1>
 
-          <p class="hero-subhead">
+          <p class="hero-subhead desktop-only">
             T&eacute;cnicos certificados, insecticidas no repelentes y diagn&oacute;stico de la especie exacta antes de
             cotizar. Sin repeticiones, sin sorpresas. Certificado SEREMI incluido. Atendemos toda la V Regi&oacute;n y
             alrededores.
@@ -476,7 +684,7 @@
         <div class="trust-item reveal reveal-delay-2">
           <span class="trust-icon" aria-hidden="true">&#11088;</span>
           <div class="trust-text">
-            <strong>Garant&iacute;a 14 d&iacute;as</strong>
+            <strong>Garant&iacute;a 1 año</strong>
           </div>
         </div>
 
@@ -558,7 +766,12 @@
 
       <div class="pain-grid">
 
+        <!-- VARIANTE 1: boton circular esquina sup-derecha (icono lupa) + modal
+             clasico (mismo lenguaje visual que #cot-modal: panel blanco, X). -->
         <article class="pain-card reveal">
+          <button type="button" class="pain-photo-btn pain-photo-btn--v1" data-popup-open="popup-v1" aria-label="Ver foto real de este indicio">
+            <span aria-hidden="true">&#128269;</span>
+          </button>
           <div class="pain-card-icon" aria-hidden="true">&#128296;</div>
           <h3>&iquest;La madera suena hueca al golpearla?</h3>
           <p>
@@ -567,7 +780,12 @@
           </p>
         </article>
 
+        <!-- VARIANTE 2: chip esquina inf-derecha ("Ver foto real" + camara) +
+             lightbox oscuro pantalla completa, caption sobre la foto. -->
         <article class="pain-card reveal reveal-delay-1">
+          <button type="button" class="pain-photo-btn pain-photo-btn--v2" data-popup-open="popup-v2">
+            <span aria-hidden="true">&#128247;</span> Ver foto real
+          </button>
           <div class="pain-card-icon" aria-hidden="true">&#129725;</div>
           <h3>&iquest;Viste alitas cerca de las ventanas?</h3>
           <p>
@@ -576,7 +794,12 @@
           </p>
         </article>
 
+        <!-- VARIANTE 3: boton cuadrado esquina sup-izq (icono ojo, con tooltip
+             nativo) + <dialog> nativo del navegador (sin overlay a mano). -->
         <article class="pain-card reveal reveal-delay-2">
+          <button type="button" class="pain-photo-btn pain-photo-btn--v3" data-dialog-open="dialog-v3" title="Ver foto real">
+            <span aria-hidden="true">&#128065;</span>
+          </button>
           <div class="pain-card-icon" aria-hidden="true">&#128996;</div>
           <h3>&iquest;Gr&aacute;nulos color caf&eacute; en el suelo o los muebles?</h3>
           <p>
@@ -585,7 +808,12 @@
           </p>
         </article>
 
+        <!-- VARIANTE 4: chip esquina inf-izq ("Ver caso real ›" en verde marca)
+             + modal oscuro (mismo estilo que #urgency) con CTA de WhatsApp. -->
         <article class="pain-card reveal reveal-delay-3">
+          <button type="button" class="pain-photo-btn pain-photo-btn--v4" data-popup-open="popup-v4">
+            Ver caso real &rsaquo;
+          </button>
           <div class="pain-card-icon" aria-hidden="true">&#128371;</div>
           <h3>&iquest;T&uacute;neles de barro en paredes o cimientos?</h3>
           <p>
@@ -594,6 +822,56 @@
           </p>
         </article>
 
+      </div>
+
+      <p class="pain-popup-note reveal" style="text-align:center; font-size:0.8rem; color:var(--text-muted); margin-top:1rem;">
+        PRUEBA para decidir formato con Francisco &mdash; foto placeholder, se reemplaza por fotos reales de AyC despu&eacute;s.
+      </p>
+    </div>
+
+    <!-- ============================================================
+       POPUPS "Ver foto real" — 4 variantes de prueba (imagen placeholder)
+       ============================================================ -->
+
+    <!-- Variante 1: modal clasico blanco -->
+    <div class="pain-popup pain-popup--v1" id="popup-v1" hidden>
+      <div class="pain-popup-overlay" data-popup-close="popup-v1"></div>
+      <div class="pain-popup-panel">
+        <button type="button" class="pain-popup-close" data-popup-close="popup-v1" aria-label="Cerrar">&#x2715;</button>
+        <img src="../../img/control-de-termitas.jpeg" alt="Ejemplo real de madera afectada por termitas (foto placeholder)" />
+        <p class="pain-popup-caption">Madera hueca al golpear: as&iacute; se ve por dentro una infestaci&oacute;n de madera seca.</p>
+      </div>
+    </div>
+
+    <!-- Variante 2: lightbox oscuro, caption sobre la imagen -->
+    <div class="pain-popup pain-popup--v2" id="popup-v2" hidden>
+      <div class="pain-popup-overlay" data-popup-close="popup-v2"></div>
+      <div class="pain-popup-panel pain-popup-panel--v2">
+        <button type="button" class="pain-popup-close pain-popup-close--v2" data-popup-close="popup-v2" aria-label="Cerrar">&#x2715;</button>
+        <img src="../../img/control-de-termitas.jpeg" alt="Ejemplo real de alitas de termita cerca de una ventana (foto placeholder)" />
+        <p class="pain-popup-caption pain-popup-caption--overlay">Alitas cerca de la ventana, se&ntilde;al de enjambre de termitas.</p>
+      </div>
+    </div>
+
+    <!-- Variante 3: <dialog> nativo -->
+    <dialog class="pain-dialog" id="dialog-v3">
+      <button type="button" class="pain-popup-close" data-dialog-close="dialog-v3" aria-label="Cerrar">&#x2715;</button>
+      <img src="../../img/control-de-termitas.jpeg" alt="Ejemplo real de gr&aacute;nulos de termita de madera seca (foto placeholder)" />
+      <p class="pain-popup-caption">Gr&aacute;nulos color caf&eacute;: el excremento que deja la termita de madera seca.</p>
+      <button type="button" class="btn btn-outline pain-dialog-btn" data-dialog-close="dialog-v3">Cerrar</button>
+    </dialog>
+
+    <!-- Variante 4: modal oscuro + CTA WhatsApp -->
+    <div class="pain-popup pain-popup--v4" id="popup-v4" hidden>
+      <div class="pain-popup-overlay" data-popup-close="popup-v4"></div>
+      <div class="pain-popup-panel pain-popup-panel--v4">
+        <button type="button" class="pain-popup-close pain-popup-close--v4" data-popup-close="popup-v4" aria-label="Cerrar">&#x2715;</button>
+        <img src="../../img/control-de-termitas.jpeg" alt="Ejemplo real de t&uacute;neles de barro de termita subterr&aacute;nea (foto placeholder)" />
+        <p class="pain-popup-caption pain-popup-caption--dark">T&uacute;neles de barro: la termita subterr&aacute;nea construyendo su camino hacia la madera.</p>
+        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20un%20t%C3%BAnel%20de%20barro%20parecido%20al%20de%20su%20p%C3%A1gina%20y%20necesito%20ayuda."
+          target="_blank" rel="noopener noreferrer" class="btn btn-secondary pain-popup-cta">
+          &iquest;Tienes esta se&ntilde;al? Escr&iacute;benos
+        </a>
       </div>
     </div>
   </section>
@@ -606,7 +884,7 @@
     <div class="container">
       <div class="section-header reveal">
         <span class="section-label">Diagn&oacute;stico preciso</span>
-        <h2 id="especialistas-heading">Especialistas en las dos especies de termita de la zona</h2>
+        <h2 id="especialistas-heading">Especialistas en las dos especies de termita <span class="especialistas-highlight">m&aacute;s destructivas</span> de la zona</h2>
       </div>
 
       <div class="especialistas-grid">
@@ -656,8 +934,7 @@
           <ul class="treatment__list" role="list">
             <li>Barreras qu&iacute;micas en el suelo (termiticidas l&iacute;quidos) para termita subterr&aacute;nea</li>
             <li>Inyecci&oacute;n de productos termiticidas directamente en la madera afectada</li>
-            <li>Sistemas de cebado con inhibidores del crecimiento (IGR) para colonias subterr&aacute;neas</li>
-            <li>Erradicaci&oacute;n t&eacute;rmica para madera seca: calor localizado sin productos qu&iacute;micos</li>
+            <li>Sistema de cebado para detecci&oacute;n de termitas subterr&aacute;neas</li>
             <li>Informe t&eacute;cnico y certificado disponible para seguros y tr&aacute;mites municipales</li>
           </ul>
         </div>
@@ -887,7 +1164,7 @@
         <div class="valuestack-item">
           <span class="valuestack-check" aria-hidden="true">&#10003;</span>
           <div class="valuestack-content">
-            <strong>Garant&iacute;a de 14 d&iacute;as</strong>
+            <strong>Garant&iacute;a de 1 año</strong>
             <span class="valuestack-tag">Sin costo extra</span>
           </div>
         </div>
@@ -938,7 +1215,7 @@
       </div>
 
       <div class="cotizador-widget reveal" id="cotizador-widget" data-source="landing-termitas">
-        <!-- Renderizado por cotizador.js -->
+        <!-- Renderizado por js/cotizador-termitas.js -->
       </div>
 
     </div>
@@ -992,7 +1269,7 @@
         <h2 id="guarantee-heading">Trabajamos con garant&iacute;a real</h2>
 
         <p class="guarantee-text">
-          Si ves alguna plaga en los 14 d&iacute;as siguientes al tratamiento, volvemos sin costo adicional.
+          Si ves alguna plaga durante el año siguiente al tratamiento, volvemos sin costo adicional.
           No letras chicas, no excusas. Solo el trabajo bien hecho o lo repetimos gratis.
         </p>
 
@@ -1026,6 +1303,92 @@
   </section>
 <!-- PARTIAL:garantia:end -->
 
+<!-- PARTIAL:cobertura:start -->
+  <!-- ============================================================
+     COBERTURA — fase 1: provincias -> comunas, sin mapa todavia
+     (el mapa interactivo de Chile queda para una fase 2, ver TODO abajo)
+     ============================================================ -->
+  <section id="cobertura" aria-labelledby="cobertura-heading">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="section-label">D&oacute;nde atendemos</span>
+        <h2 id="cobertura-heading">Cobertura en la Regi&oacute;n de Valpara&iacute;so</h2>
+        <p>Atendemos las 7 provincias continentales de la Quinta Regi&oacute;n. Elige una provincia para ver sus
+          comunas.</p>
+      </div>
+
+      <div class="cobertura-grid">
+
+        <div class="cobertura-provincias">
+          <h3 class="cobertura-subtitle">Provincias</h3>
+          <div class="cobertura-provincia-list" id="cobertura-provincia-list" role="list">
+            <button type="button" class="cobertura-provincia-btn" data-provincia="quillota" aria-pressed="true">Quillota</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="valparaiso" aria-pressed="false">Valpara&iacute;so</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="marga-marga" aria-pressed="false">Marga Marga</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="san-antonio" aria-pressed="false">San Antonio</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="petorca" aria-pressed="false">Petorca</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="san-felipe" aria-pressed="false">San Felipe de Aconcagua</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="los-andes" aria-pressed="false">Los Andes</button>
+          </div>
+          <p class="cobertura-note">&iquest;No ves tu comuna? Escr&iacute;benos igual, coordinamos visitas fuera de
+            estas zonas caso a caso.</p>
+        </div>
+
+        <div class="cobertura-comunas" aria-live="polite">
+          <h3 class="cobertura-subtitle" id="cobertura-comunas-title">Comunas de Quillota</h3>
+          <ul class="cobertura-comuna-list" id="cobertura-comuna-list" role="list">
+            <li>Quillota</li>
+            <li>La Cruz</li>
+            <li>Nogales</li>
+            <li>Calera</li>
+            <li>Hijuelas</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- TODO (fase 2): mapa interactivo de Chile (V, y quizas IV y RM),
+           sincronizado en ambos sentidos con estos botones de provincia. -->
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      'use strict';
+      var COMUNAS = {
+        'quillota':    { nombre: 'Quillota', comunas: ['Quillota', 'La Cruz', 'Nogales', 'Calera', 'Hijuelas'] },
+        'valparaiso':  { nombre: 'Valparaíso', comunas: ['Valparaíso', 'Viña del Mar', 'Concón', 'Quintero', 'Puchuncaví', 'Casablanca', 'Juan Fernández'] },
+        'marga-marga': { nombre: 'Marga Marga', comunas: ['Quilpué', 'Villa Alemana', 'Limache', 'Olmué'] },
+        'san-antonio': { nombre: 'San Antonio', comunas: ['San Antonio', 'Cartagena', 'El Tabo', 'El Quisco', 'Algarrobo', 'Santo Domingo'] },
+        'petorca':     { nombre: 'Petorca', comunas: ['La Ligua', 'Cabildo', 'Petorca', 'Zapallar', 'Papudo'] },
+        'san-felipe':  { nombre: 'San Felipe de Aconcagua', comunas: ['San Felipe', 'Putaendo', 'Santa María', 'Panquehue', 'Llaillay', 'Catemu'] },
+        'los-andes':   { nombre: 'Los Andes', comunas: ['Los Andes', 'San Esteban', 'Calle Larga', 'Rinconada'] }
+      };
+
+      var list  = document.getElementById('cobertura-provincia-list');
+      var title = document.getElementById('cobertura-comunas-title');
+      var ul    = document.getElementById('cobertura-comuna-list');
+      if (!list || !title || !ul) return;
+
+      function show(key) {
+        var d = COMUNAS[key];
+        if (!d) return;
+        title.textContent = 'Comunas de ' + d.nombre;
+        ul.innerHTML = d.comunas.map(function (c) { return '<li>' + c + '</li>'; }).join('');
+        list.querySelectorAll('.cobertura-provincia-btn').forEach(function (b) {
+          b.setAttribute('aria-pressed', b.getAttribute('data-provincia') === key ? 'true' : 'false');
+        });
+      }
+
+      list.querySelectorAll('.cobertura-provincia-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { show(btn.getAttribute('data-provincia')); });
+      });
+    })();
+  </script>
+<!-- PARTIAL:cobertura:end -->
+
   <!-- ============================================================
      FAQ (todas las de home + nuevas de termitas)
      ============================================================ -->
@@ -1045,6 +1408,30 @@
             <p>Busca madera que suena hueca al golpearla, alitas desprendidas cerca de ventanas, gr&aacute;nulos color
               caf&eacute; (excremento) o t&uacute;neles de barro en paredes y cimientos. Si ves alguna de estas
               se&ntilde;ales, agenda una visita de diagn&oacute;stico gratuita.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal reveal-delay-1">
+          <summary class="faq-question">&iquest;Ustedes exterminan las termitas?</summary>
+          <div class="faq-answer">
+            <p>Vamos a ser directos: "exterminio total" es un concepto que varias empresas usan como gancho
+              comercial, pero en control de plagas no es realista prometerlo &mdash; las termitas pueden volver a
+              aparecer desde el entorno, y nadie serio puede garantizar una extinci&oacute;n permanente. Lo que s&iacute;
+              hacemos es un <strong>tratamiento de control certificado</strong>: eliminamos la colonia activa,
+              cortamos las condiciones que permiten que vuelva, y respaldamos el resultado con garant&iacute;a de 14
+              d&iacute;as. Es la forma honesta &mdash;y la que realmente funciona a largo plazo&mdash; de mantener tu
+              propiedad libre de termitas.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal reveal-delay-2">
+          <summary class="faq-question">&iquest;Hacen fumigaci&oacute;n de termitas?</summary>
+          <div class="faq-answer">
+            <p>Mucha gente busca "fumigaci&oacute;n de termitas", pero el tratamiento real no es una fumigaci&oacute;n
+              con gas: aplicamos termiticidas espec&iacute;ficos seg&uacute;n la especie (inyecci&oacute;n directa en
+              la madera, barreras qu&iacute;micas en el suelo o sistemas de cebado), un m&eacute;todo m&aacute;s
+              preciso y menos invasivo. El resultado es el mismo que buscas al decir "fumigaci&oacute;n": eliminar la
+              colonia activa de tu propiedad, con certificado SEREMI incluido.</p>
           </div>
         </details>
 
@@ -1093,7 +1480,7 @@
         <details class="faq-item reveal">
           <summary class="faq-question">&iquest;Qu&eacute; pasa si la plaga vuelve?</summary>
           <div class="faq-answer">
-            <p>Tienes garant&iacute;a de 14 d&iacute;as. Si aparece alguna termita, volvemos sin costo adicional.</p>
+            <p>Tienes garant&iacute;a de 1 a&ntilde;o. Si aparece alguna termita, volvemos sin costo adicional.</p>
           </div>
         </details>
 
@@ -1298,8 +1685,49 @@
     </div>
   </div>
 
-  <script src="../../js/cotizador.js"></script>
+  <!-- El <script> del cotizador NO va aca: cada pagina de servicios/ carga el
+       suyo (ej. js/cotizador-termitas.js), para que cada plaga tenga su propio
+       cotizador sin pisarse. Agregarlo en el HTML unico de cada pagina. -->
 <!-- PARTIAL:cotizador-embed:end -->
+  <!-- Cotizador especializado de Termitas (no el generico de home) -->
+  <script src="../../js/cotizador-termitas.js"></script>
+
+  <!-- PRUEBA: apertura/cierre de los 4 popups "Ver foto real" de pain-points.
+       Codigo de pagina (no un archivo js/ aparte) porque es solo para decidir
+       formato con Francisco; si se elige una variante, esto se limpia. -->
+  <script>
+    (function () {
+      'use strict';
+      document.querySelectorAll('[data-popup-open]').forEach(function (btn) {
+        var popup = document.getElementById(btn.getAttribute('data-popup-open'));
+        if (!popup) return;
+        btn.addEventListener('click', function () { popup.removeAttribute('hidden'); });
+      });
+      document.querySelectorAll('[data-popup-close]').forEach(function (el) {
+        var popup = document.getElementById(el.getAttribute('data-popup-close'));
+        if (!popup) return;
+        el.addEventListener('click', function () { popup.setAttribute('hidden', ''); });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        document.querySelectorAll('.pain-popup:not([hidden])').forEach(function (p) { p.setAttribute('hidden', ''); });
+      });
+
+      document.querySelectorAll('[data-dialog-open]').forEach(function (btn) {
+        var dlg = document.getElementById(btn.getAttribute('data-dialog-open'));
+        if (!dlg) return;
+        btn.addEventListener('click', function () { dlg.showModal(); });
+      });
+      document.querySelectorAll('[data-dialog-close]').forEach(function (el) {
+        var dlg = document.getElementById(el.getAttribute('data-dialog-close'));
+        if (!dlg) return;
+        el.addEventListener('click', function () { dlg.close(); });
+      });
+      document.querySelectorAll('.pain-dialog').forEach(function (dlg) {
+        dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+      });
+    })();
+  </script>
 
 <!-- PARTIAL:main-js:start -->
   <script src="../../js/main.js"></script>
@@ -1340,7 +1768,7 @@
   "@type": "Service",
   "name": "Control de Termitas",
   "url": "https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/",
-  "description": "Tratamiento y exterminio de plagas de termitas (madera seca y subterránea). Empresa certificada SEREMI. Diagnóstico gratuito y garantía 14 días.",
+  "description": "Tratamiento y exterminio de plagas de termitas (madera seca y subterránea). Empresa certificada SEREMI. Diagnóstico gratuito y garantía de 1 año.",
   "provider": {
     "@type": "PestControlService",
     "@id": "https://www.aycmip.cl/",
@@ -1365,6 +1793,22 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Busca madera que suena hueca al golpearla, alitas desprendidas cerca de ventanas, gránulos color café (excremento) o túneles de barro en paredes y cimientos. Si ves alguna de estas señales, agenda una visita de diagnóstico gratuita."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Ustedes exterminan las termitas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Vamos a ser directos: \"exterminio total\" es un concepto que varias empresas usan como gancho comercial, pero en control de plagas no es realista prometerlo, ya que las termitas pueden volver a aparecer desde el entorno. Lo que sí hacemos es un tratamiento de control certificado: eliminamos la colonia activa, cortamos las condiciones que permiten que vuelva, y respaldamos el resultado con garantía de 1 año."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Hacen fumigación de termitas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "El tratamiento real no es una fumigación con gas: aplicamos termiticidas específicos según la especie (inyección directa en la madera, barreras químicas en el suelo o sistemas de cebado), un método más preciso y menos invasivo, con certificado SEREMI incluido."
       }
     },
     {
@@ -1412,7 +1856,7 @@
       "name": "¿Qué pasa si la plaga vuelve?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Tienes garantía de 14 días. Si aparece alguna termita, volvemos sin costo adicional."
+        "text": "Tienes garantía de 1 año. Si aparece alguna termita, volvemos sin costo adicional."
       }
     },
     {

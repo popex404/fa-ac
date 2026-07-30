@@ -1,0 +1,83 @@
+  <!-- ============================================================
+     COBERTURA — fase 1: provincias -> comunas, sin mapa todavia
+     (el mapa interactivo de Chile queda para una fase 2, ver TODO abajo)
+     ============================================================ -->
+  <section id="cobertura" aria-labelledby="cobertura-heading">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="section-label">D&oacute;nde atendemos</span>
+        <h2 id="cobertura-heading">Cobertura en la Regi&oacute;n de Valpara&iacute;so</h2>
+        <p>Atendemos las 7 provincias continentales de la Quinta Regi&oacute;n. Elige una provincia para ver sus
+          comunas.</p>
+      </div>
+
+      <div class="cobertura-grid">
+
+        <div class="cobertura-provincias">
+          <h3 class="cobertura-subtitle">Provincias</h3>
+          <div class="cobertura-provincia-list" id="cobertura-provincia-list" role="list">
+            <button type="button" class="cobertura-provincia-btn" data-provincia="quillota" aria-pressed="true">Quillota</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="valparaiso" aria-pressed="false">Valpara&iacute;so</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="marga-marga" aria-pressed="false">Marga Marga</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="san-antonio" aria-pressed="false">San Antonio</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="petorca" aria-pressed="false">Petorca</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="san-felipe" aria-pressed="false">San Felipe de Aconcagua</button>
+            <button type="button" class="cobertura-provincia-btn" data-provincia="los-andes" aria-pressed="false">Los Andes</button>
+          </div>
+          <p class="cobertura-note">&iquest;No ves tu comuna? Escr&iacute;benos igual, coordinamos visitas fuera de
+            estas zonas caso a caso.</p>
+        </div>
+
+        <div class="cobertura-comunas" aria-live="polite">
+          <h3 class="cobertura-subtitle" id="cobertura-comunas-title">Comunas de Quillota</h3>
+          <ul class="cobertura-comuna-list" id="cobertura-comuna-list" role="list">
+            <li>Quillota</li>
+            <li>La Cruz</li>
+            <li>Nogales</li>
+            <li>Calera</li>
+            <li>Hijuelas</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- TODO (fase 2): mapa interactivo de Chile (V, y quizas IV y RM),
+           sincronizado en ambos sentidos con estos botones de provincia. -->
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      'use strict';
+      var COMUNAS = {
+        'quillota':    { nombre: 'Quillota', comunas: ['Quillota', 'La Cruz', 'Nogales', 'Calera', 'Hijuelas'] },
+        'valparaiso':  { nombre: 'Valparaíso', comunas: ['Valparaíso', 'Viña del Mar', 'Concón', 'Quintero', 'Puchuncaví', 'Casablanca', 'Juan Fernández'] },
+        'marga-marga': { nombre: 'Marga Marga', comunas: ['Quilpué', 'Villa Alemana', 'Limache', 'Olmué'] },
+        'san-antonio': { nombre: 'San Antonio', comunas: ['San Antonio', 'Cartagena', 'El Tabo', 'El Quisco', 'Algarrobo', 'Santo Domingo'] },
+        'petorca':     { nombre: 'Petorca', comunas: ['La Ligua', 'Cabildo', 'Petorca', 'Zapallar', 'Papudo'] },
+        'san-felipe':  { nombre: 'San Felipe de Aconcagua', comunas: ['San Felipe', 'Putaendo', 'Santa María', 'Panquehue', 'Llaillay', 'Catemu'] },
+        'los-andes':   { nombre: 'Los Andes', comunas: ['Los Andes', 'San Esteban', 'Calle Larga', 'Rinconada'] }
+      };
+
+      var list  = document.getElementById('cobertura-provincia-list');
+      var title = document.getElementById('cobertura-comunas-title');
+      var ul    = document.getElementById('cobertura-comuna-list');
+      if (!list || !title || !ul) return;
+
+      function show(key) {
+        var d = COMUNAS[key];
+        if (!d) return;
+        title.textContent = 'Comunas de ' + d.nombre;
+        ul.innerHTML = d.comunas.map(function (c) { return '<li>' + c + '</li>'; }).join('');
+        list.querySelectorAll('.cobertura-provincia-btn').forEach(function (b) {
+          b.setAttribute('aria-pressed', b.getAttribute('data-provincia') === key ? 'true' : 'false');
+        });
+      }
+
+      list.querySelectorAll('.cobertura-provincia-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { show(btn.getAttribute('data-provincia')); });
+      });
+    })();
+  </script>
