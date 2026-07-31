@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="../../img/Logo_ayc@4x-3.png" />
   <meta property="og:title" content="A&C: Exterminio, Fumigación y Control de Plagas de Termitas en Valparaíso, V Región" />
   <meta property="og:description"
-    content="Tratamiento especializado de termita de madera seca y subterránea. Diagnóstico gratuito, certificado SEREMI y garantía de 1 año. Atendemos Valparaíso, Viña del Mar, Quilpué y Quinta Región." />
+    content="Tratamiento especializado de termita de madera seca y subterránea. Diagnóstico gratuito, certificado SEREMI y garantía de 1 año. Atendemos Valparaíso, Viña del Mar, Quilpué y Quinta Región. 📞 +56 9 3667 8897" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/" />
   <meta property="og:image" content="https://www.aycmip.cl/img/LOGO-01.jpg" />
@@ -137,7 +137,7 @@
       }
       .hero-ctas {
         position: absolute;
-        bottom: 1rem;
+        bottom: 2.5rem;
         left: 0;
         right: 0;
       }
@@ -158,20 +158,20 @@
       }
     }
 
-    /* #pain-points trae un corte diagonal (clip-path) pensado para entrar en
-       #mecanismo (su vecino en el home). Aca en medio va "Especialistas en
-       termitas", que no tiene el padding para absorber ese corte, asi que el
-       texto quedaba mal encajado. Se anula solo en esta pagina. */
+    /* El corte diagonal que traia #pain-points de fabrica se elimino del
+       todo (styles.css, 2026-07-31) - ya no hay que anularlo aca. Esta
+       pagina alterna los fondos naranjo/verde seccion por seccion (distinto
+       del default compartido con home) - por eso el fondo se pisa aca, sin
+       tocar la regla compartida en styles.css. */
     #pain-points {
-      clip-path: none;
-      margin-bottom: 0;
+      background: var(--bg-light-green);
     }
 
     /* ESPECIALISTAS EN TERMITAS — mismo padding-block que el resto de las
        secciones (#pain-points, #mecanismo, etc. lo declaran cada una, no hay
        una regla generica para <section>). */
     #especialistas-termitas {
-      background: var(--bg-light-green);
+      background: var(--bg-light-blue);
       padding-block: var(--space-2xl);
     }
 
@@ -241,8 +241,15 @@
        vez de las de subpages.css (Nunito/Roboto), para que calce con el
        resto de la pagina. */
     .treatment {
-      background: var(--bg-light-blue);
+      background: var(--bg-light-green);
       padding-block: var(--space-2xl);
+    }
+
+    /* MECANISMO — el fondo default (compartido con home, ver styles.css) es
+       verde; en esta pagina se pisa a naranjo para seguir la alternancia
+       naranjo/verde seccion por seccion. Solo aca, home queda sin cambios. */
+    #mecanismo {
+      background: var(--bg-light-blue);
     }
     .treatment__grid {
       display: grid;
@@ -333,14 +340,6 @@
     }
     .pain-photo-btn:hover { background: var(--primary); color: var(--white); }
 
-    /* Variante de color en comparacion (una sola tarjeta, ver HTML): verde
-       de marca con texto blanco, para comparar contra el default blanco. */
-    .pain-photo-btn--green {
-      background: var(--secondary);
-      color: var(--white);
-    }
-    .pain-photo-btn--green:hover { background: var(--secondary-dark); }
-
     /* ── Popup: overlay + panel blanco, X para cerrar ── */
     .pain-popup {
       position: fixed;
@@ -417,7 +416,7 @@
      ============================================================ -->
   <a id="whatsapp-fab"
     href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
-    target="_blank" rel="noopener noreferrer" aria-label="Abrir chat de WhatsApp con A&C Soluciones">
+    target="_blank" rel="noopener noreferrer" aria-label="Abrir chat de WhatsApp con A&C Control de Plagas">
     <span class="fab-tooltip">Escr&iacute;benos ahora</span>
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path
@@ -474,7 +473,7 @@
         target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
         Agenda gratis
       </a>
-      <button class="btn-cotizar" data-open-cotizador aria-haspopup="dialog">
+      <button class="btn-cotizar" data-open-cotizador data-cta="Boton-Menu" aria-haspopup="dialog">
         Cotizar
       </button>
     </div>
@@ -489,8 +488,8 @@
       <div class="navbar-inner">
 
         <!-- Logo -->
-        <a href="../../index.html" class="navbar-logo" aria-label="A&C Soluciones Agr&iacute;colas y Urbanas, inicio">
-          <img src="../../img/LOGO-01.jpg" alt="Logo A&C Soluciones Agr&iacute;colas y Urbanas" width="160" height="60"
+        <a href="../../index.html" class="navbar-logo" aria-label="A&C Control de Plagas, inicio">
+          <img src="../../img/LOGO-01.jpg" alt="Logo A&C Control de Plagas" width="1135" height="1135"
             loading="eager" />
         </a>
 
@@ -551,7 +550,7 @@
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
             </svg>
           </a>
-          <a href="tel:+56936678897" class="navbar-phone" aria-label="Llamar a A&C Soluciones">
+          <a href="tel:+56936678897" class="navbar-phone" aria-label="Llamar a A&C Control de Plagas">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
               aria-hidden="true">
               <path
@@ -624,15 +623,7 @@
               </svg>
               Habla con un especialista en termitas ahora
             </a>
-            <a href="tel:+56936678897" class="btn btn-outline">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                aria-hidden="true">
-                <path
-                  d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 005.81 5.81l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-              </svg>
-              Emergencia 24/7 &middot; Llama ahora
-            </a>
-            <button class="btn-cotizar" data-open-cotizador aria-haspopup="dialog">
+            <button class="btn-cotizar" data-open-cotizador data-cta="Boton-Hero" aria-haspopup="dialog">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
               </svg>
@@ -701,7 +692,7 @@
   <!-- ============================================================
      BANNER CLIENTES (logos empresas)
      ============================================================ -->
-  <section id="clientes" aria-label="Empresas que conf&iacute;an en A&C Soluciones">
+  <section id="clientes" aria-label="Empresas que conf&iacute;an en A&C Control de Plagas">
     <div class="container">
       <div class="clientes-header">
         <p>Empresas que conf&iacute;an en nosotros</p>
@@ -799,10 +790,8 @@
           </p>
         </article>
 
-        <!-- Esta tarjeta lleva la variante de color verde/blanco, a comparar
-             contra el default blanco/naranjo de las otras 3 (pedido de Javier). -->
         <article class="pain-card reveal reveal-delay-3">
-          <button type="button" class="pain-photo-btn pain-photo-btn--green" data-popup-open="popup-tuneles" aria-label="Ver foto real de este indicio">
+          <button type="button" class="pain-photo-btn" data-popup-open="popup-tuneles" aria-label="Ver foto real de este indicio">
             <span aria-hidden="true">&#128247;</span> Ver foto real
           </button>
           <div class="pain-card-icon" aria-hidden="true">&#128371;</div>
@@ -824,7 +813,7 @@
       <div class="pain-popup-overlay" data-popup-close="popup-madera-hueca"></div>
       <div class="pain-popup-panel">
         <button type="button" class="pain-popup-close" data-popup-close="popup-madera-hueca" aria-label="Cerrar">&#x2715;</button>
-        <img src="../../img/pain-points/termitas-madera-hueca.avif" alt="Viga de madera abierta mostrando el da&ntilde;o interno de una infestaci&oacute;n de termita de madera seca" />
+        <img src="../../img/pain-points/termitas-madera-hueca.avif" width="3280" height="2464" alt="Viga de madera abierta mostrando el da&ntilde;o interno de una infestaci&oacute;n de termita de madera seca" />
         <p class="pain-popup-caption">Madera hueca al golpear: as&iacute; se ve por dentro una infestaci&oacute;n de madera seca.</p>
       </div>
     </div>
@@ -833,7 +822,7 @@
       <div class="pain-popup-overlay" data-popup-close="popup-alitas"></div>
       <div class="pain-popup-panel">
         <button type="button" class="pain-popup-close" data-popup-close="popup-alitas" aria-label="Cerrar">&#x2715;</button>
-        <img src="../../img/pain-points/termitas-alitas.avif" alt="Alitas de termita acumuladas en el marco de una ventana, se&ntilde;al de enjambre" />
+        <img src="../../img/pain-points/termitas-alitas.avif" width="4640" height="3472" alt="Alitas de termita acumuladas en el marco de una ventana, se&ntilde;al de enjambre" />
         <p class="pain-popup-caption">Alitas cerca de la ventana, se&ntilde;al de enjambre de termitas.</p>
       </div>
     </div>
@@ -842,7 +831,7 @@
       <div class="pain-popup-overlay" data-popup-close="popup-granulos"></div>
       <div class="pain-popup-panel">
         <button type="button" class="pain-popup-close" data-popup-close="popup-granulos" aria-label="Cerrar">&#x2715;</button>
-        <img src="../../img/pain-points/termitas-granulos.avif" alt="Gr&aacute;nulos color caf&eacute; de termita de madera seca sobre una superficie de madera" />
+        <img src="../../img/pain-points/termitas-granulos.avif" width="1380" height="570" alt="Gr&aacute;nulos color caf&eacute; de termita de madera seca sobre una superficie de madera" />
         <p class="pain-popup-caption">Gr&aacute;nulos color caf&eacute;: el excremento que deja la termita de madera seca.</p>
       </div>
     </div>
@@ -851,7 +840,7 @@
       <div class="pain-popup-overlay" data-popup-close="popup-tuneles"></div>
       <div class="pain-popup-panel">
         <button type="button" class="pain-popup-close" data-popup-close="popup-tuneles" aria-label="Cerrar">&#x2715;</button>
-        <img src="../../img/pain-points/termitas-tuneles-barro.avif" alt="T&uacute;nel de barro de termita subterr&aacute;nea subiendo por una muralla" />
+        <img src="../../img/pain-points/termitas-tuneles-barro.avif" width="3472" height="4640" alt="T&uacute;nel de barro de termita subterr&aacute;nea subiendo por una muralla" />
         <p class="pain-popup-caption">T&uacute;neles de barro: la termita subterr&aacute;nea construyendo su camino hacia la madera.</p>
       </div>
     </div>
@@ -869,7 +858,7 @@
         <p>Responde 4 preguntas y recibe una estimación al instante.</p>
       </div>
 
-      <div class="cotizador-widget reveal" id="cotizador-widget" data-source="landing-termitas">
+      <div class="cotizador-widget reveal" id="cotizador-widget" data-cta="Seccion-Cotizador">
         <!-- Renderizado por js/cotizador-termitas.js -->
       </div>
 
@@ -1096,7 +1085,7 @@
       <div class="especialistas-grid">
 
         <figure class="especialistas-photo reveal">
-          <img src="../../img/maderaseca-scaled.png" alt="Termita de Madera Seca" loading="lazy" />
+          <img src="../../img/maderaseca-scaled.png" width="1920" height="2560" alt="Termita de madera seca (Cryptotermes brevis)" loading="lazy" />
           <figcaption>Termita de Madera Seca <span class="especialistas-sci">(Cryptotermes brevis)</span></figcaption>
         </figure>
 
@@ -1111,7 +1100,7 @@
         </div>
 
         <figure class="especialistas-photo reveal">
-          <img src="../../img/Termita-subterranea-03.jpg" alt="Termita Subterr&aacute;nea" loading="lazy" />
+          <img src="../../img/Termita-subterranea-03.jpg" width="600" height="399" alt="Termita subterránea (Reticulitermes flavipes)" loading="lazy" />
           <figcaption>Termita Subterr&aacute;nea <span class="especialistas-sci">(Reticulitermes flavipes)</span></figcaption>
         </figure>
 
@@ -1143,7 +1132,7 @@
           </ul>
         </div>
         <div class="treatment__image reveal">
-          <img src="../../img/control-de-termitas.jpeg" alt="Tratamiento profesional de termitas" loading="lazy" />
+          <img src="../../img/control-de-termitas.jpeg" width="1152" height="768" alt="Tratamiento profesional de termitas" loading="lazy" />
         </div>
       </div>
     </div>
@@ -1175,11 +1164,10 @@
         </div>
 
         <div class="mecanismo-card reveal reveal-delay-1">
-          <div class="mecanismo-icon" aria-hidden="true">&#128241;</div>
-          <h3>Gesti&oacute;n digitalizada con CentralMIP</h3>
-          <p>AyC opera con CentralMIP, el software de control de plagas m&aacute;s usado en Latinoam&eacute;rica. Cada
-            visita queda registrada. Los clientes acceden a su portal en tiempo real y reciben certificados digitales
-            v&aacute;lidos para auditor&iacute;as SEREMI.</p>
+          <div class="mecanismo-icon" aria-hidden="true">&#128269;</div>
+          <h3>Diagn&oacute;stico antes de cotizar</h3>
+          <p>Visitamos el lugar, identificamos la especie y el nivel de infestaci&oacute;n. La soluci&oacute;n es
+            espec&iacute;fica, no gen&eacute;rica.</p>
         </div>
 
         <div class="mecanismo-card reveal reveal-delay-2">
@@ -1190,10 +1178,10 @@
         </div>
 
         <div class="mecanismo-card reveal reveal-delay-3">
-          <div class="mecanismo-icon" aria-hidden="true">&#128269;</div>
-          <h3>Diagn&oacute;stico antes de cotizar</h3>
-          <p>Visitamos el lugar, identificamos la especie y el nivel de infestaci&oacute;n. La soluci&oacute;n es
-            espec&iacute;fica, no gen&eacute;rica.</p>
+          <div class="mecanismo-icon" aria-hidden="true">&#128241;</div>
+          <h3>Gesti&oacute;n digitalizada con CentralMIP</h3>
+          <p>Cada visita queda registrada en tu portal personal, disponible en tiempo real cuando lo necesites, con
+            certificados digitales v&aacute;lidos para auditor&iacute;as SEREMI.</p>
         </div>
 
       </div>
@@ -1391,7 +1379,7 @@
       </div>
 
       <div class="text-center reveal" style="margin-top:2.5rem;">
-        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
           target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="max-width:400px;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path
@@ -1513,12 +1501,23 @@
           <summary class="faq-question">&iquest;Ustedes exterminan las termitas?</summary>
           <div class="faq-answer">
             <p>Vamos a ser directos: "exterminio total" es un concepto que varias empresas usan como gancho
-              comercial, pero en control de plagas no es realista prometerlo &mdash; las termitas pueden volver a
-              aparecer desde el entorno, y nadie serio puede garantizar una extinci&oacute;n permanente. Lo que s&iacute;
+              comercial, pero en control de plagas no es realista prometerlo, ya que las termitas pueden volver a
+              aparecer desde el entorno y nadie serio puede garantizar una extinci&oacute;n permanente. Lo que s&iacute;
               hacemos es un <strong>tratamiento de control certificado</strong>: eliminamos la colonia activa,
-              cortamos las condiciones que permiten que vuelva, y respaldamos el resultado con garant&iacute;a de 14
-              d&iacute;as. Es la forma honesta &mdash;y la que realmente funciona a largo plazo&mdash; de mantener tu
+              cortamos las condiciones que permiten que vuelva, y respaldamos el resultado con garant&iacute;a de 1
+              a&ntilde;o. Es la forma honesta, y la que realmente funciona a largo plazo, de mantener tu
               propiedad libre de termitas.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">&iquest;Por qu&eacute; no sirven los remedios caseros contra las termitas?</summary>
+          <div class="faq-answer">
+            <p>Los insecticidas de venta libre y remedios caseros (kerosene, aceites, vinagre) solo matan las termitas
+              que est&aacute;n a la vista en ese momento, pero no llegan a la colonia completa ni a la reina, que puede
+              estar a varios metros dentro de la madera o bajo tierra. La infestaci&oacute;n sigue activa y vuelve a
+              aparecer semanas despu&eacute;s, muchas veces con m&aacute;s da&ntilde;o acumulado. Nuestro tratamiento
+              identifica la especie exacta y ataca la colonia completa, no solo el s&iacute;ntoma visible.</p>
           </div>
         </details>
 
@@ -1583,6 +1582,17 @@
         </details>
 
         <details class="faq-item reveal reveal-delay-1">
+          <summary class="faq-question">&iquest;C&oacute;mo prevengo termitas en mi propiedad?</summary>
+          <div class="faq-answer">
+            <p>Evita el contacto directo de madera con tierra o humedad, revisa peri&oacute;dicamente vigas, marcos y
+              estructuras de madera en busca de gr&aacute;nulos o t&uacute;neles de barro, y mantén ventilados los
+              espacios bajo el techo y el subsuelo. Aun tomando estas precauciones, una revisi&oacute;n t&eacute;cnica
+              peri&oacute;dica sigue siendo la &uacute;nica forma de detectar una infestaci&oacute;n a tiempo, antes de
+              que cause da&ntilde;o estructural.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal reveal-delay-1">
           <summary class="faq-question">&iquest;Atienden los fines de semana y feriados?</summary>
           <div class="faq-answer">
             <p>S&iacute;, tenemos atenci&oacute;n de emergencia 24/7 los 365 d&iacute;as del a&ntilde;o.</p>
@@ -1618,7 +1628,7 @@
         </p>
 
         <div class="contact-ctas">
-          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
             target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size:1.0625rem;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
@@ -1683,7 +1693,7 @@
         <!-- Column 1: SEREMI -->
         <div class="footer-col footer-col--seremi">
           <img src="../../img/seremi-salud.png" alt="Empresa Certificada SEREMI Ministerio de Salud"
-            style="height:100px; width:auto;" />
+            width="300" height="300" style="height:100px; width:auto;" />
           <p class="footer-tagline">
             Empresa certificada SEREMI especializada en control de plagas residencial e industrial en Chile.
             M&aacute;s de 500 clientes satisfechos con garant&iacute;a real.
@@ -1749,7 +1759,7 @@
 
       <!-- Footer CTA row (mobile: centered below nav+contact cols) -->
       <div class="footer-cta-row">
-        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas."
           target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
           style="font-size:0.9rem; padding:12px 20px;">
           Agenda visita gratis
@@ -1779,7 +1789,7 @@
         <span class="cot-modal-title" id="cot-modal-title">Cotiza tu servicio</span>
         <button id="cot-modal-close" class="cot-modal-close" aria-label="Cerrar">&#x2715;</button>
       </div>
-      <div id="cotizador-modal-widget" data-source="modal"></div>
+      <div id="cotizador-modal-widget"></div>
     </div>
   </div>
 
@@ -1854,7 +1864,7 @@
   "provider": {
     "@type": "HomeAndConstructionBusiness",
     "@id": "https://www.aycmip.cl/",
-    "name": "A&C Soluciones Agrícolas y Urbanas",
+    "name": "AYC MIP Manejo Integrado de Plagas",
     "telephone": "+56936678897"
   },
   "areaServed": [
@@ -2377,6 +2387,14 @@
     },
     {
       "@type": "Question",
+      "name": "¿Por qué no sirven los remedios caseros contra las termitas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Los insecticidas de venta libre y remedios caseros solo matan las termitas que están a la vista en ese momento, pero no llegan a la colonia completa ni a la reina, que puede estar a varios metros dentro de la madera o bajo tierra. La infestación sigue activa y vuelve a aparecer semanas después, muchas veces con más daño acumulado. Nuestro tratamiento identifica la especie exacta y ataca la colonia completa, no solo el síntoma visible."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "¿Hacen fumigación de termitas?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -2429,6 +2447,14 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Tienes garantía de 1 año. Si aparece alguna termita, volvemos sin costo adicional."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo prevengo termitas en mi propiedad?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Evita el contacto directo de madera con tierra o humedad, revisa periódicamente vigas, marcos y estructuras de madera en busca de gránulos o túneles de barro, y mantén ventilados los espacios bajo el techo y el subsuelo. Aun tomando estas precauciones, una revisión técnica periódica sigue siendo la única forma de detectar una infestación a tiempo, antes de que cause daño estructural."
       }
     },
     {

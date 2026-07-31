@@ -35,6 +35,12 @@ SERVICIOS = [
         "slug": "exterminio-y-fumigacion-de-plagas-de-termitas",
         "GARANTIA_DIAS": "1 año",
         "GARANTIA_PERIODO": "durante el año siguiente al tratamiento",
+        # Mismo espiritu que WA_HEADER_TEXT: mensajes distintos por CTA para
+        # poder distinguir, por el texto que llega a WhatsApp, de cual boton
+        # especifico de la landing vino el lead (no solo que vino de aca).
+        "WA_VALUESTACK_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
+        "WA_CONTACTOFINAL_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
+        "WA_FOOTER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
     },
 ]
 
@@ -86,12 +92,14 @@ WA_HEADER_TEXT_GENERICO = "Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20ases
 
 HOME_CTX = dict(DATA, ROOT="", HOME_LINK="#", HOME_ANCHOR="", PLAGA_PREFIX="blog/",
                 SERVICIO_PREFIX="servicios/", SERVICIOS_GRID_ANCHOR="#servicios",
-                WA_HEADER_TEXT=WA_HEADER_TEXT_GENERICO)
+                WA_HEADER_TEXT=WA_HEADER_TEXT_GENERICO,
+                WA_FOOTER_TEXT=WA_HEADER_TEXT_GENERICO)
 BLOG_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
                 HOME_ANCHOR="../../index.html", PLAGA_PREFIX="../",
                 SERVICIO_PREFIX="../../servicios/",
                 SERVICIOS_GRID_ANCHOR="../../index.html#servicios",
-                WA_HEADER_TEXT=WA_HEADER_TEXT_GENERICO)
+                WA_HEADER_TEXT=WA_HEADER_TEXT_GENERICO,
+                WA_FOOTER_TEXT=WA_HEADER_TEXT_GENERICO)
 # Las paginas de servicios/ (landings de venta, ej. Termitas) viven a la misma
 # profundidad que blog/[plaga]/ (2 niveles bajo web/), pero HOME_ANCHOR queda
 # vacio (local, no "../../index.html"): a diferencia de blog/, estas landings
@@ -110,7 +118,13 @@ SERVICIO_CTX = dict(DATA, ROOT="../../", HOME_LINK="../../index.html",
                      # El "(menu)" es a proposito: distingue este boton del
                      # botón "Habla con un especialista" del hero, que manda
                      # el mismo mensaje sin esa palabra.
-                     WA_HEADER_TEXT="Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.")
+                     WA_HEADER_TEXT="Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
+                     # Defaults genericos (por si una futura pagina de servicio
+                     # no los sobreescribe) - la landing de Termitas SI los
+                     # sobreescribe, ver overrides en SERVICIOS arriba.
+                     WA_VALUESTACK_TEXT=WA_HEADER_TEXT_GENERICO,
+                     WA_CONTACTOFINAL_TEXT=WA_HEADER_TEXT_GENERICO,
+                     WA_FOOTER_TEXT=WA_HEADER_TEXT_GENERICO)
 
 PARTIAL_NAMES = ["analytics", "header", "footer", "main-js", "year-script"]
 # Partials de contenido: secciones universales (mismo copy en cualquier landing
@@ -182,6 +196,13 @@ def sync_contact_fields():
 
 BUSINESS_TYPE_PATTERN = re.compile(r'"@type": "PestControlService"')
 
+# El "name" del JSON-LD debe calzar con el nombre real de la ficha de Google
+# Business Profile ("AYC MIP Manejo Integrado de Plagas") para consistencia
+# NAP (name-address-phone) en SEO local - la marca visible del sitio se
+# renombro a "A&C Control de Plagas" (2026-07-31), pero el schema.org se deja
+# apuntando al nombre oficial de Google Business, que es un sistema aparte.
+BUSINESS_NAME_PATTERN = re.compile(r'"name": "A&C Soluciones Agrícolas y Urbanas",')
+
 # Direccion actual del LocalBusiness principal (solo aparece en home). Se
 # saca streetAddress a proposito: FA prefiere representar la ubicacion via
 # areaServed + addressLocality, no una direccion precisa (evita el problema
@@ -219,6 +240,9 @@ def sync_business_jsonld():
        HOME_ADDRESS_PATTERN arriba).
     3. areaServed: de solo "Región de Valparaíso" (State) a region + las 7
        provincias + sus comunas (ver AREA_SERVED arriba).
+    4. name: al nombre de la ficha de Google Business Profile (ver
+       BUSINESS_NAME_PATTERN arriba) - queda distinto de la marca visible
+       del sitio a propósito, para no romper la consistencia NAP.
     """
     changed = []
     area_served_json = json.dumps(AREA_SERVED, ensure_ascii=False, indent=4)
@@ -236,6 +260,7 @@ def sync_business_jsonld():
         new_text = BUSINESS_TYPE_PATTERN.sub('"@type": "HomeAndConstructionBusiness"', text)
         new_text = HOME_ADDRESS_PATTERN.sub(lambda _m, r=new_home_address: r, new_text)
         new_text = SERVICE_AREA_PATTERN.sub(lambda _m, r='"areaServed": ' + area_served_json: r, new_text)
+        new_text = BUSINESS_NAME_PATTERN.sub('"name": "AYC MIP Manejo Integrado de Plagas",', new_text)
         if new_text != text:
             f.write_text(new_text, encoding="utf-8")
             changed.append(f.relative_to(WEB))

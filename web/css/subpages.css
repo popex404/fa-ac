@@ -1601,8 +1601,14 @@ h1, h2, h3, h4, h5 {
 .breadcrumb-hero__bg {
   position: absolute;
   inset: 0;
-  background-size: cover;
+  /* Logo blanco de A&C como marca de agua — estandarizado en las 9 páginas
+     de blog (antes cada una cargaba su propia foto de la plaga, algunas
+     repitiendo un placeholder genérico). Un solo archivo liviano (28.6 KB,
+     lo cachea el navegador una vez) en vez de 6 fotos distintas. */
+  background-image: url('../img/logo_ayc_blanco@4x.png');
+  background-repeat: no-repeat;
   background-position: center;
+  background-size: min(70%, 520px) auto;
   z-index: 0;
 }
 

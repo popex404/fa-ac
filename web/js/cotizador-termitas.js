@@ -9,7 +9,12 @@
      ============================================================ */
 
   var WA_NUMBER = '56936678897';
-  var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw3qmVzkyySrtRSYo_XnypgluWcHy8cKMTC40RRchyJLBfGwISbf1CtkCW_j5I0OStWzg/exec';
+  var WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyhEpYG3w91Z8gAT8tTvS5UTmFvJmqF2TbAfIUmHtAj28yg2rCYv1mBQ3SwoCkYDC6e9Q/exec';
+  /* Identificador de esta página para el Sheet (columna "source"). Cada
+     cotizador-*.js tiene el suyo, mismo espíritu que WA_NUMBER arriba. Una
+     futura página por comuna tendría su propio cotizador-termitas-[comuna].js
+     con su propio PAGE_SLUG, ej. 'landing-termitas-quillota'. */
+  var PAGE_SLUG = 'landing-termitas';
 
   /* ── Labels para WhatsApp / Sheet ── */
   var LBL = {
@@ -89,7 +94,7 @@
     return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg + datosBloque(ans, contact, ref));
   }
 
-  function postWebhook(ans, contact, source, ref) {
+  function postWebhook(ans, contact, cta, ref) {
     if (!WEBHOOK_URL) return;
     var utcM4  = new Date(Date.now() - 4 * 60 * 60 * 1000);
     var isoStr = utcM4.toISOString();
@@ -103,17 +108,20 @@
       correo:     contact.correo || '',
       ciudad:     contact.ciudad || '',
       plaga:      'termitas',
-      indicio:    ans.indicio || '',
+      indicio:    ans.indicio || 'N/A',
       propiedad:  ans.propiedad,
       tamano:     ans.tamano,
       urgencia:   ans.urgencia,
       precio_min: '',
       precio_max: '',
-      source:     source || 'cotizador-termitas'
+      source:        PAGE_SLUG,
+      cta:           cta || 'Seccion-Cotizador',
+      pagina_origen: window.location.pathname
     };
-    /* NOTA: la columna "indicio" es nueva — si el Sheet/Apps Script todavia
-       no la tiene mapeada, este campo llega pero puede no guardarse. Revisar
-       con quien mantiene el Apps Script si hace falta agregar la columna. */
+    /* NOTA: "indicio", "cta" y "pagina_origen" son campos nuevos — si el
+       Sheet/Apps Script todavia no los tiene mapeados, llegan en el payload
+       pero pueden no guardarse. Revisar con quien mantiene el Apps Script si
+       hace falta agregar las columnas. */
     try {
       fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) })
         .catch(function () {});
@@ -124,8 +132,14 @@
      FACTORY — crea una instancia independiente del cotizador
      ============================================================ */
   function createCotizador(widgetEl) {
-    var source     = widgetEl.getAttribute('data-source') || 'cotizador-termitas';
-    var storageKey = 'fa_cot_' + source;
+    /* cta = qué botón/instancia abrió este cotizador (columna "CTA" del
+       Sheet). Para el widget de sección viene fijo del HTML; para el modal
+       se actualiza en cada apertura vía setCta() (ver initModal), porque el
+       mismo modal se puede abrir desde más de un botón. */
+    var cta = widgetEl.getAttribute('data-cta') ||
+      (widgetEl.id === 'cotizador-modal-widget' ? 'Modal' : 'Seccion-Cotizador');
+    var domId      = widgetEl.id || 'widget';
+    var storageKey = 'fa_cot_' + PAGE_SLUG + '_' + domId;
     var state      = { step: 0, answers: {}, contact: { nombre: '', correo: '', ciudad: '' } };
 
     /* ── localStorage ── */
@@ -222,30 +236,30 @@
       form.className = 'cot-contact-form';
       form.innerHTML =
         '<div class="cot-field">' +
-          '<label class="cot-label" for="cot-nombre-' + source + '">Tu nombre</label>' +
-          '<input class="cot-input" id="cot-nombre-' + source + '" type="text" placeholder="Ej: María González" autocomplete="name" value="' + (state.contact.nombre || '') + '" />' +
+          '<label class="cot-label" for="cot-nombre-' + domId + '">Tu nombre</label>' +
+          '<input class="cot-input" id="cot-nombre-' + domId + '" type="text" placeholder="Ej: María González" autocomplete="name" value="' + (state.contact.nombre || '') + '" />' +
         '</div>' +
         '<div class="cot-field">' +
-          '<label class="cot-label" for="cot-correo-' + source + '">Correo electrónico</label>' +
-          '<input class="cot-input" id="cot-correo-' + source + '" type="email" placeholder="Ej: maria@correo.com" autocomplete="email" value="' + (state.contact.correo || '') + '" />' +
+          '<label class="cot-label" for="cot-correo-' + domId + '">Correo electrónico</label>' +
+          '<input class="cot-input" id="cot-correo-' + domId + '" type="email" placeholder="Ej: maria@correo.com" autocomplete="email" value="' + (state.contact.correo || '') + '" />' +
         '</div>' +
         '<div class="cot-field">' +
-          '<label class="cot-label" for="cot-ciudad-' + source + '">Ciudad y región</label>' +
-          '<input class="cot-input" id="cot-ciudad-' + source + '" type="text" placeholder="Ej: Quillota, Valparaíso" autocomplete="address-level2" value="' + (state.contact.ciudad || '') + '" />' +
+          '<label class="cot-label" for="cot-ciudad-' + domId + '">Ciudad y región</label>' +
+          '<input class="cot-input" id="cot-ciudad-' + domId + '" type="text" placeholder="Ej: Quillota, Valparaíso" autocomplete="address-level2" value="' + (state.contact.ciudad || '') + '" />' +
         '</div>' +
         '<p class="cot-privacy">🔒 Tus datos son confidenciales. Solo A&C Soluciones los verá.</p>' +
-        '<p class="cot-error" id="cot-err-' + source + '" hidden></p>' +
-        '<button class="btn btn-secondary cot-submit-btn" id="cot-submit-' + source + '">' +
+        '<p class="cot-error" id="cot-err-' + domId + '" hidden></p>' +
+        '<button class="btn btn-secondary cot-submit-btn" id="cot-submit-' + domId + '">' +
           'Ver mi cotización →' +
         '</button>';
 
       widgetEl.appendChild(form);
 
-      var nombreEl = document.getElementById('cot-nombre-' + source);
-      var correoEl = document.getElementById('cot-correo-' + source);
-      var ciudadEl = document.getElementById('cot-ciudad-' + source);
-      var errEl    = document.getElementById('cot-err-' + source);
-      var submitEl = document.getElementById('cot-submit-' + source);
+      var nombreEl = document.getElementById('cot-nombre-' + domId);
+      var correoEl = document.getElementById('cot-correo-' + domId);
+      var ciudadEl = document.getElementById('cot-ciudad-' + domId);
+      var errEl    = document.getElementById('cot-err-' + domId);
+      var submitEl = document.getElementById('cot-submit-' + domId);
 
       var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -263,7 +277,7 @@
 
         function continuar(ref) {
           state.refCode = ref;
-          postWebhook(state.answers, state.contact, source, state.refCode);
+          postWebhook(state.answers, state.contact, cta, state.refCode);
           state.step++;
           save();
           render();
@@ -353,6 +367,10 @@
     } else {
       render();
     }
+
+    return {
+      setCta: function (v) { if (v) cta = v; }
+    };
   }
 
   /* ============================================================
@@ -365,15 +383,15 @@
     var overlay = document.getElementById('cot-modal-overlay');
     var closeBtn = document.getElementById('cot-modal-close');
     var widget  = document.getElementById('cotizador-modal-widget');
-    var initialized = false;
+    var controller = null;
 
-    function openModal() {
+    function openModal(cta) {
       modal.removeAttribute('hidden');
       document.body.classList.add('cot-modal-open');
-      if (!initialized && widget) {
-        createCotizador(widget);
-        initialized = true;
+      if (!controller && widget) {
+        controller = createCotizador(widget);
       }
+      if (controller) controller.setCta(cta);
       if (closeBtn) closeBtn.focus();
     }
 
@@ -382,8 +400,13 @@
       document.body.classList.remove('cot-modal-open');
     }
 
+    /* Triggers — cada uno manda su propio data-cta (ej. "Boton-Hero",
+       "Boton-Menu") para que el Sheet distinga desde cuál botón exacto
+       entró el lead, no solo que entró por el modal. */
     document.querySelectorAll('[data-open-cotizador]').forEach(function (el) {
-      el.addEventListener('click', openModal);
+      el.addEventListener('click', function () {
+        openModal(el.getAttribute('data-cta'));
+      });
     });
 
     if (closeBtn)  closeBtn.addEventListener('click', closeModal);

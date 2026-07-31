@@ -784,10 +784,8 @@ button { cursor: pointer; font-family: var(--font-base); border: none; backgroun
    PAIN POINTS
    ============================================================ */
 #pain-points {
-  background: var(--bg-light-blue);
+  background: var(--bg-light-green);
   padding-block: var(--space-2xl);
-  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-  margin-bottom: -3rem;
 }
 
 /* Mobile: 2 columns */
@@ -1968,8 +1966,14 @@ div.svc-emoji-card:hover {
    MECANISMO UNICO
    ============================================================ */
 #mecanismo {
-  background: var(--bg-light-green);
+  background: var(--bg-light-blue);
   padding-block: calc(var(--space-2xl) + 3rem) var(--space-2xl);
+}
+
+/* Solo home tiene esta seccion (grilla de plagas) - fondo verde a pedido
+   de Javier (2026-07-31). */
+#servicios {
+  background: var(--bg-light-green);
 }
 
 .mecanismo-grid {

@@ -4,10 +4,9 @@
 llamada de revisión con Francisco (FA) — "Fase 1 Revisiones", transcrita en
 `C:\Users\Popex404\Downloads\Fase 1 Revisiones.mp4-es-asr.vtt` (referenciada
 acá para no releerla). Deadline seguía siendo viernes 2026-07-31 la última vez
-que se habló de fecha. Pusheado a GitHub el 2026-07-30 con confirmación
-explícita de Javier — pero hay trabajo nuevo desde ese push (auditoría SEO +
-ajustes de esta sesión, ver "Hecho esta sesión") todavía sin pushear,
-pendiente de nueva confirmación.
+que se habló de fecha. Todo pusheado a GitHub (commit `71424e2`, 2026-07-30,
+con confirmación explícita de Javier) — incluye la auditoría SEO técnica y
+todos los ajustes de esta sesión (ver "Hecho esta sesión").
 
 **Dónde está todo:**
 - Landing: `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html`
@@ -32,10 +31,27 @@ pendiente de nueva confirmación.
 sección de las provincias [cobertura], y después al final ya el giro [video
 del hero]"*)
 
-### 1. Cotizador — ya está bien, sin pendientes
+### 1. Cotizador — HECHO, testeado end-to-end contra el Sheet (2026-07-31)
 El flujo (Indicios → Inmueble → Tamaño → Urgencia → Contacto) coincide con lo
 acordado con FA. El botón flotante de WhatsApp ya quedó resuelto (ver
 "Hecho esta sesión" abajo).
+
+**Testeo completo — 3 problemas encontrados y resueltos, ver "Hecho esta
+sesión (2026-07-31)" para el detalle técnico:**
+1. Tracking de origen ampliado: `source` = página (`landing-principal` /
+   `landing-termitas`), `cta` = botón exacto (`Seccion-Cotizador` /
+   `Boton-Hero` / `Boton-Menu`), `indicio` con default `N/A` en el
+   cotizador genérico.
+2. Bug propio (introducido y corregido en la misma sesión): IDs de campos
+   del formulario de contacto quedaron referenciando una variable que ya
+   no existía tras el refactor de arriba.
+3. **Causa real de por qué el Sheet llegaba desfasado:** el Apps Script
+   tenía 4 implementaciones distintas (cada una con su propia URL) y
+   `WEBHOOK_URL` en el sitio apuntaba a una vieja — Javier actualizó el
+   código del Apps Script pero seguía "implementando" en URLs nuevas en
+   vez de editar la implementación existente. Se corrigió actualizando
+   `WEBHOOK_URL` en `cotizador.js` y `cotizador-termitas.js` a la URL de
+   la implementación viva. Confirmado por Javier: **funciona**.
 
 Dato de FA para el copy (no es tarea, es conocimiento técnico útil si más
 adelante se quiere un mensaje contextual por indicio): gránulos café →
@@ -81,18 +97,65 @@ color naranjo/verde saturado que había antes.
 **Sigue pendiente: aprobación de FA.** Técnicamente listo, falta que Francisco
 lo vea y confirme.
 
-### 4. Sección "4 síntomas de termita" (`#pain-points`) — falta definición de FA
-Los 4 popups "Ver foto real" (uno por síntoma: gránulos, alitas, galerías de
-barro, madera hueca) están montados como prueba con 4 variantes de formato
-distintas, para que FA elija cuál prefiere (ver comentario en el HTML,
-`.pain-photo-btn`, línea ~307). Hoy las tarjetas siguen con emoji genérico en
-vez de fotos reales. **Falta que FA seleccione un estilo (de las 4
-variantes) y mande las fotos reales** de cada síntoma para reemplazar los
-emoji.
+### 4. Sección "4 síntomas de termita" (`#pain-points`) — HECHO, formato final con fotos reales
+Ya no es la prueba de 4 variantes. Javier decidió el formato ganador (botón
+"Ver foto real" arriba a la derecha de cada tarjeta + popup modal blanco) y
+consiguió las 4 fotos reales de AyC (gránulos, alitas, madera hueca, túneles
+de barro) — sin pendientes de FA en esta sección. Detalle en "Hecho esta
+sesión".
 
 ---
 
-## Hecho esta sesión
+## Hecho esta sesión (2026-07-31)
+
+- **Cotizador testeado y funcionando de punta a punta contra el Google
+  Sheet** — ver detalle en "1. Cotizador" arriba. Cambios técnicos:
+  - `cotizador.js` y `cotizador-termitas.js`: nuevo campo `source` (slug
+    fijo de la página, ej. `landing-principal`/`landing-termitas`) y
+    nuevo campo `cta` (dinámico, según qué botón abrió el cotizador:
+    `Seccion-Cotizador`, `Boton-Hero`, `Boton-Menu`). El viejo campo
+    `source` (que mezclaba página+instancia) se separó en estos dos.
+  - `indicio` con default `'N/A'` en el cotizador genérico (home), ya que
+    ese flujo no pregunta indicio (solo Termitas lo hace).
+  - HTML: `data-cta="Boton-Menu"` en `generador/_partials/header.html`
+    (botón del menú móvil, aplica a las 11 páginas), `data-cta="Boton-Hero"`
+    en el botón del hero de home y de la landing de Termitas,
+    `data-cta="Seccion-Cotizador"` en ambos widgets embebidos. Se sacaron
+    los `data-source` viejos.
+  - `WEBHOOK_URL` actualizado en ambos JS a la implementación de Apps
+    Script realmente activa (Javier tenía 4 implementaciones distintas del
+    mismo proyecto, cada una con su propia URL — el sitio apuntaba a una
+    vieja, por eso los datos llegaban desfasados de columna).
+  - Apps Script (fuera de este repo, lo mantiene Javier): `doPost` ahora
+    inserta `indicio` entre `plaga`/`propiedad` y `cta` entre
+    `source`/`telefono` en el Sheet.
+- **Auditoría SEO de las 11 páginas (título/meta/og, alt, width/height,
+  CTAs) + fixes aplicados:**
+  - `width`/`height` agregado a las ~97 imágenes del sitio que no lo
+    tenían (dimensiones reales leídas de cada archivo). De paso se
+    corrigieron 2 casos con `width`/`height` ya presente pero equivocado:
+    logo del header (decía 160×60, el archivo real es 1135×1135) y logo
+    SEREMI del footer (no tenía). Ambos en los partials compartidos, se
+    propagan solos vía `build.py`.
+  - `alt` descriptivo en 10 imágenes que tenían texto genérico (8 íconos
+    de la grilla de servicios en home + 2 fotos de especie en la landing
+    de Termitas).
+  - `og:title`/`og:description`/`og:type`/`og:url`/`og:image` agregado a
+    los 9 blog (antes solo home y la landing de Termitas los tenían) —
+    mismo texto que su `<title>`/meta description existente, sin
+    redacción nueva.
+  - 3 CTAs de la landing de Termitas (value-stack, contacto final,
+    footer) que mandaban el mensaje genérico de plagas ahora mandan uno
+    de termitas propio y distinguible (mismo patrón "(menú)" que ya usaba
+    el botón del header) — token nuevo en `SERVICIOS` (`build.py`).
+  - Todo el detalle, con antes/después de cada texto tocado (para revisar
+    con Francisco), en `FA/fa-ac/referencia-ctas-y-previews.md` — nuevo
+    archivo, listado de CTAs + mensajes de WhatsApp + preview de cada
+    página, pensado para no tener que releer el HTML cada vez.
+
+---
+
+## Hecho esta sesión (2026-07-30)
 
 - **Título/preview del sitio corregido.** `<title>` y `og:title` decían
   "Exterminio de Plagas de Termitas en Valparaíso | Certificado SEREMI — A&C
@@ -288,9 +351,6 @@ más trabajo de copy).
 **No se ha construido nada de esto.** Es diseño para cuando Javier decida
 el punto estratégico de arriba.
 
-No se ha empezado a construir nada de esto todavía — es diseño para cuando
-se decida avanzar con las páginas por comuna.
-
 ---
 
 ## Ya hecho y confirmado por FA en la llamada (no volver a tocar)
@@ -324,8 +384,6 @@ se decida avanzar con las páginas por comuna.
 
 ## Ideas mencionadas, no urgentes (quedan anotadas para más adelante)
 
-- Reemplazar los emojis de los pain-cards por mini-fotos reales recortadas
-  (alitas, gránulos, etc.) en vez de emoji genérico.
 - Mensaje contextual/explicativo en el cotizador según el indicio elegido.
 - Reseñas reales vía incentivo de descuento (más adelante, con campaña).
 
@@ -335,7 +393,10 @@ se decida avanzar con las páginas por comuna.
 
 - `generador/build.py`: `SERVICIO_CTX`, `SERVICE_PARTIAL_NAMES`,
   `SERVICIOS = [{"slug": ..., overrides...}]` — patrón de overrides por
-  página para valores que varían (garantía, mensajes de WhatsApp)
+  página para valores que varían (garantía, mensajes de WhatsApp). También
+  `sync_business_jsonld()` (tipo/dirección/areaServed del JSON-LD) y
+  `write_seo_files()` (robots.txt/sitemap.xml) — detalle en
+  `generador/README.md`.
 - `generador/_partials/`: partials de contenido reusables (ver arriba)
 - `web/js/cotizador-termitas.js`: cotizador especializado, separado del genérico
 - Testing local: `python build.py` desde `generador/`, luego
