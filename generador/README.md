@@ -15,7 +15,7 @@ regenera solo.
 | Archivo | Qué es |
 |---|---|
 | `build.py` | El script. Lee `_partials/` + `_data.json` y reescribe `../web/index.html` y `../web/blog/*/index.html`. |
-| `_data.json` | Los valores que cambian: número de WhatsApp, email, IDs de GA4/Clarity. |
+| `_data.json` | Los valores que cambian: número de WhatsApp, email, IDs de GA4/Clarity, `SITE_URL` (dominio de producción, para `robots.txt`/`sitemap.xml` y el JSON-LD). |
 | `_partials/header.html` | Botón flotante de WhatsApp + menú mobile + navbar completa. |
 | `_partials/footer.html` | El `<footer>` completo (SEREMI, nav, contacto, copyright). |
 | `_partials/analytics.html` | El bloque de GA4 + Microsoft Clarity que va en el `<head>`. |
@@ -32,9 +32,17 @@ cd generador
 python build.py
 ```
 
-Reescribe los 10 archivos de `web/` y además:
+Reescribe los archivos de `web/` (home, blog, servicios) y además:
 1. Sincroniza teléfono/email en **todo** `.html` bajo `web/` (no solo header/footer, también el contenido único de cada página y los JSON-LD), buscando por patrón (`tel:`, `wa.me/`, `"telephone"`, formato visible, `@aycmip.cl`), no por el valor viejo, así funciona aunque el número ya haya cambiado varias veces antes.
 2. Sincroniza las 3 copias del teléfono que viven en JS aparte del HTML: `cotizador.js` (`WA_NUMBER`) y `main.js` (`FA_WA_NUMBER`, `FA_TEL_NUMBER`).
+3. Normaliza el JSON-LD en todo `.html` bajo `web/` (`sync_business_jsonld()`):
+   tipo de negocio (`HomeAndConstructionBusiness`), dirección del `LocalBusiness`
+   principal (solo en home) y `areaServed` (región + provincias + comunas, ver
+   `AREA_SERVED`/`COBERTURA_JSONLD` al principio de `build.py`). Por patrón,
+   igual que el punto 1, no por partial.
+4. Regenera `web/robots.txt` y `web/sitemap.xml` enteros (`write_seo_files()`),
+   a partir de `PLAGAS` + `SERVICIOS` + `SITE_URL` — una página nueva agregada
+   a esas listas entra sola al sitemap la próxima vez que se corra `build.py`.
 
 Correrlo sin haber cambiado nada en `_partials/` o `_data.json` no modifica
 ningún archivo (es idempotente, probado con checksums). Probado también de
@@ -45,7 +53,8 @@ ningún archivo después de correrlo.
 `<!-- PARTIAL:xxx:start -->` **y** `<!-- PARTIAL:xxx:end -->` **dentro de
 `web/index.html` o `web/blog/*/index.html`.** Se pierde en el próximo build. Si
 hay que cambiar algo ahí, se cambia en el partial correspondiente y se corre
-`build.py`.
+`build.py`. Lo mismo aplica a `web/robots.txt` y `web/sitemap.xml`: se
+regeneran enteros en cada build, cualquier edición a mano se pierde.
 
 ## Tokens
 
@@ -84,7 +93,9 @@ automático:
 2. Definir qué contexto le corresponde (`ROOT`, `HOME_LINK`, etc. según en qué
    carpeta vive) — si es un caso nuevo de profundidad, hay que agregar un
    contexto nuevo tipo `HOME_CTX`/`BLOG_CTX`.
-3. Agregar el archivo a la función `build()` en `build.py`.
+3. Agregar el archivo a la función `build()` en `build.py`, y agregar su slug
+   a `PLAGAS` o `SERVICIOS` (según corresponda) — eso además la mete sola en
+   `sitemap.xml` (ver `write_seo_files()`), sin tocar nada más.
 
 Si esto se vuelve frecuente (va a pasar pronto, con la landing de Termitas y
 después las páginas por comuna), vale la pena generalizar `build.py` para que
@@ -132,6 +143,13 @@ reusa tal cual para la próxima página de servicio.
   carga antes que `styles.css`, así que `styles.css` ya ganaba en la cascada).
   Se borró la copia de `subpages.css`, cero cambio visual. Ya no hay que
   duplicar nada ahí.
+- El **tipo de negocio, dirección y área servida del JSON-LD** vivían escritos
+  a mano en 11 archivos (el tipo era además inválido, `PestControlService` no
+  existe en schema.org). Ahora `sync_business_jsonld()` los normaliza desde un
+  solo lugar en `build.py` (`AREA_SERVED`/`COBERTURA_JSONLD`), igual patrón
+  que `sync_contact_fields()`.
+- `robots.txt` / `sitemap.xml` no existían — ahora los genera
+  `write_seo_files()` en cada build, a partir de `PLAGAS`/`SERVICIOS`.
 
 **Decidido no tokenizar (a propósito, no es un olvido):**
 - El **nombre de la empresa** ("A&C Soluciones Agrícolas y Urbanas") dentro de
@@ -151,3 +169,8 @@ reusa tal cual para la próxima página de servicio.
   hero/FAQ/etc.) sigue siendo HTML fijo por página, no un dato en `_data.json`.
   Tokenizar contenido de verdad (no solo contacto/garantía) es del tamaño del
   generador de comunas/servicios que viene después de la landing de Termitas.
+- **`alt` descriptivo y `width`/`height` en imágenes**, en las 11 páginas —
+  hoy el 91% de las `<img>` del sitio no tiene dimensiones (riesgo de CLS).
+  Queda a propósito para el final del roadmap SEO (ver `FA-roadmap.md` en el
+  vault), toca página por página, no es centralizable en `build.py` como el
+  resto de esta limpieza.

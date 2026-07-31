@@ -1,0 +1,5 @@
+# Generado por generador/build.py - no editar a mano, se pierde en el proximo build.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.aycmip.cl/sitemap.xml

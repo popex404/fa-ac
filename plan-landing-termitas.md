@@ -5,7 +5,9 @@ llamada de revisión con Francisco (FA) — "Fase 1 Revisiones", transcrita en
 `C:\Users\Popex404\Downloads\Fase 1 Revisiones.mp4-es-asr.vtt` (referenciada
 acá para no releerla). Deadline seguía siendo viernes 2026-07-31 la última vez
 que se habló de fecha. Pusheado a GitHub el 2026-07-30 con confirmación
-explícita de Javier.
+explícita de Javier — pero hay trabajo nuevo desde ese push (auditoría SEO +
+ajustes de esta sesión, ver "Hecho esta sesión") todavía sin pushear,
+pendiente de nueva confirmación.
 
 **Dónde está todo:**
 - Landing: `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html`
@@ -92,6 +94,47 @@ emoji.
 
 ## Hecho esta sesión
 
+- **Título/preview del sitio corregido.** `<title>` y `og:title` decían
+  "Exterminio de Plagas de Termitas en Valparaíso | Certificado SEREMI — A&C
+  Soluciones" — cambiado a "A&C: Exterminio, Fumigación y Control de Plagas
+  de Termitas en Valparaíso, V Región". Revisar el mismo tipo de texto en el
+  resto de páginas queda pendiente en `FA-roadmap.md` (no es solo un tema de
+  esta landing).
+- **Pain-points ("¿Reconoces alguna de estas señales de termitas?") con
+  formato final y fotos reales.** Se probaron 4 variantes de botón+popup
+  ("Ver foto real"); Javier decidió el formato ganador: botón chip arriba a
+  la derecha de cada tarjeta + popup modal blanco clásico (antes variante
+  1, misma posición que ya tenía esa variante). Las 4 tarjetas quedaron
+  iguales entre sí (se sacó la A/B de formato),
+  con fotos reales de AyC en vez del placeholder compartido
+  (`control-de-termitas.jpeg`) — ahora cada una tiene la suya en
+  `web/img/pain-points/`: `termitas-madera-hueca.avif`, `termitas-alitas.avif`,
+  `termitas-granulos.avif`, `termitas-tuneles-barro.avif`. La tarjeta de
+  "túneles de barro" quedó con el botón en verde/blanco (`--secondary`) a
+  modo de comparación de color contra el default blanco/naranjo de las otras
+  3. Se limpiaron el CSS y el JS de las 3 variantes descartadas (V2 lightbox
+  oscuro, V3 `<dialog>` nativo, V4 modal con CTA WhatsApp) y se sacó la nota
+  "PRUEBA para decidir formato con Francisco".
+- **Reordenadas 2 secciones**, a pedido de Javier: "¿Cuánto cuesta solucionar
+  tu problema de termitas?" (cotizador) y "Cobertura en la Región de
+  Valparaíso" ahora van justo después de pain-points, antes de
+  "Especialistas en las dos especies..." — quedaron más arriba en la página.
+  Orden nuevo: hero → trust-bar → clientes → pain-points → **cotizador** →
+  **cobertura** → especialistas → método de tratamiento → mecanismo → proof
+  → para-quién → value-stack → urgencia → garantía → FAQ → contacto.
+- **Colores del mapa de Cobertura invertidos.** La Región de Valparaíso (las
+  7 provincias interactivas) ahora usa el gris que antes tenían la IV Región
+  y la Región Metropolitana de contexto (`#d9d9d9`); esas 2 regiones de
+  contexto pasan a usar el blanco/verde muy pálido que antes tenía
+  Valparaíso (`var(--bg-light-green)`). Cambio en `web/css/styles.css`,
+  aplica a cualquier página que use la sección Cobertura.
+- **Cotizador de Termitas: sacada la opción "No sé / Otro"** del paso "¿Qué
+  señal notaste?" — quedan solo las 4 señales concretas (madera hueca,
+  alitas, gránulos, túneles de barro).
+- **Texto sacado de "Todo lo que incluye nuestro servicio":** "Otras
+  empresas te cobran 3 sesiones a $120.000 cada una. Nosotros resolvemos en
+  una, con garantía." — en `generador/_partials/value-stack.html`, aplica a
+  cualquier página de servicio (hoy solo Termitas).
 - **Sacado "Erradicación térmica"** del Método de Tratamiento, en la landing
   de Termitas **y** en `web/blog/termitas/index.html` (FA: *"se tiene que
   eliminar de los dos lados"*).

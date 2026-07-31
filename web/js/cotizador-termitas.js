@@ -13,7 +13,7 @@
 
   /* ── Labels para WhatsApp / Sheet ── */
   var LBL = {
-    indicio:   { 'madera-hueca':'madera que suena hueca', 'alitas':'alitas cerca de ventanas', 'granulos':'gránulos color café', 'tuneles':'túneles de barro', 'otro':'no identificado / otro' },
+    indicio:   { 'madera-hueca':'madera que suena hueca', 'alitas':'alitas cerca de ventanas', 'granulos':'gránulos color café', 'tuneles':'túneles de barro' },
     propiedad: { casa:'casa', departamento:'departamento', comercial:'local comercial', oficina:'oficina', bodega:'bodega/galpón', institucion:'institución' },
     tamano:    { pequeno:'pequeño (< 80 m²)', mediano:'mediano (80–200 m²)', grande:'grande (> 200 m²)' },
     urgencia:  { normal:'normal (48h)', urgente:'urgente (24h)', emergencia:'emergencia (hoy)' }
@@ -27,8 +27,7 @@
         { value:'madera-hueca', label:'Madera hueca',    icon:'🔨' },
         { value:'alitas',       label:'Alitas visibles', icon:'🪽' },
         { value:'granulos',     label:'Gránulos café',   icon:'🟤' },
-        { value:'tuneles',      label:'Túneles de barro', icon:'🕳️' },
-        { value:'otro',         label:'No sé / Otro',    icon:'❓' }
+        { value:'tuneles',      label:'Túneles de barro', icon:'🕳️' }
       ]
     },
     {

@@ -3139,7 +3139,7 @@ details[open] .faq-question {
 }
 
 .cobertura-map-comuna {
-  fill: var(--bg-light-green);
+  fill: #d9d9d9;
   stroke: var(--white);
   stroke-width: 6;
   transition: fill 200ms ease;
@@ -3163,7 +3163,7 @@ details[open] .faq-question {
   pointer-events: none;
 }
 .cobertura-map-context-shape {
-  fill: #d9d9d9;
+  fill: var(--bg-light-green);
   stroke: var(--white);
   stroke-width: 6;
 }

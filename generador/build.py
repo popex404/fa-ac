@@ -4,13 +4,16 @@ web/        = lo unico deployable, el .zip que se le manda a Miguel sale de aqui
 
 Regenera las secciones compartidas (header, footer, analytics, main.js, year-script)
 dentro de web/index.html y web/blog/*/index.html, a partir de
-generador/_partials/ + generador/_data.json.
+generador/_partials/ + generador/_data.json. Ademas sincroniza el JSON-LD
+(tipo de negocio, direccion, areaServed) en todo .html bajo web/, y regenera
+robots.txt + sitemap.xml a partir de PLAGAS/SERVICIOS.
 
 Uso: python build.py   (desde generador/, o desde donde sea, la ruta a web/ es fija)
 Editar SOLO los archivos en _partials/ (o _data.json para el numero de WhatsApp,
-GA4, Clarity, email). Nunca editar a mano el contenido entre los marcadores
-<!-- PARTIAL:xxx:start --> ... <!-- PARTIAL:xxx:end --> en web/index.html o
-web/blog/*/index.html, se pierde en el proximo build.
+GA4, Clarity, email, SITE_URL). Nunca editar a mano el contenido entre los
+marcadores <!-- PARTIAL:xxx:start --> ... <!-- PARTIAL:xxx:end --> en
+web/index.html o web/blog/*/index.html, ni web/robots.txt, ni web/sitemap.xml:
+se pierde en el proximo build.
 """
 import json
 import pathlib
@@ -36,6 +39,44 @@ SERVICIOS = [
 ]
 
 DATA = json.loads((HERE / "_data.json").read_text(encoding="utf-8"))
+
+# Cobertura geografica (comuna + provincia + region) para el JSON-LD
+# (areaServed). Misma informacion que ya vive en
+# generador/_partials/cobertura.html (mapa interactivo) - duplicada aca a
+# proposito, son capas distintas (esta alimenta schema.org, la otra la UI).
+# Si cambia la cobertura real hay que actualizar las dos.
+# Juan Fernandez queda afuera a proposito: esta en SIN_COBERTURA en
+# cobertura.html (isla sin cobertura de terreno confirmada), no se declara
+# como area servida.
+COBERTURA_JSONLD = {
+    "Quillota": ["Quillota", "La Cruz", "Nogales", "Calera", "Hijuelas"],
+    "Valparaíso": ["Valparaíso", "Viña del Mar", "Concón", "Quintero",
+                   "Puchuncaví", "Casablanca"],
+    "Marga Marga": ["Quilpué", "Villa Alemana", "Limache", "Olmué"],
+    "San Antonio": ["San Antonio", "Cartagena", "El Tabo", "El Quisco",
+                    "Algarrobo", "Santo Domingo"],
+    "Petorca": ["La Ligua", "Cabildo", "Petorca", "Zapallar", "Papudo"],
+    "San Felipe de Aconcagua": ["San Felipe", "Putaendo", "Santa María",
+                                "Panquehue", "Llay-Llay", "Catemu"],
+    "Los Andes": ["Los Andes", "San Esteban", "Calle Larga", "Rinconada"],
+}
+
+
+def build_area_served():
+    """areaServed a los 3 niveles (region + cada provincia + cada comuna),
+    con containedInPlace para que quede la jerarquia real, no una lista
+    plana sin relacion entre si."""
+    region = {"@type": "State", "name": "Región de Valparaíso"}
+    areas = [region]
+    for provincia, comunas in COBERTURA_JSONLD.items():
+        prov = {"@type": "AdministrativeArea", "name": provincia, "containedInPlace": region}
+        areas.append(prov)
+        for comuna in comunas:
+            areas.append({"@type": "City", "name": comuna, "containedInPlace": prov})
+    return areas
+
+
+AREA_SERVED = build_area_served()
 
 # Mensaje generico del header (boton flotante de WhatsApp + "Agenda gratis"
 # desktop/mobile). Cada servicio_CTX puede pisarlo con uno mas especifico (ver
@@ -139,6 +180,113 @@ def sync_contact_fields():
         print("contacto: sin cambios de valor (ya estaba al dia)")
 
 
+BUSINESS_TYPE_PATTERN = re.compile(r'"@type": "PestControlService"')
+
+# Direccion actual del LocalBusiness principal (solo aparece en home). Se
+# saca streetAddress a proposito: FA prefiere representar la ubicacion via
+# areaServed + addressLocality, no una direccion precisa (evita el problema
+# de una direccion que solo existia en el JSON-LD y en ningun lado visible
+# de la pagina). addressLocality queda en Quillota (no Calera, que es lo que
+# hoy dice el perfil de Google Business por un tema de verificacion por
+# carta que no se ha podido completar - son sistemas distintos, el schema
+# del sitio no tiene por que arrastrar ese error).
+HOME_ADDRESS_PATTERN = re.compile(
+    r'"address": \{\s*"@type": "PostalAddress",\s*'
+    r'"streetAddress": "San Martín #1106",\s*'
+    r'"addressLocality": "Quillota",\s*'
+    r'"addressRegion": "Valparaíso",\s*'
+    r'"addressCountry": "CL"\s*\},'
+)
+
+SERVICE_AREA_PATTERN = re.compile(
+    r'"areaServed": \{\s*"@type": "State",\s*"name": "Región de Valparaíso"\s*\}'
+)
+
+
+def sync_business_jsonld():
+    """Normaliza 3 cosas en el JSON-LD, en TODO .html bajo web/ (por patron,
+    igual que sync_contact_fields, no por partial - el bloque de home es
+    unico y el de blog/servicios va anidado dentro de un Service que si
+    varia por pagina, asi que no calzan con el mecanismo de partials):
+
+    1. "@type": "PestControlService" -> "HomeAndConstructionBusiness". Ese
+       tipo no existe en schema.org (404 en schema.org/PestControlService,
+       no aparece como subtipo de HomeAndConstructionBusiness ni de ningun
+       otro LocalBusiness) - HomeAndConstructionBusiness es el subtipo real
+       mas cercano (LocalBusiness que presta servicios en/alrededor de
+       casas y edificios, calza con control de plagas).
+    2. address del LocalBusiness principal (solo en home, ver
+       HOME_ADDRESS_PATTERN arriba).
+    3. areaServed: de solo "Región de Valparaíso" (State) a region + las 7
+       provincias + sus comunas (ver AREA_SERVED arriba).
+    """
+    changed = []
+    area_served_json = json.dumps(AREA_SERVED, ensure_ascii=False, indent=4)
+    new_home_address = (
+        '"address": {\n'
+        '    "@type": "PostalAddress",\n'
+        '    "addressLocality": "Quillota",\n'
+        '    "addressRegion": "Valparaíso",\n'
+        '    "addressCountry": "CL"\n'
+        '  },\n'
+        '  "areaServed": ' + area_served_json + ','
+    )
+    for f in sorted(WEB.rglob("*.html")):
+        text = f.read_text(encoding="utf-8")
+        new_text = BUSINESS_TYPE_PATTERN.sub('"@type": "HomeAndConstructionBusiness"', text)
+        new_text = HOME_ADDRESS_PATTERN.sub(lambda _m, r=new_home_address: r, new_text)
+        new_text = SERVICE_AREA_PATTERN.sub(lambda _m, r='"areaServed": ' + area_served_json: r, new_text)
+        if new_text != text:
+            f.write_text(new_text, encoding="utf-8")
+            changed.append(f.relative_to(WEB))
+    if changed:
+        print("JSON-LD (tipo/direccion/areaServed) sincronizado en:", ", ".join(str(c) for c in changed))
+    else:
+        print("JSON-LD: sin cambios (ya estaba al dia)")
+
+
+def build_page_urls():
+    """Lista de URLs canonicas del sitio, para robots.txt/sitemap.xml. Se
+    arma sola a partir de PLAGAS y SERVICIOS (las mismas listas que ya
+    gobiernan que paginas genera build()), asi que una pagina nueva
+    agregada a esas listas entra aca sola, sin tocar nada mas."""
+    urls = [DATA["SITE_URL"] + "/"]
+    for plaga in PLAGAS:
+        urls.append(f"{DATA['SITE_URL']}/blog/{plaga}/")
+    for servicio in SERVICIOS:
+        urls.append(f"{DATA['SITE_URL']}/servicios/{servicio['slug']}/")
+    return urls
+
+
+def write_seo_files():
+    """robots.txt + sitemap.xml, generados enteros en cada build (no se
+    editan a mano, mismo espiritu que los PARTIAL:xxx). Permite explicitamente
+    a todos los bots, incluidos los de IA (GPTBot, ClaudeBot, PerplexityBot,
+    Google-Extended, etc.) via el wildcard "User-agent: *" - no hay que
+    listarlos uno por uno, el wildcard ya los cubre."""
+    urls = build_page_urls()
+
+    robots = (
+        "# Generado por generador/build.py - no editar a mano, se pierde en el proximo build.\n"
+        "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        f"Sitemap: {DATA['SITE_URL']}/sitemap.xml\n"
+    )
+    (WEB / "robots.txt").write_text(robots, encoding="utf-8")
+
+    entries = "\n".join(f"  <url>\n    <loc>{u}</loc>\n  </url>" for u in urls)
+    sitemap = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<!-- Generado por generador/build.py - no editar a mano, se pierde en el proximo build. -->\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{entries}\n"
+        "</urlset>\n"
+    )
+    (WEB / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    print(f"robots.txt + sitemap.xml regenerados ({len(urls)} URLs)")
+
+
 def sync_js_constant(relpath, var_name, value, quote="'"):
     """Sincroniza una constante 'var NOMBRE = valor;' dentro de un .js. No es un
     partial (no es HTML), pero es otra fuente de verdad del telefono que hay
@@ -194,6 +342,8 @@ def build():
 
     sync_contact_fields()
     sync_cotizador_wa_number()
+    sync_business_jsonld()
+    write_seo_files()
 
 
 if __name__ == "__main__":
