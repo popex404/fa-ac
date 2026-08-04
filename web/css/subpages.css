@@ -1674,6 +1674,37 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ============================================================
+   SERVICE CROSSLINK BANNER
+   Blog informativo -> landing de venta del servicio correspondiente.
+   ============================================================ */
+.service-crosslink {
+  background: var(--primary);
+  padding: var(--space-sm) 0;
+}
+
+.service-crosslink__text {
+  margin: 0;
+  text-align: center;
+  color: var(--white);
+  font-family: 'Roboto', sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.service-crosslink__link {
+  color: var(--white);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 6px;
+  transition: opacity var(--transition);
+}
+
+.service-crosslink__link:hover {
+  opacity: 0.85;
+}
+
+/* ============================================================
    SPECIES CARDS
    Mobile: stacked  |  Tablet+: image + text side by side
    ============================================================ */

@@ -1,38 +1,223 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" dir="ltr">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="A&C Control de Plagas: control de plagas certificado SEREMI DS 157/05 en Valparaíso, Viña del Mar, Quilpué, Quillota y Quinta Región. Cucarachas, roedores, termitas, chinches, avispas, mosquitos, hormigas, palomas. Desinsectación, desratización, sanitización. Diagnóstico gratuito y garantía 14 días." />
+    content="Servicio de sanitización y desinfección de ambientes para cumplimiento normativo DS 157/05 en Valparaíso, Viña del Mar, Quilpué y Quinta Región. Certificado SEREMI, ideal para empresas, restaurantes y locales comerciales." />
   <meta name="keywords"
-    content="control de plagas Valparaíso, control de plagas Viña del Mar, control de plagas Quilpué, fumigación Valparaíso, desinsectación, desratización, sanitización, fumigación cucarachas, control roedores, control termitas, chinches de cama, avispas, hormigas, mosquitos, palomas, arañas de rincón, manejo integrado de plagas, MIP, SEREMI DS 157/05, desinfección, hongos, virus, bacterias, control plagas Quinta Región, empresa certificada SEREMI Chile" />
+    content="sanitización, desinfección de ambientes, sanitización DS 157/05, certificado SEREMI sanitización, sanitización empresas, sanitización restaurantes, sanitización Valparaíso" />
   <meta name="theme-color" content="#D96A0E" />
-  <link rel="canonical" href="https://www.aycmip.cl/" />
-  <link rel="icon" type="image/png" href="img/Logo_ayc@4x-3.png" />
-  <link rel="apple-touch-icon" href="img/Logo_ayc@4x-3.png" />
-  <meta property="og:title" content="Control de Plagas Profesional en Valparaíso | A&C Control de Plagas — SEREMI" />
+  <link rel="canonical" href="https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-sanitizacion/" />
+  <link rel="icon" type="image/png" href="../../img/Logo_ayc@4x-3.png" />
+  <link rel="apple-touch-icon" href="../../img/Logo_ayc@4x-3.png" />
+  <meta property="og:title" content="A&C: Sanitización y Desinfección de Ambientes en Valparaíso, V Región" />
   <meta property="og:description"
-    content="Empresa certificada SEREMI DS 157/05. Cucarachas, roedores, termitas, chinches, avispas, mosquitos, hormigas, palomas. Atendemos en toda la Quinta Región y alrededores. Diagnóstico gratuito." />
+    content="Sanitización profesional para cumplimiento normativo DS 157/05. Informe y certificado SEREMI incluido. Atendemos toda la Quinta Región y alrededores. 📞 +56 9 3667 8897" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.aycmip.cl/" />
+  <meta property="og:url" content="https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-sanitizacion/" />
   <meta property="og:image" content="https://www.aycmip.cl/img/LOGO-01.jpg" />
 
-  <title>A&C Control de Plagas | Control de Plagas Profesional Chile</title>
+  <title>A&C: Sanitización y Desinfección de Ambientes en Valparaíso, V Región</title>
 
-  <!-- Canonical font preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Swiper CSS CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="../../css/styles.css" />
+  <link rel="stylesheet" href="../../css/cotizador.css" />
 
-  <!-- Site Styles -->
-  <link rel="stylesheet" href="css/styles.css" />
-  <!-- Cotizador Styles -->
-  <link rel="stylesheet" href="css/cotizador.css" />
+  <!-- Mismo patrón que Predemolición: sin sección de "especies" (no aplica),
+       reemplazada por explicación de qué incluye el servicio. Sin blog
+       fuente — contenido redactado con criterio general, revisar con
+       Francisco. -->
+  <style>
+    .hero-image-wrap video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .hero-mobile-video,
+    .hero-mobile-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-mobile-video {
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 0.55;
+    }
+    .hero-mobile-overlay {
+      z-index: 1;
+      pointer-events: none;
+      background: rgba(8, 8, 8, 0.45);
+    }
+    @media (max-width: 1023px) {
+      #hero {
+        background: #14120f;
+      }
+    }
+    #hero .hero-decoration { z-index: 1; }
+    #hero .container { position: relative; z-index: 2; }
+    .desktop-only { display: none; }
+
+    @media (max-width: 1023px) {
+      #hero {
+        align-items: stretch;
+      }
+      .hero-inner {
+        height: 100%;
+      }
+      .hero-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-bottom: 14rem;
+      }
+      .hero-pretitle {
+        position: absolute;
+        top: 0.5rem;
+        left: 0;
+        right: 0;
+        margin: 0;
+      }
+      .hero-ctas {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-mobile-video,
+      .hero-mobile-overlay {
+        display: none;
+      }
+      .desktop-only { display: block; }
+      .hero-image-wrap::after {
+        background: rgba(8, 8, 8, 0.45);
+      }
+    }
+
+    #pain-points {
+      background: var(--bg-light-green);
+    }
+
+    #incluye-sanitizacion {
+      background: var(--bg-light-blue);
+      padding-block: var(--space-2xl);
+    }
+    .incluye-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+      list-style: none;
+      padding: 0;
+      margin: var(--space-lg) 0 0;
+      max-width: 720px;
+    }
+    .incluye-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      font-size: var(--text-base);
+      color: var(--text-dark);
+      line-height: 1.65;
+    }
+    .incluye-list li::before {
+      content: '\2713';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 50%;
+      background: var(--secondary);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 0.15rem;
+    }
+
+    .treatment {
+      background: var(--bg-light-green);
+      padding-block: var(--space-2xl);
+    }
+    #mecanismo {
+      background: var(--bg-light-blue);
+    }
+    .treatment__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      align-items: start;
+      margin-top: var(--space-lg);
+    }
+    .treatment__intro {
+      font-size: var(--text-base);
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.375rem;
+    }
+    .treatment__list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .treatment__list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      font-size: var(--text-base);
+      color: var(--text-dark);
+      line-height: 1.65;
+    }
+    .treatment__list li::before {
+      content: '\2713';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 50%;
+      background: var(--secondary);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 0.15rem;
+    }
+    .treatment__image img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+    }
+    @media (min-width: 768px) {
+      .treatment__grid {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 2.5rem;
+      }
+      .treatment__image img { height: 100%; }
+    }
+
+    .pain-card { position: relative; }
+  </style>
 
 <!-- PARTIAL:analytics:start -->
   <!-- Google tag (gtag.js) -->
@@ -61,7 +246,7 @@
      FLOATING WHATSAPP BUTTON
      ============================================================ -->
   <a id="whatsapp-fab"
-    href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+    href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
     target="_blank" rel="noopener noreferrer" aria-label="Abrir chat de WhatsApp con A&C Control de Plagas">
     <span class="fab-tooltip">Escr&iacute;benos ahora</span>
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -79,30 +264,30 @@
      MOBILE DRAWER MENU
      ============================================================ -->
   <nav id="mobile-menu" aria-label="Men&uacute; m&oacute;vil">
-    <a href="#">Inicio</a>
+    <a href="../../index.html">Inicio</a>
     <details class="mobile-servicios-details">
       <summary class="mobile-servicios-trigger">Plagas</summary>
       <div class="mobile-servicios-list">
-        <a href="blog/aranas/index.html">Arañas</a>
-        <a href="blog/avispas/index.html">Avispas</a>
-        <a href="blog/chinche/index.html">Chinche de cama</a>
-        <a href="blog/cucarachas/index.html">Cucarachas</a>
-        <a href="blog/mosquito/index.html">Mosquitos</a>
-        <a href="blog/hormigas/index.html">Hormigas</a>
-        <a href="blog/palomas/index.html">Palomas</a>
-        <a href="blog/ratones/index.html">Roedores</a>
-        <a href="blog/termitas/index.html">Termitas</a>
+        <a href="../../blog/aranas/index.html">Arañas</a>
+        <a href="../../blog/avispas/index.html">Avispas</a>
+        <a href="../../blog/chinche/index.html">Chinche de cama</a>
+        <a href="../../blog/cucarachas/index.html">Cucarachas</a>
+        <a href="../../blog/mosquito/index.html">Mosquitos</a>
+        <a href="../../blog/hormigas/index.html">Hormigas</a>
+        <a href="../../blog/palomas/index.html">Palomas</a>
+        <a href="../../blog/ratones/index.html">Roedores</a>
+        <a href="../../blog/termitas/index.html">Termitas</a>
       </div>
     </details>
     <details class="mobile-servicios-details">
       <summary class="mobile-servicios-trigger">Servicios</summary>
       <div class="mobile-servicios-list">
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html">Control de Termitas</a>
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-ratones/index.html">Desratización</a>
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-predemolicion/index.html">Predemolición</a>
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-desinsectacion/index.html">Desinsectación</a>
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-sanitizacion/index.html">Sanitización</a>
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-palomas/index.html">Control de Palomas</a>
+        <a href="../exterminio-y-fumigacion-de-plagas-de-termitas/index.html">Control de Termitas</a>
+        <a href="../exterminio-y-fumigacion-de-plagas-de-ratones/index.html">Desratización</a>
+        <a href="../exterminio-y-fumigacion-de-plagas-de-predemolicion/index.html">Predemolición</a>
+        <a href="../exterminio-y-fumigacion-de-plagas-de-desinsectacion/index.html">Desinsectación</a>
+        <a href="../exterminio-y-fumigacion-de-plagas-de-sanitizacion/index.html">Sanitización</a>
+        <a href="../exterminio-y-fumigacion-de-plagas-de-palomas/index.html">Control de Palomas</a>
       </div>
     </details>
     <a href="#para-quien">Para qui&eacute;n es</a>
@@ -120,7 +305,7 @@
         </svg>
         +56 9 3667 8897
       </a>
-      <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+      <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
         target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
         Agenda gratis
       </a>
@@ -139,15 +324,15 @@
       <div class="navbar-inner">
 
         <!-- Logo -->
-        <a href="#" class="navbar-logo" aria-label="A&C Control de Plagas, inicio">
-          <img src="img/LOGO-01.jpg" alt="Logo A&C Control de Plagas" width="1135" height="1135"
+        <a href="../../index.html" class="navbar-logo" aria-label="A&C Control de Plagas, inicio">
+          <img src="../../img/LOGO-01.jpg" alt="Logo A&C Control de Plagas" width="1135" height="1135"
             loading="eager" />
         </a>
 
         <!-- Desktop nav links -->
         <nav class="navbar-nav" aria-label="Navegaci&oacute;n principal">
           <div class="nav-dropdown-wrap">
-            <a href="#servicios" class="nav-dropdown-trigger">
+            <a href="../../index.html#servicios" class="nav-dropdown-trigger">
               Plagas
               <svg class="nav-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2.5" aria-hidden="true">
@@ -155,19 +340,19 @@
               </svg>
             </a>
             <div class="nav-dropdown-menu" role="menu">
-              <a href="blog/aranas/index.html" role="menuitem">Ara&ntilde;as</a>
-              <a href="blog/avispas/index.html" role="menuitem">Avispas</a>
-              <a href="blog/chinche/index.html" role="menuitem">Chinches</a>
-              <a href="blog/cucarachas/index.html" role="menuitem">Cucarachas</a>
-              <a href="blog/mosquito/index.html" role="menuitem">Mosquitos</a>
-              <a href="blog/hormigas/index.html" role="menuitem">Hormigas</a>
-              <a href="blog/palomas/index.html" role="menuitem">Palomas</a>
-              <a href="blog/ratones/index.html" role="menuitem">Roedores</a>
-              <a href="blog/termitas/index.html" role="menuitem">Termitas</a>
+              <a href="../../blog/aranas/index.html" role="menuitem">Ara&ntilde;as</a>
+              <a href="../../blog/avispas/index.html" role="menuitem">Avispas</a>
+              <a href="../../blog/chinche/index.html" role="menuitem">Chinches</a>
+              <a href="../../blog/cucarachas/index.html" role="menuitem">Cucarachas</a>
+              <a href="../../blog/mosquito/index.html" role="menuitem">Mosquitos</a>
+              <a href="../../blog/hormigas/index.html" role="menuitem">Hormigas</a>
+              <a href="../../blog/palomas/index.html" role="menuitem">Palomas</a>
+              <a href="../../blog/ratones/index.html" role="menuitem">Roedores</a>
+              <a href="../../blog/termitas/index.html" role="menuitem">Termitas</a>
             </div>
           </div>
           <div class="nav-dropdown-wrap">
-            <a href="#servicios" class="nav-dropdown-trigger">
+            <a href="../../index.html#servicios" class="nav-dropdown-trigger">
               Servicios
               <svg class="nav-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2.5" aria-hidden="true">
@@ -175,12 +360,12 @@
               </svg>
             </a>
             <div class="nav-dropdown-menu" role="menu">
-              <a href="servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html" role="menuitem">Control de Termitas</a>
-              <a href="servicios/exterminio-y-fumigacion-de-plagas-de-ratones/index.html" role="menuitem">Desratización</a>
-              <a href="servicios/exterminio-y-fumigacion-de-plagas-de-predemolicion/index.html" role="menuitem">Predemolición</a>
-              <a href="servicios/exterminio-y-fumigacion-de-plagas-de-desinsectacion/index.html" role="menuitem">Desinsectación</a>
-              <a href="servicios/exterminio-y-fumigacion-de-plagas-de-sanitizacion/index.html" role="menuitem">Sanitización</a>
-              <a href="servicios/exterminio-y-fumigacion-de-plagas-de-palomas/index.html" role="menuitem">Control de Palomas</a>
+              <a href="../exterminio-y-fumigacion-de-plagas-de-termitas/index.html" role="menuitem">Control de Termitas</a>
+              <a href="../exterminio-y-fumigacion-de-plagas-de-ratones/index.html" role="menuitem">Desratización</a>
+              <a href="../exterminio-y-fumigacion-de-plagas-de-predemolicion/index.html" role="menuitem">Predemolición</a>
+              <a href="../exterminio-y-fumigacion-de-plagas-de-desinsectacion/index.html" role="menuitem">Desinsectación</a>
+              <a href="../exterminio-y-fumigacion-de-plagas-de-sanitizacion/index.html" role="menuitem">Sanitización</a>
+              <a href="../exterminio-y-fumigacion-de-plagas-de-palomas/index.html" role="menuitem">Control de Palomas</a>
             </div>
           </div>
           <a href="#para-quien">Para qui&eacute;n es</a>
@@ -218,7 +403,7 @@
             class="btn btn-sistema">
             Sistema para clientes
           </a>
-          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
             target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
             Agenda gratis
           </a>
@@ -241,39 +426,38 @@
      1. HERO
      ============================================================ -->
   <section id="hero" aria-labelledby="hero-heading">
+    <video class="hero-mobile-video" autoplay muted loop playsinline preload="none"
+      poster="../../img/hero-video/termitas-hero-poster.jpg" aria-hidden="true">
+      <source src="../../img/hero-video/termitas-hero.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-mobile-overlay" aria-hidden="true"></div>
     <div class="hero-decoration" aria-hidden="true"></div>
     <div class="container">
       <div class="hero-inner">
 
-        <!-- Left column: copy -->
         <div class="hero-content reveal">
 
           <p class="hero-pretitle">A&amp;C Control de Plagas</p>
 
-          <!-- Hero image: solo visible en mobile -->
-          <div class="hero-mobile-img-wrap">
-            <img src="img/hero_main_ayc.png" width="737" height="585" alt="T&eacute;cnico certificado A&C" loading="eager" fetchpriority="high"
-              class="hero-mobile-img" />
-          </div>
-
           <h1 id="hero-heading">
-            Solucionamos tu problema de plagas desde la primera visita,
+            Cumple con la normativa sanitaria desde la primera visita,
             <em>garantizado</em>
           </h1>
 
-          <p class="hero-subhead">
-            T&eacute;cnicos especializados, insecticidas profesionales y garant&iacute;a real. Sin repeticiones, sin
-            sorpresas. Resolvemos el problema de una vez y con respaldo oficial. Atendemos toda la V Regi&oacute;n y alrededores.
+          <p class="hero-subhead desktop-only">
+            Sanitizaci&oacute;n y desinfecci&oacute;n profesional de ambientes para cumplimiento normativo DS 157/05.
+            T&eacute;cnicos certificados, informe y certificado SEREMI incluido. Atendemos toda la V Regi&oacute;n y
+            alrededores.
           </p>
 
           <div class="hero-ctas">
-            <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+            <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
               target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path
                   d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>
-              Habla con un especialista t&eacute;cnico ahora
+              Habla con un especialista en sanitización ahora
             </a>
             <button class="btn-cotizar" data-open-cotizador data-cta="Boton-Hero" aria-haspopup="dialog">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -284,19 +468,21 @@
           </div>
         </div>
 
-        <!-- Right column: image -->
         <div class="hero-image-wrap reveal reveal-delay-2">
-          <img src="img/hero_main_ayc.png"
-            alt="T&eacute;cnico certificado A&C de frente con brazos cruzados frente a cartel AyC MiP" width="640"
-            height="800" loading="eager" fetchpriority="high" />
+          <video autoplay muted loop playsinline preload="none"
+            poster="../../img/hero-video/termitas-hero-poster.jpg"
+            aria-label="T&eacute;cnico certificado A&C aplicando tratamiento">
+            <source src="../../img/hero-video/termitas-hero.mp4" type="video/mp4" />
+          </video>
         </div>
 
       </div>
     </div>
   </section>
 
+<!-- PARTIAL:trust-bar:start -->
   <!-- ============================================================
-     2. TRUST BAR
+     TRUST BAR
      ============================================================ -->
   <div id="trust-bar" role="region" aria-label="Indicadores de confianza">
     <div class="container">
@@ -319,7 +505,7 @@
         <div class="trust-item reveal reveal-delay-2">
           <span class="trust-icon" aria-hidden="true">&#11088;</span>
           <div class="trust-text">
-            <strong>Garant&iacute;a 14 d&iacute;as</strong>
+            <strong>Garant&iacute;a 14 días</strong>
           </div>
         </div>
 
@@ -333,9 +519,11 @@
       </div>
     </div>
   </div>
+<!-- PARTIAL:trust-bar:end -->
 
+<!-- PARTIAL:clientes:start -->
   <!-- ============================================================
-     3. BANNER CLIENTES (logos empresas)
+     BANNER CLIENTES (logos empresas)
      ============================================================ -->
   <section id="clientes" aria-label="Empresas que conf&iacute;an en A&C Control de Plagas">
     <div class="container">
@@ -347,98 +535,90 @@
       <div class="clientes-marquee-track">
         <!-- Primera copia -->
         <div class="cliente-logo">
-          <img src="img/clientes/logo_starken.png" width="600" height="600" alt="Logo Starken" style="mix-blend-mode:multiply;" />
+          <img src="../../img/clientes/logo_starken.png" alt="Logo Starken" style="mix-blend-mode:multiply;" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_copec.png" width="600" height="600" alt="Logo Copec" style="mix-blend-mode:multiply;" />
+          <img src="../../img/clientes/logo_copec.png" alt="Logo Copec" style="mix-blend-mode:multiply;" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_integra.jpg" width="1004" height="232" alt="Logo Fundaci&oacute;n Integra"
+          <img src="../../img/clientes/logo_integra.jpg" alt="Logo Fundaci&oacute;n Integra"
             style="mix-blend-mode:multiply;" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_vina_montes.png" width="4000" height="2250" alt="Logo Vi&ntilde;a Montes" />
+          <img src="../../img/clientes/logo_vina_montes.png" alt="Logo Vi&ntilde;a Montes" />
         </div>
         <div class="cliente-logo">
-          <img src="img/clientes/logo_banamor.svg" width="988" height="370" alt="Logo Fundaci&oacute;n BanAmor" />
+          <img src="../../img/clientes/logo_banamor.svg" alt="Logo Fundaci&oacute;n BanAmor" />
         </div>
         <!-- Copias duplicadas para loop infinito seamless (3 sets extra) -->
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" width="600" height="600" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_starken.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" width="600" height="600" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_copec.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" width="1004" height="232" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_integra.jpg" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" width="4000" height="2250" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" width="988" height="370" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" width="600" height="600" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_vina_montes.png" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_banamor.svg" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_starken.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" width="600" height="600" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_copec.png" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" width="1004" height="232" alt=""
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_integra.jpg" alt=""
             style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" width="4000" height="2250" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" width="988" height="370" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_starken.png" width="600" height="600" alt=""
-            style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_copec.png" width="600" height="600" alt=""
-            style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_integra.jpg" width="1004" height="232" alt=""
-            style="mix-blend-mode:multiply;" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_vina_montes.png" width="4000" height="2250" alt="" /></div>
-        <div class="cliente-logo" aria-hidden="true"><img src="img/clientes/logo_banamor.svg" width="988" height="370" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_vina_montes.png" alt="" /></div>
+        <div class="cliente-logo" aria-hidden="true"><img src="../../img/clientes/logo_banamor.svg" alt="" /></div>
       </div>
     </div>
   </section>
+<!-- PARTIAL:clientes:end -->
 
   <!-- ============================================================
-     4. PAIN POINTS
+     PAIN POINTS (especifico sanitizacion)
      ============================================================ -->
   <section id="pain-points" aria-labelledby="pain-heading">
     <div class="container">
 
       <div class="section-header reveal">
         <span class="section-label">El problema real</span>
-        <h2 id="pain-heading">&iquest;Reconoces alguno de estos problemas?</h2>
-        <p>El <strong>73% de nuestros clientes hab&iacute;a contratado a otra empresa antes.</strong> La plaga
-          volvi&oacute; igual. No es mala suerte: es m&eacute;todo equivocado.</p>
+        <h2 id="pain-heading">&iquest;Necesitas sanitizar tu espacio?</h2>
+        <p>Estas son las situaciones m&aacute;s comunes en las que empresas y locales nos piden sanitizaci&oacute;n.</p>
       </div>
 
       <div class="pain-grid">
 
         <article class="pain-card reveal">
-          <div class="pain-card-icon" aria-hidden="true">&#128260;</div>
-          <h3>&iquest;Fumigaste y volvieron?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#128203;</div>
+          <h3>&iquest;Necesitas certificado SEREMI para operar?</h3>
           <p>
-            Muchas empresas usan productos que dispersan la plaga en vez de eliminarla. Pagas 3 veces y el problema
-            sigue.
+            Restaurantes, locales comerciales y colegios suelen requerir certificado de sanitizaci&oacute;n vigente
+            para operar sin riesgo de multa o cierre.
           </p>
         </article>
 
         <article class="pain-card reveal reveal-delay-1">
-          <div class="pain-card-icon" aria-hidden="true">&#128247;</div>
-          <h3>&iquest;Nadie te responde el formulario?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#129440;</div>
+          <h3>&iquest;Tuviste un caso de contagio o brote en tu local?</h3>
           <p>
-            Cuando hay una plaga, necesitas respuesta inmediata. Los formularios no dan certeza de cu&aacute;ndo te
-            llaman.
+            La sanitizaci&oacute;n de ambientes reduce la carga de virus, bacterias y hongos en superficies de alto
+            contacto tras un brote o contagio.
           </p>
         </article>
 
         <article class="pain-card reveal reveal-delay-2">
-          <div class="pain-card-icon" aria-hidden="true">&#127922;</div>
-          <h3>&iquest;Te ofrecen precio sin ver el problema?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#128274;</div>
+          <h3>&iquest;Vas a reabrir un local despu&eacute;s de un tiempo cerrado?</h3>
           <p>
-            Cada plaga es distinta. Sin visita t&eacute;cnica, el diagn&oacute;stico puede estar equivocado y la
-            cotizaci&oacute;n no vale nada.
+            Espacios cerrados por periodos prolongados acumulan polvo, hongos y microorganismos que conviene
+            eliminar antes de reabrir al p&uacute;blico.
           </p>
         </article>
 
         <article class="pain-card reveal reveal-delay-3">
-          <div class="pain-card-icon" aria-hidden="true">&#128196;</div>
-          <h3>&iquest;Te llenaron de Papeles?</h3>
+          <div class="pain-card-icon" aria-hidden="true">&#128197;</div>
+          <h3>&iquest;Necesitas sanitizaci&oacute;n peri&oacute;dica para tu empresa?</h3>
           <p>
-            Otras empresas te entregan pilas de documentos en papel. Nosotros somos 100% digitales: &oacute;rdenes,
-            informes y certificados llegan directo a tu correo, sin papeler&iacute;o.
+            Muchas empresas mantienen un programa de sanitizaci&oacute;n recurrente como parte de su protocolo de
+            salud ocupacional.
           </p>
         </article>
 
@@ -454,12 +634,12 @@
 
       <div class="section-header reveal">
         <span class="section-label">Cotizador</span>
-        <h2 id="cotizador-heading">¿Cuánto cuesta solucionar tu problema?</h2>
+        <h2 id="cotizador-heading">¿Cuánto cuesta la sanitización de tu espacio?</h2>
         <p>Responde 4 preguntas y recibe una estimación al instante.</p>
       </div>
 
       <div class="cotizador-widget reveal" id="cotizador-widget" data-cta="Seccion-Cotizador">
-        <!-- Renderizado por cotizador.js -->
+        <!-- Renderizado por js/cotizador-sanitizacion.js -->
       </div>
 
     </div>
@@ -672,7 +852,59 @@
 <!-- PARTIAL:cobertura:end -->
 
   <!-- ============================================================
-     5. MECANISMO UNICO
+     QUÉ INCLUYE (reemplaza a "especialistas": sin especies en este servicio)
+     ============================================================ -->
+  <section id="incluye-sanitizacion" aria-labelledby="incluye-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Diagn&oacute;stico preciso</span>
+        <h2 id="incluye-heading">&iquest;Qu&eacute; incluye la sanitizaci&oacute;n?</h2>
+      </div>
+
+      <ul class="incluye-list reveal" role="list">
+        <li>Aplicaci&oacute;n de desinfectante de amplio espectro en superficies de alto contacto</li>
+        <li>Nebulizaci&oacute;n de ambientes cerrados</li>
+        <li>Desinfecci&oacute;n de ba&ntilde;os, cocinas y &aacute;reas comunes</li>
+        <li>Informe t&eacute;cnico y certificado SEREMI v&aacute;lido para fiscalizaci&oacute;n</li>
+        <li>Programa recurrente disponible (mensual) para empresas y locales comerciales</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PROTOCOLO DE SANITIZACIÓN (sin blog fuente — redactado con criterio
+       general, revisar precisión técnica con Francisco) -->
+  <section class="treatment" aria-labelledby="treatment-title">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Nuestra metodolog&iacute;a</span>
+        <h2 id="treatment-title">Protocolo de Sanitizaci&oacute;n</h2>
+      </div>
+
+      <div class="treatment__grid">
+        <div class="reveal">
+          <p class="treatment__intro">
+            La sanitizaci&oacute;n reduce la carga de microorganismos en tu espacio con productos de uso profesional
+            autorizados. Aplicamos un protocolo estandarizado que cubre todas las superficies de alto contacto.
+          </p>
+          <ul class="treatment__list" role="list">
+            <li>Desinfectante de amplio espectro (virus, bacterias, hongos) en superficies de alto contacto</li>
+            <li>Nebulizaci&oacute;n de ambientes cerrados para alcanzar zonas de dif&iacute;cil acceso</li>
+            <li>Desinfecci&oacute;n de ba&ntilde;os, cocinas, mesones y &aacute;reas comunes</li>
+            <li>Uso de productos autorizados, seguros para personas una vez seco</li>
+            <li>Informe t&eacute;cnico y certificado SEREMI v&aacute;lido para fiscalizaci&oacute;n</li>
+            <li>Programa mensual disponible para empresas que requieren sanitizaci&oacute;n recurrente</li>
+          </ul>
+        </div>
+        <div class="treatment__image reveal">
+          <img src="../../img/hero_main_ayc.png" width="1152" height="768" alt="Técnico certificado A&C" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- PARTIAL:mecanismo:start -->
+  <!-- ============================================================
+     MECANISMO UNICO
      ============================================================ -->
   <section id="mecanismo" aria-labelledby="mecanismo-heading">
     <div class="container">
@@ -720,13 +952,15 @@
 
     </div>
   </section>
+<!-- PARTIAL:mecanismo:end -->
 
   <!-- ============================================================
-     6. PRUEBA / CREDIBILIDAD
+     PRUEBA / CREDIBILIDAD
      ============================================================ -->
   <section id="proof" aria-labelledby="proof-heading">
     <div class="container">
 
+<!-- PARTIAL:proof-counters:start -->
       <div class="section-header reveal">
         <span class="section-label">Respaldo real</span>
         <h2 id="proof-heading">Credenciales que nos respaldan</h2>
@@ -756,186 +990,44 @@
       <!-- Badges row: SEREMI + Sello + Transbank -->
       <div class="proof-badges reveal">
         <div class="proof-badge-item">
-          <img src="img/seremi-salud.png" width="300" height="300" alt="Empresa Certificada SEREMI" />
+          <img src="../../img/seremi-salud.png" alt="Empresa Certificada SEREMI" />
           <span>Empresa Certificada SEREMI</span>
         </div>
         <div class="proof-badge-item">
-          <img src="img/Calidad-AyC.png" width="326" height="334" alt="Garant&iacute;a de Calidad A&C" />
+          <img src="../../img/Calidad-AyC.png" alt="Garant&iacute;a de Calidad A&C" />
           <span>Garant&iacute;a de Calidad A&amp;C</span>
         </div>
         <div class="proof-badge-item">
-          <img src="img/transbank_medios_pago.png" width="289" height="24" alt="Medios de pago Transbank Webpay" />
+          <img src="../../img/transbank_medios_pago.png" alt="Medios de pago Transbank Webpay" />
           <span>Transbank</span>
         </div>
       </div>
+<!-- PARTIAL:proof-counters:end -->
 
-      <!-- Testimonios -->
+      <!-- Testimonio -->
+      <!-- TODO: reemplazar por un testimonio real, revisar con Francisco -->
       <div class="testimonials-wrap reveal" style="margin-top:2.5rem;">
         <h3 class="testimonials-title">Lo que dicen nuestros clientes</h3>
-        <div id="reviews-swiper" class="swiper testimonials-swiper">
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <blockquote class="testimonial-card" aria-label="Testimonio de cliente residencial">
-                <div class="testimonial-stars" aria-label="5 estrellas" role="img">
-                  <span aria-hidden="true">★★★★★</span>
-                </div>
-                <p class="testimonial-quote">
-                  "Teníamos una infestación de ratones en el primer piso que llevaba meses. Vinieron al día siguiente,
-                  diagnosticaron bien el problema y lo resolvieron en una visita. No volvió a aparecer ninguno."
-                </p>
-                <footer class="testimonial-footer">
-                  <strong class="testimonial-name">Roberto M.</strong>
-                  <span class="testimonial-company">Vivienda familiar &middot; Quillota</span>
-                </footer>
-              </blockquote>
-            </div>
-
-            <div class="swiper-slide">
-              <blockquote class="testimonial-card" aria-label="Testimonio de PYME">
-                <div class="testimonial-stars" aria-label="5 estrellas" role="img">
-                  <span aria-hidden="true">★★★★★</span>
-                </div>
-                <p class="testimonial-quote">
-                  "Necesitábamos el certificado SEREMI urgente para una auditoría. Coordinaron la visita para el mismo
-                  día, hicieron el tratamiento y tuvimos el certificado digital al día siguiente. Nos salvaron la
-                  operación."
-                </p>
-                <footer class="testimonial-footer">
-                  <strong class="testimonial-name">Alimentos Pety Ltda.</strong>
-                  <span class="testimonial-company">PYME alimentos de mascotas &middot; La Calera</span>
-                </footer>
-              </blockquote>
-            </div>
-
-            <div class="swiper-slide">
-              <blockquote class="testimonial-card" aria-label="Testimonio de empresa agrícola">
-                <div class="testimonial-stars" aria-label="5 estrellas" role="img">
-                  <span aria-hidden="true">★★★★★</span>
-                </div>
-                <p class="testimonial-quote">
-                  "Encontramos termitas en el galpón de almacenamiento. El diagnóstico fue preciso, nos explicaron la
-                  especie y el nivel de daño, y el tratamiento fue específico. La trazabilidad digital es muy útil para
-                  nuestros registros."
-                </p>
-                <footer class="testimonial-footer">
-                  <strong class="testimonial-name">Agrícola Los Naranjos</strong>
-                  <span class="testimonial-company">Empresa agrícola &middot; Limache</span>
-                </footer>
-              </blockquote>
-            </div>
-
+        <blockquote class="testimonial-card" aria-label="Testimonio de local comercial" style="max-width:640px; margin:0 auto;">
+          <div class="testimonial-stars" aria-label="5 estrellas" role="img">
+            <span aria-hidden="true">★★★★★</span>
           </div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
-     7. SERVICIOS (Lo que hacemos - emoji cards)
-     ============================================================ -->
-  <section id="servicios" aria-labelledby="services-heading">
-    <div class="container">
-
-      <div class="section-header reveal">
-        <span class="section-label">Lo que hacemos</span>
-        <h2 id="services-heading">Nuestros Servicios</h2>
-        <p>Soluciones certificadas para hogares, empresas, industrias y proyectos de construcci&oacute;n.</p>
-      </div>
-
-      <div class="svc-emoji-grid">
-
-        <a href="blog/aranas/index.html" class="svc-emoji-card reveal">
-          <div class="svc-emoji-icon">
-            <img src="img/arana.png" alt="Icono de control de plagas de arañas" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Ara&ntilde;as</h3>
-          <p class="svc-emoji-desc">Control de ara&ntilde;as y telara&ntilde;as en hogares y locales.</p>
-        </a>
-
-        <a href="blog/avispas/index.html" class="svc-emoji-card reveal reveal-delay-1">
-          <div class="svc-emoji-icon">
-            <img src="img/avispa.png" alt="Icono de control de plagas de avispas" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Avispas</h3>
-          <p class="svc-emoji-desc">Eliminaci&oacute;n segura de nidos en estructuras y jardines.</p>
-        </a>
-
-        <a href="blog/cucarachas/index.html" class="svc-emoji-card reveal reveal-delay-2">
-          <div class="svc-emoji-icon">
-            <img src="img/cucaracha.png" alt="Icono de control de plagas de cucarachas" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Cucarachas</h3>
-          <p class="svc-emoji-desc">Eliminaci&oacute;n de colonias con insecticida no repelente, resultado en 1 visita.
+          <p class="testimonial-quote">
+            "Nos pidieron el certificado de sanitizaci&oacute;n para la apertura del local y lo tuvimos listo en un d&iacute;a. El equipo fue puntual y el informe lleg&oacute; r&aacute;pido."
           </p>
-        </a>
-
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-ratones/index.html" class="svc-emoji-card reveal">
-          <div class="svc-emoji-icon">
-            <img src="img/rata.png" alt="Icono de control de plagas de roedores (ratones y ratas)" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Roedores</h3>
-          <p class="svc-emoji-desc">Control integral de ratones y ratas con estaciones de cebado.</p>
-        </a>
-
-        <a href="blog/hormigas/index.html" class="svc-emoji-card reveal reveal-delay-1">
-          <div class="svc-emoji-icon">
-            <img src="img/hormiga.png" alt="Icono de control de plagas de hormigas" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Hormigas</h3>
-          <p class="svc-emoji-desc">Eliminaci&oacute;n de colonias con productos de efecto domin&oacute;.</p>
-        </a>
-
-        <a href="blog/mosquito/index.html" class="svc-emoji-card reveal reveal-delay-2">
-          <div class="svc-emoji-icon">
-            <img src="img/mosquito.png" alt="Icono de control de plagas de mosquitos" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Mosquitos</h3>
-          <p class="svc-emoji-desc">Control de mosquitos y vectores en ambientes interiores y exteriores.</p>
-        </a>
-
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-palomas/index.html" class="svc-emoji-card reveal">
-          <div class="svc-emoji-icon">
-            <img src="img/paloma.png" alt="Icono de control de plagas de palomas" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Palomas</h3>
-          <p class="svc-emoji-desc">Disuasi&oacute;n y control de aves urbanas en edificios y estructuras.</p>
-        </a>
-
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html" class="svc-emoji-card reveal reveal-delay-1">
-          <div class="svc-emoji-icon">
-            <img src="img/termitas-soldado.png" alt="Icono de control de plagas de termitas" loading="lazy" width="48" height="48" />
-          </div>
-          <h3 class="svc-emoji-title">Termitas</h3>
-          <p class="svc-emoji-desc">Tratamiento especializado de termita de madera seca y subterr&aacute;nea.</p>
-        </a>
-
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-desinsectacion/index.html" class="svc-emoji-card reveal reveal-delay-2">
-          <div class="svc-emoji-icon" aria-hidden="true">&#128375;&#65039;</div>
-          <h3 class="svc-emoji-title">Desinsectaci&oacute;n</h3>
-          <p class="svc-emoji-desc">Control de ara&ntilde;as, avispas y hormigas con insecticida no repelente.</p>
-        </a>
-
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-sanitizacion/index.html" class="svc-emoji-card reveal">
-          <div class="svc-emoji-icon" aria-hidden="true">&#129530;</div>
-          <h3 class="svc-emoji-title">Sanitizaci&oacute;n</h3>
-          <p class="svc-emoji-desc">Sanitizaci&oacute;n de ambientes para cumplimiento normativo DS 157/05.</p>
-        </a>
-
-        <a href="servicios/exterminio-y-fumigacion-de-plagas-de-predemolicion/index.html" class="svc-emoji-card reveal reveal-delay-1">
-          <div class="svc-emoji-icon" aria-hidden="true">&#127959;&#65039;</div>
-          <h3 class="svc-emoji-title">Predemolici&oacute;n</h3>
-          <p class="svc-emoji-desc">Inspecci&oacute;n de plagas previo a demolici&oacute;n, con certificado SEREMI.</p>
-        </a>
-
+          <footer class="testimonial-footer">
+            <strong class="testimonial-name">Local comercial</strong>
+            <span class="testimonial-company">Restaurante &middot; Valpara&iacute;so</span>
+          </footer>
+        </blockquote>
       </div>
+
     </div>
   </section>
 
+<!-- PARTIAL:para-quien:start -->
   <!-- ============================================================
-     8. PARA QUIEN ES
+     PARA QUIEN ES
      ============================================================ -->
   <section id="para-quien" aria-labelledby="paraquien-heading">
     <div class="container">
@@ -982,9 +1074,11 @@
 
     </div>
   </section>
+<!-- PARTIAL:para-quien:end -->
 
+<!-- PARTIAL:value-stack:start -->
   <!-- ============================================================
-     9. VALUE STACK
+     VALUE STACK
      ============================================================ -->
   <section id="value-stack" aria-labelledby="valuestack-heading">
     <div class="container">
@@ -1023,7 +1117,7 @@
         <div class="valuestack-item">
           <span class="valuestack-check" aria-hidden="true">&#10003;</span>
           <div class="valuestack-content">
-            <strong>Garant&iacute;a de 14 d&iacute;as</strong>
+            <strong>Garant&iacute;a de 14 días</strong>
             <span class="valuestack-tag">Sin costo extra</span>
           </div>
         </div>
@@ -1047,7 +1141,7 @@
       </div>
 
       <div class="text-center reveal" style="margin-top:2.5rem;">
-        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
           target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="max-width:400px;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path
@@ -1059,54 +1153,45 @@
 
     </div>
   </section>
+<!-- PARTIAL:value-stack:end -->
 
   <!-- ============================================================
-     11. URGENCIA
+     URGENCIA
      ============================================================ -->
   <section id="urgency" aria-labelledby="urgency-heading">
     <div class="container">
       <div class="urgency-inner reveal">
-
-        <h2 id="urgency-heading">Las plagas no esperan. Cada d&iacute;a que pasa, la colonia crece.</h2>
-
-        <p class="urgency-text">
-          Una colonia de cucarachas se duplica en 30 d&iacute;as. Lo que hoy es un problema manejable, ma&ntilde;ana es
-          una infestaci&oacute;n. No esperes: cada d&iacute;a que no act&uacute;as, el problema se multiplica.
+        <h2 id="urgency-heading">No esperes a una fiscalizaci&oacute;n para sanitizar tu espacio.</h2>
+        <p>
+          Operar sin certificado de sanitizaci&oacute;n vigente puede significar multas o el cierre temporal de tu
+          local. Adel&aacute;ntate: agenda la sanitizaci&oacute;n antes de que sea una urgencia.
         </p>
-
-        <p class="urgency-cta-text">
-          <strong>Las plagas se multiplican cada 48 horas.</strong> Agenda hoy y te atendemos el mismo d&iacute;a.
-        </p>
-
-        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28urgencia%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
           target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path
-              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-          </svg>
           Agenda ahora por WhatsApp
         </a>
-
+        <p class="urgency-note">Agenda tu sanitizaci&oacute;n antes de la pr&oacute;xima fiscalizaci&oacute;n.</p>
       </div>
     </div>
   </section>
 
+<!-- PARTIAL:garantia:start -->
   <!-- ============================================================
-     11. GARANTIA
+     GARANTIA
      ============================================================ -->
   <section id="garantia" aria-labelledby="guarantee-heading">
     <div class="guarantee-inner container">
 
       <div class="reveal">
         <div class="guarantee-seal-wrap">
-          <img src="img/Calidad-AyC.png" width="326" height="334" alt="Sello Garant&iacute;a de Calidad A&C" class="guarantee-seal-img"
+          <img src="../../img/Calidad-AyC.png" alt="Sello Garant&iacute;a de Calidad A&C" class="guarantee-seal-img"
             style="min-width:150px;" />
         </div>
 
         <h2 id="guarantee-heading">Trabajamos con garant&iacute;a real</h2>
 
         <p class="guarantee-text">
-          Si ves alguna plaga en los 14 d&iacute;as siguientes al tratamiento, volvemos sin costo adicional.
+          Si ves alguna plaga en los 14 días siguientes al tratamiento, volvemos sin costo adicional.
           No letras chicas, no excusas. Solo el trabajo bien hecho o lo repetimos gratis.
         </p>
 
@@ -1138,60 +1223,80 @@
 
     </div>
   </section>
+<!-- PARTIAL:garantia:end -->
 
   <!-- ============================================================
-     12. FAQ
+     FAQ
      ============================================================ -->
   <section id="faq" aria-labelledby="faq-heading">
     <div class="container">
-
       <div class="section-header reveal">
-        <span class="section-label">Preguntas frecuentes</span>
-        <h2 id="faq-heading">Preguntas que nos hacen siempre</h2>
+        <span class="section-label">Dudas frecuentes</span>
+        <h2 id="faq-heading">Preguntas que nos hacen siempre sobre sanitizaci&oacute;n</h2>
       </div>
 
       <div class="faq-list">
 
+        <!-- TODO: confirmar con Francisco si esta respuesta refleja bien el marco normativo real por rubro -->
         <details class="faq-item reveal">
-          <summary class="faq-question">&iquest;Cu&aacute;nto demora el tratamiento?</summary>
+          <summary class="faq-question">&iquest;Es obligatoria la sanitizaci&oacute;n?</summary>
           <div class="faq-answer">
-            <p>Depende del tipo de plaga y el tama&ntilde;o del espacio. Una visita de diagn&oacute;stico suele durar
-              30-60 minutos. El tratamiento lo coordinamos en la misma visita.</p>
-          </div>
-        </details>
-
-        <details class="faq-item reveal reveal-delay-1">
-          <summary class="faq-question">&iquest;Tengo que salir de mi casa durante el tratamiento?</summary>
-          <div class="faq-answer">
-            <p>Para algunos tratamientos s&iacute;, por seguridad. Te avisamos con anticipaci&oacute;n qu&eacute;
-              necesitas hacer.</p>
-          </div>
-        </details>
-
-        <details class="faq-item reveal reveal-delay-2">
-          <summary class="faq-question">&iquest;El tratamiento es seguro para ni&ntilde;os y mascotas?</summary>
-          <div class="faq-answer">
-            <p>S&iacute;. Usamos productos autorizados y te indicamos el tiempo de espera seguro antes de volver al
-              espacio.</p>
+            <p>Para varios rubros (restaurantes, locales de alimentos, colegios, oficinas con atenci&oacute;n de
+            p&uacute;blico) la SEREMI exige o recomienda sanitizaci&oacute;n peri&oacute;dica seg&uacute;n la
+            normativa DS 157/05. Te recomendamos confirmar el requisito espec&iacute;fico de tu rubro.</p>
           </div>
         </details>
 
         <details class="faq-item reveal">
-          <summary class="faq-question">&iquest;Dan certificado SEREMI?</summary>
+          <summary class="faq-question">&iquest;Cada cu&aacute;nto se debe sanitizar?</summary>
           <div class="faq-answer">
-            <p>S&iacute;. Emitimos certificado oficial v&aacute;lido para auditor&iacute;as sanitarias, requerido por la
-              normativa DS 157/05.</p>
+            <p>Depende del rubro y el nivel de uso del espacio. Muchas empresas optan por un programa mensual; otras
+            lo hacen solo tras un evento puntual (brote, reapertura, obra).</p>
           </div>
         </details>
 
-        <details class="faq-item reveal reveal-delay-1">
-          <summary class="faq-question">&iquest;Qu&eacute; pasa si la plaga vuelve?</summary>
+        <details class="faq-item reveal">
+          <summary class="faq-question">&iquest;La sanitizaci&oacute;n elimina plagas?</summary>
           <div class="faq-answer">
-            <p>Tienes garant&iacute;a de 14 d&iacute;as. Si aparece alguna plaga, volvemos sin costo adicional.</p>
+            <p>No reemplaza el control de plagas. Reduce la carga de virus, bacterias y hongos en superficies, pero
+            si tienes una plaga activa necesitas un tratamiento espec&iacute;fico adem&aacute;s de la
+            sanitizaci&oacute;n.</p>
           </div>
         </details>
 
-        <details class="faq-item reveal reveal-delay-2">
+        <details class="faq-item reveal">
+          <summary class="faq-question">&iquest;Es seguro estar en el local despu&eacute;s de la sanitizaci&oacute;n?</summary>
+          <div class="faq-answer">
+            <p>S&iacute;. Usamos productos autorizados y te indicamos el tiempo de espera recomendado antes de
+            volver a ocupar el espacio.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">&iquest;El certificado sirve para una fiscalizaci&oacute;n SEREMI?</summary>
+          <div class="faq-answer">
+            <p>S&iacute;. Emitimos un informe t&eacute;cnico con certificado SEREMI v&aacute;lido para presentar ante
+            fiscalizaci&oacute;n.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">&iquest;Atienden empresas con contrato recurrente?</summary>
+          <div class="faq-answer">
+            <p>S&iacute;, ofrecemos programas de sanitizaci&oacute;n mensual para empresas, colegios y locales
+            comerciales que necesitan mantener el cumplimiento normativo al d&iacute;a.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">&iquest;Qu&eacute; pasa si no qued&eacute; conforme con el servicio?</summary>
+          <div class="faq-answer">
+            <p>Tienes garant&iacute;a de 14 d&iacute;as. Si detectas algo que no qued&oacute; bien, volvemos sin costo
+            adicional.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
           <summary class="faq-question">&iquest;Atienden los fines de semana y feriados?</summary>
           <div class="faq-answer">
             <p>S&iacute;, tenemos atenci&oacute;n de emergencia 24/7 los 365 d&iacute;as del a&ntilde;o.</p>
@@ -1202,17 +1307,17 @@
           <summary class="faq-question">&iquest;C&oacute;mo pago?</summary>
           <div class="faq-answer">
             <p>Aceptamos efectivo, transferencia bancaria y tarjetas a trav&eacute;s de Transbank (Visa, Mastercard,
-              Amex).</p>
+            Amex).</p>
           </div>
         </details>
 
       </div>
-
     </div>
   </section>
 
+<!-- PARTIAL:contacto-final:start -->
   <!-- ============================================================
-     13. CTA FINAL
+     CTA FINAL
      ============================================================ -->
   <section id="contact" aria-labelledby="contact-heading">
     <div class="container">
@@ -1226,7 +1331,7 @@
         </p>
 
         <div class="contact-ctas">
-          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+          <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
             target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size:1.0625rem;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
@@ -1280,10 +1385,8 @@
       </div>
     </div>
   </section>
+<!-- PARTIAL:contacto-final:end -->
 
-  <!-- ============================================================
-     14. FOOTER
-     ============================================================ -->
 <!-- PARTIAL:footer:start -->
   <footer id="footer" aria-label="Pie de p&aacute;gina">
     <div class="container">
@@ -1292,7 +1395,7 @@
 
         <!-- Column 1: SEREMI -->
         <div class="footer-col footer-col--seremi">
-          <img src="img/seremi-salud.png" alt="Empresa Certificada SEREMI Ministerio de Salud"
+          <img src="../../img/seremi-salud.png" alt="Empresa Certificada SEREMI Ministerio de Salud"
             width="300" height="300" style="height:100px; width:auto;" />
           <p class="footer-tagline">
             Empresa certificada SEREMI especializada en control de plagas residencial e industrial en Chile.
@@ -1304,7 +1407,7 @@
         <div class="footer-col">
           <h4>Navegaci&oacute;n</h4>
           <ul>
-            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="../../index.html#servicios">Servicios</a></li>
             <li><a href="#para-quien">Para qui&eacute;n es</a></li>
             <li><a href="#garantia">Nuestra garant&iacute;a</a></li>
             <li><a href="#faq">Preguntas frecuentes</a></li>
@@ -1359,7 +1462,7 @@
 
       <!-- Footer CTA row (mobile: centered below nav+contact cols) -->
       <div class="footer-cta-row">
-        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20necesito%20asesoria%20tecnica%20de%20control%20de%20plagas."
+        <a href="https://wa.me/56936678897?text=Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n."
           target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
           style="font-size:0.9rem; padding:12px 20px;">
           Agenda visita gratis
@@ -1378,12 +1481,7 @@
   </footer>
 <!-- PARTIAL:footer:end -->
 
-  <!-- ============================================================
-     SCRIPTS
-     ============================================================ -->
-  <!-- Swiper JS CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <!-- Site JS -->
+<!-- PARTIAL:cotizador-embed:start -->
   <!-- ============================================================
      MODAL COTIZADOR
      ============================================================ -->
@@ -1398,10 +1496,15 @@
     </div>
   </div>
 
+  <!-- El <script> del cotizador NO va aca: cada pagina de servicios/ carga el
+       suyo (ej. js/cotizador-termitas.js), para que cada plaga tenga su propio
+       cotizador sin pisarse. Agregarlo en el HTML unico de cada pagina. -->
+<!-- PARTIAL:cotizador-embed:end -->
+<script src="../../js/cotizador-sanitizacion.js"></script>
+
 <!-- PARTIAL:main-js:start -->
-  <script src="js/main.js"></script>
+  <script src="../../js/main.js"></script>
 <!-- PARTIAL:main-js:end -->
-  <script src="js/cotizador.js"></script>
 <!-- PARTIAL:year-script:start -->
   <script>
     (function () {
@@ -1411,22 +1514,29 @@
   </script>
 <!-- PARTIAL:year-script:end -->
 
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
-  "name": "AYC MIP Manejo Integrado de Plagas",
-  "description": "Empresa certificada SEREMI especializada en control de plagas residencial e industrial en la Quinta Región de Valparaíso.",
-  "url": "https://www.aycmip.cl/",
-  "@id": "https://www.aycmip.cl/",
-  "telephone": "+56936678897",
-  "email": "ventas@aycmip.cl",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Quillota",
-    "addressRegion": "Valparaíso",
-    "addressCountry": "CL"
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.aycmip.cl/" },
+    { "@type": "ListItem", "position": 2, "name": "Servicios", "item": "https://www.aycmip.cl/#servicios" },
+    { "@type": "ListItem", "position": 3, "name": "Sanitización", "item": "https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-sanitizacion/" }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Sanitización y Desinfección de Ambientes",
+  "description": "Sanitización y desinfección profesional de ambientes para cumplimiento normativo DS 157/05. Certificado SEREMI. Garantía 14 días.",
+  "provider": {
+    "@type": "HomeAndConstructionBusiness",
+    "name": "AYC MIP Manejo Integrado de Plagas",
+    "telephone": "+56936678897",
+    "email": "ventas@aycmip.cl"
   },
   "areaServed": [
     {
@@ -1922,88 +2032,27 @@
         }
     }
 ],
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": -32.8784,
-    "longitude": -71.2451
-  },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-    "opens": "00:00",
-    "closes": "23:59"
-  },
-  "sameAs": [
-    "https://www.instagram.com/ayc.mip"
-  ]
+  "url": "https://www.aycmip.cl/servicios/exterminio-y-fumigacion-de-plagas-de-sanitizacion/"
 }
 </script>
 
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "¿Cuánto demora el tratamiento?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Depende del tipo de plaga y el tamaño del espacio. Una visita de diagnóstico suele durar 30-60 minutos. El tratamiento lo coordinamos en la misma visita."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Tengo que salir de mi casa durante el tratamiento?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Para algunos tratamientos sí, por seguridad. Te avisamos con anticipación qué necesitas hacer."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿El tratamiento es seguro para niños y mascotas?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sí. Usamos productos autorizados y te indicamos el tiempo de espera seguro antes de volver al espacio."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Dan certificado SEREMI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sí. Emitimos certificado oficial válido para auditorías sanitarias, requerido por la normativa DS 157/05."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Qué pasa si la plaga vuelve?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Tienes garantía de 14 días. Si aparece alguna plaga, volvemos sin costo adicional."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Atienden los fines de semana y feriados?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sí, tenemos atención de emergencia 24/7 los 365 días del año."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Cómo pago?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Aceptamos efectivo, transferencia bancaria y tarjetas a través de Transbank (Visa, Mastercard, Amex)."
-      }
-    }
+    { "@type": "Question", "name": "¿Es obligatoria la sanitización?", "acceptedAnswer": { "@type": "Answer", "text": "Para varios rubros la SEREMI exige o recomienda sanitización periódica según la normativa DS 157/05. Te recomendamos confirmar el requisito específico de tu rubro." } },
+    { "@type": "Question", "name": "¿Cada cuánto se debe sanitizar?", "acceptedAnswer": { "@type": "Answer", "text": "Depende del rubro y el nivel de uso del espacio. Muchas empresas optan por un programa mensual." } },
+    { "@type": "Question", "name": "¿La sanitización elimina plagas?", "acceptedAnswer": { "@type": "Answer", "text": "No reemplaza el control de plagas. Reduce la carga de virus, bacterias y hongos en superficies." } },
+    { "@type": "Question", "name": "¿Es seguro estar en el local después de la sanitización?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. Usamos productos autorizados y te indicamos el tiempo de espera recomendado." } },
+    { "@type": "Question", "name": "¿El certificado sirve para una fiscalización SEREMI?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. Emitimos un informe técnico con certificado SEREMI válido para presentar ante fiscalización." } },
+    { "@type": "Question", "name": "¿Atienden empresas con contrato recurrente?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, ofrecemos programas de sanitización mensual para empresas, colegios y locales comerciales." } },
+    { "@type": "Question", "name": "¿Qué pasa si no quedé conforme con el servicio?", "acceptedAnswer": { "@type": "Answer", "text": "Tienes garantía de 14 días. Si detectas algo que no quedó bien, volvemos sin costo adicional." } },
+    { "@type": "Question", "name": "¿Atienden los fines de semana y feriados?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, tenemos atención de emergencia 24/7 los 365 días del año." } },
+    { "@type": "Question", "name": "¿Cómo pago?", "acceptedAnswer": { "@type": "Answer", "text": "Aceptamos efectivo, transferencia bancaria y tarjetas a través de Transbank (Visa, Mastercard, Amex)." } }
   ]
 }
 </script>
 
 </body>
-
 </html>

@@ -11,6 +11,119 @@ auditoría manual.
 
 ---
 
+## Dónde está todo / referencia técnica
+
+Movido acá desde `plan-landing-termitas.md` (eliminado 2026-08-04) — vigente para
+Termitas y como plantilla para los servicios de `plan-fase-2.md`.
+
+- Landing: `web/servicios/exterminio-y-fumigacion-de-plagas-de-termitas/index.html`
+- Cotizador especializado: `web/js/cotizador-termitas.js` (separado del
+  genérico `js/cotizador.js` a propósito, para que futuras plagas tengan el
+  suyo sin pisarse)
+- Partials de contenido reusables para futuras páginas de servicio:
+  `generador/_partials/{trust-bar,clientes,mecanismo,proof-counters,
+  para-quien,value-stack,garantia,cobertura,contacto-final,
+  cotizador-embed}.html`, aplicados vía `SERVICE_PARTIAL_NAMES` en `build.py`
+- `generador/build.py`: `SERVICIO_CTX`, `SERVICE_PARTIAL_NAMES`,
+  `SERVICIOS = [{"slug": ..., overrides...}]` — patrón de overrides por
+  página para valores que varían (garantía, mensajes de WhatsApp por cada
+  CTA). También `sync_business_jsonld()` (tipo/dirección/areaServed/name del
+  JSON-LD) y `write_seo_files()` (robots.txt/sitemap.xml) — detalle en
+  `generador/README.md`.
+- `web/js/cotizador-termitas.js` / `web/js/cotizador.js`: cotizadores
+  separados por plaga; tracking de `source` (página) + `cta` (botón exacto:
+  sección, hero o menú) + `indicio`, mandan a un Apps Script vía
+  `WEBHOOK_URL`.
+- Testing local: `python build.py` desde `generador/`, luego
+  `python -m http.server` desde `web/`.
+- No pushear a GitHub sin confirmación explícita de Javier.
+
+---
+
+## Fase 2 — 5 landings nuevas (2026-08-04)
+
+Mismo patrón que Termitas: partial + override propio en `SERVICIOS` de
+`generador/build.py`. Detalle de negocio/roadmap → `plan-fase-2.md`. Acá
+solo lo técnico.
+
+| Servicio | Slug (`web/servicios/`) | Cotizador | Fuente de contenido |
+|---|---|---|---|
+| Desratización | `exterminio-y-fumigacion-de-plagas-de-ratones` | `js/cotizador-ratones.js` | `blog/ratones` (guarén, rata negra, laucha) |
+| Predemolición | `exterminio-y-fumigacion-de-plagas-de-predemolicion` | `js/cotizador-predemolicion.js` | Sin blog fuente — redactado con criterio general |
+| Desinsectación | `exterminio-y-fumigacion-de-plagas-de-desinsectacion` | `js/cotizador-desinsectacion.js` | `blog/aranas` + `blog/avispas` + `blog/hormigas` (chinches no entra) |
+| Sanitización | `exterminio-y-fumigacion-de-plagas-de-sanitizacion` | `js/cotizador-sanitizacion.js` | Sin blog fuente — redactado con criterio general |
+| Control de Palomas | `exterminio-y-fumigacion-de-plagas-de-palomas` | `js/cotizador-palomas.js` | `blog/palomas` (paloma doméstica, única especie) |
+
+### Cotizadores nuevos
+
+5 archivos nuevos en `web/js/`, cada uno clon de `cotizador-termitas.js`
+(mismo patrón: salta la pregunta "qué plaga tienes" porque la página ya es
+de esa plaga/servicio, pregunta directo la señal/necesidad detectada). Cada
+uno tiene su propio `PAGE_SLUG` (`landing-ratones`, `landing-predemolicion`,
+`landing-desinsectacion`, `landing-sanitizacion`, `landing-palomas`) para
+que el Sheet distinga el origen del lead. Los 5 resultan siempre en la rama
+"visita técnica" (sin cálculo de precio online), igual que Termitas — no
+como el `cotizador.js` genérico del home, que sí calcula precio para
+algunas plagas. Si más adelante Francisco quiere precio fijo para
+Sanitización (el genérico ya tiene `PRECIOS_BASE.sanitizacion = 100000`),
+es un cambio acotado a `cotizador-sanitizacion.js`.
+
+### `SERVICIOS` en `build.py` — bug corregido de paso
+
+`WA_HEADER_TEXT` no estaba en el diccionario de Termitas — dependía del
+default de `SERVICIO_CTX`, que está hardcodeado a "...plaga de termitas".
+Antes de esta fase eso no se notaba porque Termitas era el único servicio.
+Con 6 servicios ya habría sido un bug visible (el botón del header de
+Ratones diciendo "termitas"). Se corrigió agregando `WA_HEADER_TEXT`
+explícito a las 6 entradas de `SERVICIOS` (incluida Termitas).
+
+### `header.html` — dropdown "Servicios"
+
+Antes apuntaba directo a la landing de Termitas (único servicio que
+existía). Ahora lista los 6 en el orden que pidió Javier (Termitas,
+Desratización, Predemolición, Desinsectación, Sanitización, Palomas) y el
+trigger del dropdown apunta a `{{SERVICIOS_GRID_ANCHOR}}` (la grilla de
+"Nuestros Servicios" del home), mismo patrón que ya usaba el dropdown
+"Plagas".
+
+### Decisiones de contenido (para que Javier las revise/ajuste)
+
+- **Hero con video**: las 5 páginas nuevas reusan el video de Termitas
+  (`img/hero-video/termitas-hero.mp4` + poster) a pedido de Javier, solo
+  para probar dimensiones/layout del hero. Cada `<video>` tiene un
+  comentario `<!-- TODO: video placeholder de Termitas -->` — reemplazar el
+  `src` cuando exista contenido propio por servicio.
+- **Sección "especies"**: se adaptó el layout según cuántas especies tiene
+  cada servicio — 3 para Ratones (grilla), 3 "plagas" para Desinsectación
+  (no 7 especies individuales — se agrupó por plaga: arañas/avispas/hormigas,
+  cada una linkeando a su blog), 1 para Palomas (foto+texto simple).
+  Predemolición y Sanitización no tienen especies — esa sección se
+  reemplazó por una lista de "qué incluye el servicio".
+- **"Ver foto real" en pain-points**: no se replicó en ninguna de las 5
+  páginas nuevas. Termitas tiene fotos reales de evidencia
+  (`img/pain-points/termitas-*.avif`) que no existen para el resto de las
+  plagas — en vez de inventar o reusar fotos que no calzan con el texto,
+  se dejaron las tarjetas de pain-points sin el botón/popup. El mecanismo
+  (CSS/JS) sigue disponible tal cual si Francisco consigue fotos reales.
+- **Testimonios**: cada página nueva tiene un testimonio genérico de
+  ejemplo (mismo formato que el de Termitas: "Agrícola Los Naranjos"),
+  marcado con `<!-- TODO: reemplazar por un testimonio real, revisar con
+  Francisco -->`. No son reseñas reales de clientes.
+- **Predemolición y Sanitización — sin blog fuente**: todo el copy (pain
+  points, protocolo, FAQ) se redactó con criterio general de la industria,
+  no viene de contenido ya validado por Francisco. Quedaron 2 FAQ con
+  comentario `<!-- TODO -->` pidiendo específicamente confirmar el marco
+  legal/normativo (si la inspección de predemolición es obligatoria, y en
+  qué rubros aplica la sanitización DS 157/05) — son las dos afirmaciones
+  más sensibles a estar mal si no se revisan.
+- **`especialistas-crosslink`**: cada landing nueva linkea de vuelta a su
+  blog fuente en la sección de especies (mismo lugar que Termitas). Blogs →
+  landing: banner naranja agregado en `blog/ratones`, `blog/palomas`,
+  `blog/aranas`, `blog/avispas`, `blog/hormigas` (estos 3 últimos apuntan
+  todos a la landing de Desinsectación).
+
+---
+
 ## Palabras clave SEO en consideración (de `meta name="keywords"` de cada página)
 
 Esto es lo que ya está escrito en el `<meta name="keywords">` de cada página — no son

@@ -38,9 +38,56 @@ SERVICIOS = [
         # Mismo espiritu que WA_HEADER_TEXT: mensajes distintos por CTA para
         # poder distinguir, por el texto que llega a WhatsApp, de cual boton
         # especifico de la landing vino el lead (no solo que vino de aca).
+        "WA_HEADER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
         "WA_VALUESTACK_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
         "WA_CONTACTOFINAL_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
         "WA_FOOTER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20termitas.",
+        # Esta landing recibe la campaña de Google Ads de Termitas (2026-08-04):
+        # usa el gtag de conversion de Ads en vez del GA4 generico del resto del
+        # sitio. "analytics" (nombre del partial default) -> override propio.
+        "ANALYTICS_PARTIAL": "analytics-ads-termitas",
+    },
+    # Fase 2 (2026-08-04): 5 landings mas, mismo patron que Termitas. Orden
+    # de esta lista = orden del dropdown "Servicios" en header.html (Javier:
+    # Termitas, Desratizacion, Predemolicion, Desinsectacion, Sanitizacion,
+    # Palomas). WA_HEADER_TEXT explicito en las 6 a proposito: el default de
+    # SERVICIO_CTX quedo hardcodeado a "una plaga de termitas" (bug latente
+    # si un servicio nuevo no lo pisa), asi que ninguna entrada de aca debe
+    # omitirlo.
+    {
+        "slug": "exterminio-y-fumigacion-de-plagas-de-ratones",
+        "WA_HEADER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ratones.",
+        "WA_VALUESTACK_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ratones.",
+        "WA_CONTACTOFINAL_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ratones.",
+        "WA_FOOTER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ratones.",
+    },
+    {
+        "slug": "exterminio-y-fumigacion-de-plagas-de-predemolicion",
+        "WA_HEADER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20una%20inspecci%C3%B3n%20de%20predemolici%C3%B3n.",
+        "WA_VALUESTACK_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20una%20inspecci%C3%B3n%20de%20predemolici%C3%B3n.",
+        "WA_CONTACTOFINAL_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20una%20inspecci%C3%B3n%20de%20predemolici%C3%B3n.",
+        "WA_FOOTER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20una%20inspecci%C3%B3n%20de%20predemolici%C3%B3n.",
+    },
+    {
+        "slug": "exterminio-y-fumigacion-de-plagas-de-desinsectacion",
+        "WA_HEADER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ara%C3%B1as%2C%20avispas%20u%20hormigas.",
+        "WA_VALUESTACK_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ara%C3%B1as%2C%20avispas%20u%20hormigas.",
+        "WA_CONTACTOFINAL_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ara%C3%B1as%2C%20avispas%20u%20hormigas.",
+        "WA_FOOTER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20ara%C3%B1as%2C%20avispas%20u%20hormigas.",
+    },
+    {
+        "slug": "exterminio-y-fumigacion-de-plagas-de-sanitizacion",
+        "WA_HEADER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n.",
+        "WA_VALUESTACK_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n.",
+        "WA_CONTACTOFINAL_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n.",
+        "WA_FOOTER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20un%20servicio%20de%20sanitizaci%C3%B3n.",
+    },
+    {
+        "slug": "exterminio-y-fumigacion-de-plagas-de-palomas",
+        "WA_HEADER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28men%C3%BA%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20palomas.",
+        "WA_VALUESTACK_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28detalle%20del%20servicio%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20palomas.",
+        "WA_CONTACTOFINAL_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28contacto%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20palomas.",
+        "WA_FOOTER_TEXT": "Hola%2C%20vi%20su%20p%C3%A1gina%20%28pie%20de%20p%C3%A1gina%29%20y%20necesito%20ayuda%20con%20una%20plaga%20de%20palomas.",
     },
 ]
 
@@ -357,10 +404,17 @@ def build():
 
     for servicio in SERVICIOS:
         slug = servicio["slug"]
-        ctx = dict(SERVICIO_CTX, **{k: v for k, v in servicio.items() if k != "slug"})
+        overrides = {k: v for k, v in servicio.items() if k not in ("slug", "ANALYTICS_PARTIAL")}
+        ctx = dict(SERVICIO_CTX, **overrides)
+        # Permite que una landing use un partial de analytics distinto al
+        # generico (ej. tag de conversion de Google Ads en vez de GA4) sin
+        # tocar el analytics.html compartido por las otras 10 paginas.
+        analytics_name = servicio.get("ANALYTICS_PARTIAL", "analytics")
+        page_partials = partials if analytics_name == "analytics" else \
+            dict(partials, analytics=load_partials([analytics_name])[analytics_name])
         f = WEB / "servicios" / slug / "index.html"
         text = f.read_text(encoding="utf-8")
-        text = apply_markers(text, ctx, partials, PARTIAL_NAMES)
+        text = apply_markers(text, ctx, page_partials, PARTIAL_NAMES)
         text = apply_markers(text, ctx, service_partials, SERVICE_PARTIAL_NAMES)
         f.write_text(text, encoding="utf-8")
         print(f"servicios/{slug}/index.html actualizado")
